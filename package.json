@@ -51,5 +51,8 @@
     "nodeArguments": [
       "--loader=./tsnode-loader.js"
     ]
+  },
+  "dependencies": {
+    "webnative": "^0.32.0"
   }
 }
