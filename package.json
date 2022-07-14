@@ -1,0 +1,55 @@
+{
+  "name": "svelte-elemetary-template",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "ava src/**/*.test.ts",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
+    "lint": "eslint './src/**/*.{js,ts,svelte}'",
+    "format": "prettier --write --plugin-search-dir=. ."
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-static": "next",
+    "@sveltejs/kit": "next",
+    "@tailwindcss/typography": "^0.5.2",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "ava": "^3.15.0",
+    "daisyui": "^2.0.2",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-svelte3": "^3.2.1",
+    "one-webcrypto": "^1.0.1",
+    "prettier": "~2.2.1",
+    "prettier-plugin-svelte": "^2.2.0",
+    "svelte": "^3.34.0",
+    "svelte-check": "^2.0.0",
+    "svelte-preprocess": "^4.0.0",
+    "svelte-seo": "^1.2.1",
+    "tailwindcss": "^3.0.22",
+    "ts-node": "^10.4.0",
+    "tsconfig-paths": "^3.12.0",
+    "tslib": "^2.0.0",
+    "typescript": "^4.4.4",
+    "vite": "^3.0.0"
+  },
+  "type": "module",
+  "ava": {
+    "extensions": {
+      "ts": "module"
+    },
+    "require": [
+      "ts-node/register",
+      "tsconfig-paths/register"
+    ],
+    "nonSemVerExperiments": {
+      "configurableModuleFormat": true
+    },
+    "nodeArguments": [
+      "--loader=./tsnode-loader.js"
+    ]
+  }
+}
