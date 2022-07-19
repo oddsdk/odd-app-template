@@ -1,6 +1,12 @@
 import * as webnative from 'webnative'
 
 import type FileSystem from 'webnative/fs/index'
+import { USE_WNFS_IMPLEMENTATION } from 'webnative/auth/implementation/use-wnfs'
+import { setup } from 'webnative'
+
+setup.endpoints({ api: 'https://runfission.net', user: 'fissionuser.net' })
+
+setup.setImplementations({ auth: USE_WNFS_IMPLEMENTATION.auth })
 
 let state: webnative.State
 
@@ -17,7 +23,8 @@ const fissionInit = {
   },
 }
 
-webnative.setup.debug({ enabled: true })
+// TODO: Add a flag or script to turn debugging on/off
+setup.debug({ enabled: true })
 
 export const initialize = async (): Promise<void> => {
   try {
@@ -25,14 +32,15 @@ export const initialize = async (): Promise<void> => {
     state = st
 
     switch (state.scenario) {
-      case webnative.Scenario.AuthCancelled:
       case webnative.Scenario.NotAuthorised:
         console.log('Not logged in')
         break
 
-      case webnative.Scenario.AuthSucceeded:
       case webnative.Scenario.Continuation:
         console.log('Logged in')
+        break
+
+      default:
         break
     }
   } catch (error) {
