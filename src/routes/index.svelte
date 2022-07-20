@@ -8,7 +8,7 @@
   init()
 </script>
 
-<h1>Hello world!</h1>
+<h1 class="text-center">Application Interface</h1>
 
 <style>
 </style>

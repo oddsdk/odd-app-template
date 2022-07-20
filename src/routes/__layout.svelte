@@ -9,10 +9,8 @@
   })
 </script>
 
-
 <div data-theme={$theme}>
   <Header></Header>
 
   <slot />
 </div>
-

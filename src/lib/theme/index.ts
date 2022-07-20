@@ -4,7 +4,7 @@ export type Theme = 'light' | 'dark'
 
 export const loadTheme = (): Theme => {
   if (browser) {
-    return localStorage.getItem('theme') as Theme ?? 'dark'
+    return localStorage.getItem('theme') as Theme ?? 'light'
   }
 }
 
