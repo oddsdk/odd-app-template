@@ -31,11 +31,11 @@
         <input
           type="checkbox"
           id="shared-computer"
-          class="appearance-none w-5 h-5 border border-primary checked:bg-primary rounded-md align-bottom inline-grid place-content-center"
+          class="cursor-pointer appearance-none w-5 h-5 border border-primary checked:bg-primary rounded-md align-bottom inline-grid place-content-center"
         />
         <label
           for="shared-computer"
-          class="ml-1 text-sm text-slate-700 inline-grid"
+          class="cursor-pointer ml-1 text-sm text-slate-700 inline-grid"
           >This is a shared computer</label
         >
       </div>
