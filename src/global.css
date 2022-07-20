@@ -16,3 +16,7 @@ input[type='checkbox']::before {
 input[type='checkbox']:checked::before {
   transform: scale(1);
 }
+
+.modal-box {
+  @apply p-8;
+}

@@ -1,11 +1,11 @@
-<header class="navbar bg-base-100">
+<header class="navbar bg-base-100 pt-0">
   <div class="flex-1">
     <button class="btn btn-sm btn-square btn-ghost">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
-        class="inline-block w-5 h-5 stroke-current"
+        class="inline-block w-7 h-7 stroke-current"
         ><path
           stroke-linecap="round"
           stroke-linejoin="round"

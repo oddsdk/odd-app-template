@@ -31,7 +31,6 @@ module.exports = {
           "--rounded-badge": "2px",
           "--tab-radius": "2px",
           "--btn-text-case": "normal-case"
-          // 2rem padding on modal-box
         },
       },
     ],
