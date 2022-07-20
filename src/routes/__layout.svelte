@@ -10,7 +10,7 @@
 </script>
 
 <div data-theme={$theme}>
-  <Header></Header>
+  <Header />
 
   <slot />
 </div>

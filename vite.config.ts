@@ -3,13 +3,13 @@ import { resolve } from 'path'
 
 /** @type {import('vite').UserConfig} */
 const config = {
-	plugins: [sveltekit()],
+  plugins: [sveltekit()],
   resolve: {
     alias: {
       $components: resolve('./src/components'),
       $static: resolve('./static')
     }
-  },
+  }
 }
 
 export default config
