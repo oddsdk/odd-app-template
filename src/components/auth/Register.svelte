@@ -24,7 +24,7 @@
       <input
         type="text"
         placeholder="Type here"
-        class="input input-bordered w-11/12 mb-3 block"
+        class="input input-bordered w-full mb-3 block"
         on:input={checkUsername}
       />
       <div class="text-left">
