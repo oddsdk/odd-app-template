@@ -14,13 +14,13 @@ const fissionInit = {
   permissions: {
     app: {
       name: 'app-name',
-      creator: 'creator-name',
+      creator: 'creator-name'
     },
     // Ask the user permission to additional filesystem paths
     fs: {
       // private: [webnative.path.directory('Documents', 'Contacts')],
-    },
-  },
+    }
+  }
 }
 
 // TODO: Add a flag or script to turn debugging on/off

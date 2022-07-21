@@ -1,6 +1,5 @@
 module.exports = {
   arrowParens: 'avoid',
-  plugins: ['prettier-plugin-svelte'],
   semi: false,
   singleQuote: true,
   svelteBracketNewLine: true,
