@@ -6,10 +6,10 @@
     <div>
       <h3 class="mb-7 text-xl font-serif">Connect to AppName</h3>
       <div>
-        <a class="btn btn-primary mb-5 w-11/12" href="/register"
+        <a class="btn btn-primary mb-5 w-full" href="/register"
           >Create a new account</a
         >
-        <a class="btn btn-primary btn-outline w-11/12" href="/"
+        <a class="btn btn-primary btn-outline w-full" href="/"
           >I have an existing account</a
         >
       </div>
