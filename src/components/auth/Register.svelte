@@ -1,17 +1,25 @@
 <script lang="ts">
-  // Check if username is valid
+  import * as webnative from 'webnative'
+  import { isUsernameValid, isUsernameAvailable } from '$lib/common/webnative'
 
-  // Check if username is available
+  let username: string = ''
+  let usernameValid = true
+  let usernameAvailable = true
 
-  const checkUsername = (event: Event) => {
-    const { value: username } = event.target as HTMLInputElement
-
+  const checkUsername = async (event: Event) => {
+    const { value } = event.target as HTMLInputElement
+    username = value
     console.log(username)
-  }
 
-  // Register the user
-  // Bootstrap the filesystem if successful
-  // Report an error
+    usernameValid = await isUsernameValid(username)
+
+    console.log(username, ' is valid: ', usernameValid)
+
+    if (usernameValid) {
+      usernameAvailable = await isUsernameAvailable(username)
+      console.log(username, ' is available: ', usernameAvailable)
+    }
+  }
 </script>
 
 <input type="checkbox" id="my-modal-5" checked class="modal-toggle" />
@@ -22,12 +30,33 @@
     <div>
       <h3 class="mb-7 text-xl font-serif">Choose a username</h3>
       <input
+        id="registration"
         type="text"
         placeholder="Type here"
-        class="input input-bordered w-full mb-3 block"
+        class="input input-bordered w-full block"
+        class:input-error={username.length !== 0 &&
+          (!usernameValid || !usernameAvailable)}
         on:input={checkUsername}
       />
-      <div class="text-left">
+
+      {#if !(username.length === 0)}
+        <label for="registration" class="label mt-1">
+          {#if usernameValid && usernameAvailable}
+            <span class="label-text-alt text-success">
+              The username is available.
+            </span>
+          {:else if !usernameValid}
+            <span class="label-text-alt text-error">
+              The username is invalid.
+            </span>
+          {:else if !usernameAvailable}
+            <span class="label-text-alt text-error">
+              The username is unavailable.
+            </span>
+          {/if}
+        </label>
+      {/if}
+      <div class="text-left mt-3">
         <input
           type="checkbox"
           id="shared-computer"
@@ -42,7 +71,12 @@
 
       <div class="mt-5">
         <a class="btn btn-primary btn-outline" href="/connect">Back</a>
-        <button class="btn btn-primary" disabled>Register</button>
+        <button
+          class="btn btn-primary"
+          disabled={username.length === 0 ||
+            !usernameValid ||
+            !usernameAvailable}>Register</button
+        >
       </div>
     </div>
   </div>

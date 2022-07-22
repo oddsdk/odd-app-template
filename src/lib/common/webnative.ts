@@ -4,6 +4,7 @@ import type FileSystem from 'webnative/fs/index'
 import { USE_WNFS_IMPLEMENTATION } from 'webnative/auth/implementation/use-wnfs'
 import { setup } from 'webnative'
 
+// runfission.net = staging
 setup.endpoints({ api: 'https://runfission.net', user: 'fissionuser.net' })
 
 setup.setImplementations({ auth: USE_WNFS_IMPLEMENTATION.auth })
@@ -56,6 +57,13 @@ export const initialize = async (): Promise<void> => {
   }
 }
 
+export const isUsernameValid = async (username: string): Promise<boolean> => {
+  return webnative.account.isUsernameValid(username)
+}
+
+export const isUsernameAvailable = async (username: string): Promise<boolean> => {
+  return webnative.account.isUsernameAvailable(username)
+}
 // interface StateFS {
 //   fs?: FileSystem
 // }
