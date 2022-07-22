@@ -65,8 +65,9 @@
         <label
           for="shared-computer"
           class="cursor-pointer ml-1 text-sm text-slate-700 inline-grid"
-          >This is a shared computer</label
         >
+          This is a shared computer
+        </label>
       </div>
 
       <div class="mt-5">
@@ -75,8 +76,10 @@
           class="btn btn-primary"
           disabled={username.length === 0 ||
             !usernameValid ||
-            !usernameAvailable}>Register</button
+            !usernameAvailable}
         >
+          Register
+        </button>
       </div>
     </div>
   </div>
