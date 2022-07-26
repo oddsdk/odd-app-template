@@ -21,3 +21,11 @@ input[type='checkbox']:checked::before {
 .modal-box {
   @apply p-8;
 }
+
+.label {
+  @apply px-0;
+}
+
+.label-text-alt {
+  @apply text-sm;
+}

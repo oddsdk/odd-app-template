@@ -50,6 +50,6 @@
     ]
   },
   "dependencies": {
-    "webnative": "0.33.0-alpha-1"
+    "webnative": "0.33.0-alpha-2"
   }
 }

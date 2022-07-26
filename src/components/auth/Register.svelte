@@ -1,10 +1,15 @@
 <script lang="ts">
   import * as webnative from 'webnative'
-  import { isUsernameValid, isUsernameAvailable } from '$lib/common/webnative'
+  import {
+    isUsernameValid,
+    isUsernameAvailable,
+    register
+  } from '$lib/common/webnative'
 
   let username: string = ''
   let usernameValid = true
   let usernameAvailable = true
+  let registrationSuccess = true
 
   const checkUsername = async (event: Event) => {
     const { value } = event.target as HTMLInputElement
@@ -16,6 +21,14 @@
     if (usernameValid) {
       usernameAvailable = await isUsernameAvailable(username)
       console.log(username, ' is available: ', usernameAvailable)
+    }
+  }
+
+  const registerUser = async (event: Event) => {
+    registrationSuccess = await register(username)
+    console.log('registration success: ', registrationSuccess)
+    if (registrationSuccess) {
+      // Redirect to device linking?
     }
   }
 </script>
@@ -54,6 +67,14 @@
           {/if}
         </label>
       {/if}
+      {#if registrationSuccess}
+        <label for="registration" class="label mt-1">
+          <span class="label-text-alt text-error text-left">
+            There was an issue registering your account. Please try again.
+            <a href="#" class="underline">More info</a>
+          </span>
+        </label>
+      {/if}
       <div class="text-left mt-3">
         <input
           type="checkbox"
@@ -75,6 +96,7 @@
           disabled={username.length === 0 ||
             !usernameValid ||
             !usernameAvailable}
+          on:click={registerUser}
         >
           Register
         </button>
