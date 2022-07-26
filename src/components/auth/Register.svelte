@@ -13,8 +13,6 @@
 
     usernameValid = await isUsernameValid(username)
 
-    console.log(username, ' is valid: ', usernameValid)
-
     if (usernameValid) {
       usernameAvailable = await isUsernameAvailable(username)
       console.log(username, ' is available: ', usernameAvailable)
