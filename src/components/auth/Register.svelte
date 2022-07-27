@@ -92,19 +92,20 @@
         <input
           type="checkbox"
           id="shared-computer"
-          class="peer cursor-pointer appearance-none w-5 h-5 border border-primary checked:bg-primary rounded-md align-bottom inline-grid place-content-center"
+          class="peer checkbox checkbox-primary inline-grid align-bottom"
         />
         <!-- Warning when "This is a shared computer" is checked -->
         <label
           for="shared-computer"
-          class="cursor-pointer ml-1 text-sm text-slate-700 inline-grid"
+          class="cursor-pointer ml-1 text-sm text-slate-700 grid-inline"
         >
           This is a shared computer
         </label>
         <label for="registration" class="label mt-1 hidden peer-checked:block">
           <span class="label-text-alt text-error text-left">
-            For security reasons, AppName doesn't support shared computers at
-            this time.
+            <!-- TODO: Swap in application name for AppName -->
+            For security reasons, AppName doesn't support shared computers at this
+            time.
           </span>
         </label>
       </div>
