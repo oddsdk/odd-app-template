@@ -10,8 +10,10 @@
   let usernameValid = true
   let usernameAvailable = true
   let registrationSuccess = true
+  let checkingUsername = false
 
   const checkUsername = async (event: Event) => {
+    checkingUsername = true
     const { value } = event.target as HTMLInputElement
     username = value
     console.log(username)
@@ -22,6 +24,7 @@
       usernameAvailable = await isUsernameAvailable(username)
       console.log(username, ' is available: ', usernameAvailable)
     }
+    checkingUsername = false
   }
 
   const registerUser = async (event: Event) => {
@@ -40,17 +43,25 @@
 
     <div>
       <h3 class="mb-7 text-xl font-serif">Choose a username</h3>
-      <input
-        id="registration"
-        type="text"
-        placeholder="Type here"
-        class="input input-bordered w-full block"
-        class:input-error={username.length !== 0 &&
-          (!usernameValid || !usernameAvailable)}
-        on:input={checkUsername}
-      />
+      <div class="relative">
+        <input
+          id="registration"
+          type="text"
+          placeholder="Type here"
+          class="input input-bordered w-full block"
+          class:input-error={username.length !== 0 &&
+            (!usernameValid || !usernameAvailable)}
+          on:input={checkUsername}
+        />
+        {#if checkingUsername}
+          <span
+            class="rounded-lg border-t-2 border-l-2 border-slate-600 w-4 h-4 block absolute top-4 right-4 animate-spin"
+          />
+        {/if}
+      </div>
 
       {#if !(username.length === 0)}
+        <!-- Status of username: valid, available, etc -->
         <label for="registration" class="label mt-1">
           {#if usernameValid && usernameAvailable}
             <span class="label-text-alt text-success">
@@ -67,7 +78,8 @@
           {/if}
         </label>
       {/if}
-      {#if registrationSuccess}
+      {#if !registrationSuccess}
+        <!-- Error when registration fails -->
         <label for="registration" class="label mt-1">
           <span class="label-text-alt text-error text-left">
             There was an issue registering your account. Please try again.
@@ -75,17 +87,25 @@
           </span>
         </label>
       {/if}
+
       <div class="text-left mt-3">
         <input
           type="checkbox"
           id="shared-computer"
-          class="cursor-pointer appearance-none w-5 h-5 border border-primary checked:bg-primary rounded-md align-bottom inline-grid place-content-center"
+          class="peer cursor-pointer appearance-none w-5 h-5 border border-primary checked:bg-primary rounded-md align-bottom inline-grid place-content-center"
         />
+        <!-- Warning when "This is a shared computer" is checked -->
         <label
           for="shared-computer"
           class="cursor-pointer ml-1 text-sm text-slate-700 inline-grid"
         >
           This is a shared computer
+        </label>
+        <label for="registration" class="label mt-1 hidden peer-checked:block">
+          <span class="label-text-alt text-error text-left">
+            For security reasons, AppName doesn't support shared computers at
+            this time.
+          </span>
         </label>
       </div>
 
