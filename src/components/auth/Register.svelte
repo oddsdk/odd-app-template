@@ -32,9 +32,8 @@
 
   const registerUser = async (event: Event) => {
     registrationSuccess = await register(username)
-    console.log('registration success: ', registrationSuccess)
     if (registrationSuccess) {
-      // Redirect to device linking?
+      window.location.href = '/linkDevice'
     }
   }
 </script>

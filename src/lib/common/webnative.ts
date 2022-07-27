@@ -58,10 +58,9 @@ export const isUsernameAvailable = async (
 }
 
 export const register = async (username: string): Promise<boolean> => {
-  const { success } = await webnative.account.register({
-    username,
-    email: 'null@null.com'
-  })
+  await initialize()
+  const { success } = await webnative.account.register({ username })
+
   return success
 }
 
