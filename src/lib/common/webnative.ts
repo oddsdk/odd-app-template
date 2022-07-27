@@ -1,44 +1,28 @@
 import * as webnative from 'webnative'
 
-import type FileSystem from 'webnative/fs/index'
-import { USE_WNFS_IMPLEMENTATION } from 'webnative/auth/implementation/use-wnfs'
+// import type FileSystem from 'webnative/fs/index'
 import { setup } from 'webnative'
 import { asyncDebounce } from '$lib/common/utils'
 
 // runfission.net = staging
 setup.endpoints({ api: 'https://runfission.net', user: 'fissionuser.net' })
 
-setup.setImplementations({ auth: USE_WNFS_IMPLEMENTATION.auth })
-
-let state: webnative.State
-
-const fissionInit = {
-  permissions: {
-    app: {
-      name: 'app-name',
-      creator: 'creator-name'
-    },
-    // Ask the user permission to additional filesystem paths
-    fs: {
-      // private: [webnative.path.directory('Documents', 'Contacts')],
-    }
-  }
-}
+let state: webnative.AppState
 
 // TODO: Add a flag or script to turn debugging on/off
 setup.debug({ enabled: true })
 
 export const initialize = async (): Promise<void> => {
   try {
-    const st = await webnative.initialise(fissionInit)
+    const st = await webnative.app({ useWnfs: true })
     state = st
 
     switch (state.scenario) {
-      case webnative.Scenario.NotAuthorised:
+      case webnative.AppScenario.NotAuthed:
         console.log('Not logged in')
         break
 
-      case webnative.Scenario.Continuation:
+      case webnative.AppScenario.Authed:
         console.log('Logged in')
         break
 
@@ -62,10 +46,22 @@ export const isUsernameValid = async (username: string): Promise<boolean> => {
   return webnative.account.isUsernameValid(username)
 }
 
-const debouncedIsUsernameAvailable = asyncDebounce(webnative.account.isUsernameAvailable, 300)
+const debouncedIsUsernameAvailable = asyncDebounce(
+  webnative.account.isUsernameAvailable,
+  300
+)
 
-export const isUsernameAvailable = async (username: string): Promise<boolean> => {
+export const isUsernameAvailable = async (
+  username: string
+): Promise<boolean> => {
   return debouncedIsUsernameAvailable(username)
+}
+
+export const register = async (username: string): Promise<boolean> => {
+  await initialize()
+  const { success } = await webnative.account.register({ username })
+
+  return success
 }
 
 // interface StateFS {
