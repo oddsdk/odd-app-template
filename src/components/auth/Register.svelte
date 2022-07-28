@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
-  import { onMount } from 'svelte'
+  import { onDestroy, onMount } from 'svelte'
 
   import {
     isUsernameValid,
@@ -59,7 +59,7 @@
     }
   }
 
-  unsubscribeSessionStore()
+  onDestroy(unsubscribeSessionStore)
 </script>
 
 <input type="checkbox" id="my-modal-5" checked class="modal-toggle" />
