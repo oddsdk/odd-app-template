@@ -1,8 +1,9 @@
 import * as webnative from 'webnative'
-
 // import type FileSystem from 'webnative/fs/index'
 import { setup } from 'webnative'
+
 import { asyncDebounce } from '$lib/common/utils'
+import { sessionStore } from '../../stores'
 
 // runfission.net = staging
 setup.endpoints({ api: 'https://runfission.net', user: 'fissionuser.net' })
@@ -14,16 +15,23 @@ setup.debug({ enabled: true })
 
 export const initialize = async (): Promise<void> => {
   try {
-    const st = await webnative.app({ useWnfs: true })
-    state = st
+    state = await webnative.app({ useWnfs: true })
 
     switch (state.scenario) {
       case webnative.AppScenario.NotAuthed:
-        console.log('Not logged in')
+        sessionStore.set({
+          username: '',
+          authed: false,
+          loading: false
+        })
         break
 
       case webnative.AppScenario.Authed:
-        console.log('Logged in')
+        sessionStore.set({
+          username: state.username,
+          authed: state.authenticated,
+          loading: false
+        })
         break
 
       default:
@@ -32,11 +40,19 @@ export const initialize = async (): Promise<void> => {
   } catch (error) {
     switch (error) {
       case webnative.InitialisationError.InsecureContext:
-        console.log('Insecure context')
+        sessionStore.update(session => ({
+          ...session,
+          loading: false,
+          error: 'Insecure Context'
+        }))
         break
 
       case webnative.InitialisationError.UnsupportedBrowser:
-        console.log('Unsupported browser')
+        sessionStore.update(session => ({
+          ...session,
+          loading: false,
+          error: 'Unsupported Browser'
+        }))
         break
     }
   }
@@ -58,7 +74,6 @@ export const isUsernameAvailable = async (
 }
 
 export const register = async (username: string): Promise<boolean> => {
-  await initialize()
   const { success } = await webnative.account.register({ username })
 
   return success
