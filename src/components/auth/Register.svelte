@@ -3,11 +3,12 @@
   import { onDestroy, onMount } from 'svelte'
 
   import {
+    bootstrapFilesystem,
     isUsernameValid,
     isUsernameAvailable,
     register
   } from '$lib/common/webnative'
-  import { sessionStore } from '../../stores'
+  import { filesystemStore, sessionStore } from '../../stores'
   import type { Session } from '$lib/session'
   import CheckIcon from '$components/icons/CheckIcon.svelte'
   import XIcon from '$components/icons/XIcon.svelte'
@@ -53,6 +54,9 @@
       }))
 
       console.log('session after registration', $sessionStore)
+
+      const fs = await bootstrapFilesystem()
+      filesystemStore.set(fs)
 
       goto('/linkDevice')
     }

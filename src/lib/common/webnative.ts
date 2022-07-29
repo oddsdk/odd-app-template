@@ -1,17 +1,17 @@
 import * as webnative from 'webnative'
-// import type FileSystem from 'webnative/fs/index'
+import type FileSystem from 'webnative/fs/index'
 import { setup } from 'webnative'
 
 import { asyncDebounce } from '$lib/common/utils'
-import { sessionStore } from '../../stores'
+import { filesystemStore, sessionStore } from '../../stores'
 
 // runfission.net = staging
-setup.endpoints({ api: 'https://runfission.net', user: 'fissionuser.net' })
+setup.endpoints({ api: 'https://runfission.net', lobby: 'https://auth.runfission.net', user: 'fissionuser.net' })
 
 let state: webnative.AppState
 
 // TODO: Add a flag or script to turn debugging on/off
-setup.debug({ enabled: true })
+setup.debug({ enabled: false })
 
 export const initialize = async (): Promise<void> => {
   try {
@@ -32,6 +32,7 @@ export const initialize = async (): Promise<void> => {
           authed: state.authenticated,
           loading: false
         })
+        filesystemStore.set(state.fs)
         break
 
       default:
@@ -77,6 +78,10 @@ export const register = async (username: string): Promise<boolean> => {
   const { success } = await webnative.account.register({ username })
 
   return success
+}
+
+export const bootstrapFilesystem = async (): Promise<FileSystem> => {
+  return await webnative.bootstrapRootFileSystem()
 }
 
 // interface StateFS {
