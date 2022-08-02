@@ -3,7 +3,6 @@
   import { quintOut } from 'svelte/easing'
   import { fade } from 'svelte/transition'
 
-  import { deviceStore } from '../../stores'
   import CheckThinIcon from '$components/icons/CheckThinIcon.svelte'
   import XThinIcon from '$components/icons/XThinIcon.svelte'
 
@@ -18,7 +17,7 @@
 </script>
 
 <div
-  class="toast {$deviceStore.isMobile ? 'toast-center' : 'toast-end'}"
+  class="toast"
   on:click={clearNotification}
   out:fade={{ duration: 800, easing: quintOut }}
 >

@@ -7,13 +7,12 @@ export type Session = {
 
 type SessionError = 'Insecure Context' | 'Unsupported Browser'
 
-
 export const errorToMessage = (error: SessionError): string => {
   switch (error) {
     case 'Insecure Context':
-      return 'Application must be run in a secure context'
+      return 'This application requires a secure context (HTTPS)'
 
     case 'Unsupported Browser':
-      return 'Application does not support this browser'
+      return 'Your browser does not support this application'
   }
 }
