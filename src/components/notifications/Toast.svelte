@@ -3,6 +3,7 @@
   import { quintOut } from 'svelte/easing'
   import { fade } from 'svelte/transition'
 
+  import { theme } from '../../stores'
   import CheckThinIcon from '$components/icons/CheckThinIcon.svelte'
   import XThinIcon from '$components/icons/XThinIcon.svelte'
 
@@ -26,9 +27,9 @@
   >
     <div>
       {#if kind === 'success'}
-        <CheckThinIcon />
+        <CheckThinIcon color={$theme === 'light' ? '#b8ffd3' : '#002e12'} />
       {:else if kind === 'error'}
-        <XThinIcon />
+        <XThinIcon color={$theme === 'light' ? '#ffd6d7' : '#fec3c3'} />
       {/if}
       <span class="pl-1">{message}</span>
     </div>

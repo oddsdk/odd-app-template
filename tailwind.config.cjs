@@ -7,16 +7,16 @@ module.exports = {
     themes: [
       {
         dark: {
-          primary: "#43919b",
+          primary: "#3b82f6",
           secondary: "#30aadd",
           accent: "#00ffc6",
           neutral: "#282828",
           info: "#bfdbfe",
-          success: "#bbf7d0",
+          success: "#22c55e",
           warning: "#fdba74",
-          error: "#fecaca",
-          "base-content": "#ffffff",
-          "base-100": "#111111",
+          error: "#ef4444",
+          "base-content": "#f8fafc", // Base text content color
+          "base-100": "#0f172a", // Base background color
           "--rounded-box": "16px",
           "--rounded-btn": "8px",
           "--rounded-badge": "2px",
@@ -24,16 +24,16 @@ module.exports = {
           "--btn-text-case": "normal-case"
         },
         light: {
-          primary: "#407FF3",
+          primary: "#3b82f6",
           secondary: "#30aadd",
           accent: "#00ffc6",
           neutral: "#e5e5e5",
           info: "#bfdbfe",
-          success: "#bbf7d0",
+          success: "#15803d",
           warning: "#fdba74",
-          error: "#fecaca",
-          "base-content": "#000000",
-          "base-100": "#ffffff",
+          error: "#b91c1c",
+          "base-content": "#0f172a", // Base text content color
+          "base-100": "#f8fafc", // Base background color
           "--rounded-box": "16px",
           "--rounded-btn": "8px",
           "--rounded-badge": "2px",

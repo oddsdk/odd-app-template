@@ -137,7 +137,7 @@
         <!-- Warning when "This is a shared computer" is checked -->
         <label
           for="shared-computer"
-          class="cursor-pointer ml-1 text-sm text-slate-700 grid-inline"
+          class="cursor-pointer ml-1 text-sm grid-inline"
         >
           This is a shared computer
         </label>
