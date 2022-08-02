@@ -19,13 +19,15 @@
     session = val
   })
 
-  onMount(() => {
+  onMount(() => { setDevice() })
+
+  const setDevice = () => {
     if (window.innerWidth <= 768) {
       deviceStore.set({ isMobile: true })
     } else {
       deviceStore.set({ isMobile: false })
     }
-  })
+  }
 
   const init = async () => {
     await initialize()
@@ -43,6 +45,8 @@
 
   init()
 </script>
+
+<svelte:window on:resize={setDevice} />
 
 <div data-theme={$theme}>
   <Header />
