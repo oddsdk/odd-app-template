@@ -1,7 +1,9 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
+
   import '../global.css'
   import { initialize } from '$lib/common/webnative'
-  import { sessionStore, theme } from '../stores'
+  import { deviceStore, sessionStore, theme } from '../stores'
   import { storeTheme } from '$lib/theme'
   import type { Session } from '$lib/session'
   import Toast from '$components/notifications/Toast.svelte'
@@ -15,6 +17,14 @@
 
   sessionStore.subscribe(val => {
     session = val
+  })
+
+  onMount(() => {
+    if (window.innerWidth <= 768) {
+      deviceStore.set({ isMobile: true })
+    } else {
+      deviceStore.set({ isMobile: false })
+    }
   })
 
   const init = async () => {
