@@ -2,6 +2,7 @@
   import { goto } from '$app/navigation'
   import { onDestroy, onMount } from 'svelte'
 
+  import { appName } from '$lib/appName'
   import {
     bootstrapFilesystem,
     isUsernameValid,
@@ -142,8 +143,7 @@
         </label>
         <label for="registration" class="label mt-1 hidden peer-checked:block">
           <span class="label-text-alt text-error text-left">
-            <!-- TODO: Swap in application name for AppName -->
-            For security reasons, AppName doesn't support shared computers at this
+            For security reasons, {appName} doesn't support shared computers at this
             time.
           </span>
         </label>

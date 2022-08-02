@@ -1,6 +1,6 @@
 # webnative-app-template
-A web app template for Webnative.
 
+A web app template for Webnative.
 
 ## Setup
 
@@ -29,6 +29,7 @@ npm run build
 ```
 
 The build outputs the static site to the `build` directory.
+
 ## Publish
 
 The built site publishes with the [Fission CLI](https://guide.fission.codes/developers/cli) and the [Fission GH publish action](https://github.com/fission-suite/publish-action). Publishing from the command line is configured in [fission.yaml](fission.yaml), and the GitHub publish action is configured in [publish.yml](.github/workflows/publish.yml).
@@ -48,6 +49,12 @@ To set up the GitHub publish action:
 
 1. Export your machine key with `base64 ~/.config/fission/key/machine_id.ed25519`
 2. Add your machine key as a GH Repository secret named `FISSION_MACHINE_KEY`
-2. Update the `publish.yml` with the name of your registered app
+3. Update the `publish.yml` with the name of your registered app
 
 See the [Fission Guide](https://guide.fission.codes/developers/installation) and the publish action README for more details.
+
+## Customize
+
+- `app.html` - the SEO meta tags will need to be changed.
+- `lib/appName.ts` - choose a better application name
+- To customize the application's Tailwind theme, change `tailwind.config.ts` - link to DaisyUI customization page.

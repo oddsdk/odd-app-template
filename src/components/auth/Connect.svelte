@@ -2,6 +2,7 @@
   import { goto } from '$app/navigation'
   import { onDestroy, onMount } from 'svelte'
 
+  import { appName } from '$lib/appName'
   import { sessionStore } from '../../stores'
   import type { Session } from '$lib/session'
 
@@ -24,7 +25,7 @@
     <a href="/" class="btn btn-xs btn-circle absolute right-2 top-2">✕</a>
 
     <div>
-      <h3 class="mb-7 text-xl font-serif">Connect to AppName</h3>
+      <h3 class="mb-7 text-xl font-serif">Connect to {appName}</h3>
       <div>
         <a class="btn btn-primary mb-5 w-full" href="/register">
           Create a new account

@@ -2,6 +2,7 @@
   import { onMount } from 'svelte'
 
   import '../global.css'
+  import { appName } from '$lib/appName'
   import { initialize } from '$lib/common/webnative'
   import { deviceStore, sessionStore, theme } from '../stores'
   import { storeTheme } from '$lib/theme'
@@ -45,6 +46,10 @@
 
   init()
 </script>
+
+<svelte:head>
+  <title>{appName}</title>
+</svelte:head>
 
 <svelte:window on:resize={setDevice} />
 
