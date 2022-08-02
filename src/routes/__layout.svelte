@@ -5,7 +5,7 @@
   import { initialize } from '$lib/common/webnative'
   import { deviceStore, sessionStore, theme } from '../stores'
   import { storeTheme } from '$lib/theme'
-  import type { Session } from '$lib/session'
+  import { errorToMessage, type Session } from '$lib/session'
   import Toast from '$components/notifications/Toast.svelte'
   import Header from '$components/Header.svelte'
 
@@ -48,7 +48,11 @@
   <Header />
 
   {#if session.error}
-    <Toast kind="error" message={session.error} on:clear={clearNotification} />
+    <Toast
+      kind="error"
+      message={errorToMessage(session.error)}
+      on:clear={clearNotification}
+    />
   {/if}
 
   <slot />

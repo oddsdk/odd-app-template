@@ -20,7 +20,7 @@
 <div
   class="toast {$deviceStore.isMobile ? 'toast-center' : 'toast-end'}"
   on:click={clearNotification}
-  out:fade={{ duration: 1000, easing: quintOut }}
+  out:fade={{ duration: 800, easing: quintOut }}
 >
   <div
     class="alert {kind === 'success' ? 'alert-success' : 'alert-error'} text-sm"
