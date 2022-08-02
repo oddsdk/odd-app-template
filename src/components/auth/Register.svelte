@@ -88,12 +88,12 @@
           />
         {/if}
         {#if !(username.length === 0) && usernameAvailable && usernameValid && !checkingUsername}
-          <span class="w-4 h-4 block absolute top-4 right-4">
+          <span class="w-4 h-4 block absolute top-5 right-4">
             <CheckIcon />
           </span>
         {/if}
         {#if !(username.length === 0) && !checkingUsername && !(usernameAvailable && usernameValid)}
-          <span class="w-4 h-4 block absolute top-4 right-4">
+          <span class="w-4 h-4 block absolute top-5 right-4">
             <XIcon />
           </span>
         {/if}
