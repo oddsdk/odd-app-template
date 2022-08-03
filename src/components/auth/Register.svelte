@@ -23,6 +23,8 @@
   let unsubscribeSessionStore: () => void = () => {}
 
   onMount(() => {
+    // TODO: This redirect is too slow and it improperly redirects during registration.
+    // Find a better way to prevent users from registering twice.
     unsubscribeSessionStore = sessionStore.subscribe((session: Session) => {
       if (session.authed) {
         goto('/')
@@ -56,6 +58,7 @@
 
       console.log('session after registration', $sessionStore)
 
+      // Consider moving this into `lib/common/webnative`
       const fs = await bootstrapFilesystem()
       filesystemStore.set(fs)
 
@@ -66,7 +69,7 @@
   onDestroy(unsubscribeSessionStore)
 </script>
 
-<input type="checkbox" id="my-modal-5" checked class="modal-toggle" />
+<input type="checkbox" id="register-modal" checked class="modal-toggle" />
 <div class="modal">
   <div class="modal-box w-80 relative text-center">
     <a href="/" class="btn btn-xs btn-circle absolute right-2 top-2">✕</a>
