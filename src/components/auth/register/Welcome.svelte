@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { sessionStore } from '../../stores'
+  import { sessionStore } from '../../../stores'
   import WelcomeCheckIcon from '$components/icons/WelcomeCheckIcon.svelte'
   import { appName } from '$lib/app-name'
 </script>

@@ -1,15 +1,10 @@
 <script lang="ts">
-  import { goto } from '$app/navigation'
-  import { onDestroy, onMount } from 'svelte'
-
   import { appName } from '$lib/app-name'
   import {
     isUsernameValid,
     isUsernameAvailable,
     register
   } from '$lib/common/webnative'
-  import { filesystemStore, sessionStore } from '../../stores'
-  import type { Session } from '$lib/session'
   import CheckIcon from '$components/icons/CheckIcon.svelte'
   import XIcon from '$components/icons/XIcon.svelte'
 
@@ -19,22 +14,11 @@
   let registrationSuccess = true
   let checkingUsername = false
 
-  let unsubscribeSessionStore: () => void = () => {}
-
-  onMount(() => {
-    // TODO: This redirect is too slow and it improperly redirects during registration.
-    // Find a better way to prevent users from registering twice.
-    unsubscribeSessionStore = sessionStore.subscribe((session: Session) => {
-      // if (session.authed) {
-      //   goto('/')
-      // }
-    })
-  })
-
   const checkUsername = async (event: Event) => {
-    checkingUsername = true
     const { value } = event.target as HTMLInputElement
+
     username = value
+    checkingUsername = true
 
     usernameValid = await isUsernameValid(username)
 
@@ -47,21 +31,7 @@
 
   const registerUser = async () => {
     registrationSuccess = await register(username)
-
-    if (registrationSuccess) {
-      sessionStore.update(session => ({
-        ...session,
-        username,
-        authed: true
-      }))
-
-      console.log('session after registration', $sessionStore)
-
-      goto('/welcome')
-    }
   }
-
-  onDestroy(unsubscribeSessionStore)
 </script>
 
 <input type="checkbox" id="register-modal" checked class="modal-toggle" />

@@ -79,7 +79,13 @@ export const register = async (username: string): Promise<boolean> => {
 
   const fs = await bootstrapFilesystem()
   filesystemStore.set(fs)
-  
+
+  sessionStore.update(session => ({
+    ...session,
+    username,
+    authed: true
+  }))
+
   return success
 }
 
