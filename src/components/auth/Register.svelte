@@ -26,9 +26,9 @@
     // TODO: This redirect is too slow and it improperly redirects during registration.
     // Find a better way to prevent users from registering twice.
     unsubscribeSessionStore = sessionStore.subscribe((session: Session) => {
-      if (session.authed) {
-        goto('/')
-      }
+      // if (session.authed) {
+      //   goto('/')
+      // }
     })
   })
 

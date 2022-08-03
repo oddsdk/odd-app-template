@@ -10,9 +10,12 @@
 
   onMount(() => {
     unsubscribeSessionStore = sessionStore.subscribe((session: Session) => {
-      if (session.authed) {
-        goto('/')
-      }
+      // BIZZARRO WORLD: This redirect executed after register when we were on the
+      // register page! I would think that `unsubscribeSessionStore` would have torn
+      // down the subscription and this code could not be reached.
+      // if (session.authed) {
+      //   goto('/')
+      // }
     })
   })
 
