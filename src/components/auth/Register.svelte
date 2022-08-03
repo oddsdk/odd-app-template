@@ -62,7 +62,7 @@
       const fs = await bootstrapFilesystem()
       filesystemStore.set(fs)
 
-      goto('/linkDevice')
+      goto('/welcome')
     }
   }
 

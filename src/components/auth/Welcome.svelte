@@ -34,7 +34,7 @@
           </p>
         </div>
 
-        <a class="btn btn-primary" href="/">Continue</a>
+        <a class="btn btn-primary" href="/backup">Continue</a>
       </div>
     </div>
   </div>
