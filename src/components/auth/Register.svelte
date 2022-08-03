@@ -58,10 +58,6 @@
 
       console.log('session after registration', $sessionStore)
 
-      // Consider moving this into `lib/common/webnative`
-      const fs = await bootstrapFilesystem()
-      filesystemStore.set(fs)
-
       goto('/welcome')
     }
   }
