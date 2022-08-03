@@ -2,7 +2,7 @@
   import { goto } from '$app/navigation'
   import { onDestroy, onMount } from 'svelte'
 
-  import { appName } from '$lib/appName'
+  import { appName } from '$lib/app-name'
   import { sessionStore } from '../../stores'
   import type { Session } from '$lib/session'
 

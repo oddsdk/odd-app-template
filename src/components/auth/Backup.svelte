@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { appName } from '$lib/appName'
+  import { appName } from '$lib/app-name'
 </script>
 
 <input type="checkbox" id="backup-modal" checked class="modal-toggle" />

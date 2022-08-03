@@ -1,4 +1,4 @@
-import { appName } from '$lib/appName'
+import { appName } from '$lib/app-name'
 
 export type Session = {
   username: string

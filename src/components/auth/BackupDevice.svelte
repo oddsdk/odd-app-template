@@ -1,6 +1,6 @@
 <script lang="ts">
   import ClipboardIcon from '$components/icons/ClipboardIcon.svelte'
-  import { appName } from '$lib/appName'
+  import { appName } from '$lib/app-name'
 </script>
 
 <input type="checkbox" id="backup-device-modal" checked class="modal-toggle" />

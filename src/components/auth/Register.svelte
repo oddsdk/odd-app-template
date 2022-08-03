@@ -2,9 +2,8 @@
   import { goto } from '$app/navigation'
   import { onDestroy, onMount } from 'svelte'
 
-  import { appName } from '$lib/appName'
+  import { appName } from '$lib/app-name'
   import {
-    bootstrapFilesystem,
     isUsernameValid,
     isUsernameAvailable,
     register
