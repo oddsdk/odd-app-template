@@ -1,10 +1,19 @@
 <script lang="ts">
+  import clipboardCopy from 'clipboard-copy'
   import { createEventDispatcher } from 'svelte'
 
+  import { sessionStore } from '../../../stores'
   import type { BackupView } from '$lib/views'
   import ClipboardIcon from '$components/icons/ClipboardIcon.svelte'
 
   const dispatch = createEventDispatcher()
+
+  const copyLink = async () => {
+    const origin = window.location.origin
+    const connectionLink = `${origin}/link?username=${$sessionStore.username}`
+
+    await clipboardCopy(connectionLink)
+  }
 
   const navigate = (view: BackupView) => {
     dispatch('navigate', { view })
@@ -24,7 +33,7 @@
         Scan this code on the new device, or share the connection link.
       </p>
 
-      <button class="btn btn-primary btn-outline" href="/backup">
+      <button class="btn btn-primary btn-outline" on:click={copyLink}>
         <ClipboardIcon />
         <span class="ml-2">Copy connection link</span>
       </button>
