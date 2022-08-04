@@ -1,5 +1,12 @@
 <script lang="ts">
-  import Register from '$components/auth/Register.svelte'
+  import { sessionStore } from '../stores'
+
+  import Register from '$components/auth/register/Register.svelte'
+  import Welcome from '$components/auth/register/Welcome.svelte'
 </script>
 
-<Register />
+{#if $sessionStore.authed}
+  <Welcome />
+{:else}
+  <Register />
+{/if}

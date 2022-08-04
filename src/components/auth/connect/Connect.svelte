@@ -1,22 +1,5 @@
 <script lang="ts">
-  import { goto } from '$app/navigation'
-  import { onDestroy, onMount } from 'svelte'
-
-  import { appName } from '$lib/appName'
-  import { sessionStore } from '../../stores'
-  import type { Session } from '$lib/session'
-
-  let unsubscribeSessionStore: () => void = () => {}
-
-  onMount(() => {
-    unsubscribeSessionStore = sessionStore.subscribe((session: Session) => {
-      if (session.authed) {
-        goto('/')
-      }
-    })
-  })
-
-  onDestroy(unsubscribeSessionStore)
+  import { appName } from '$lib/app-name'
 </script>
 
 <input type="checkbox" id="my-modal-5" checked class="modal-toggle" />

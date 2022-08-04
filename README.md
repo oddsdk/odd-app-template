@@ -56,5 +56,5 @@ See the [Fission Guide](https://guide.fission.codes/developers/installation) and
 ## Customize
 
 - `app.html` - the SEO meta tags will need to be changed.
-- `lib/appName.ts` - choose a better application name
+- `lib/app-name.ts` - choose a better application name
 - To customize the application's Tailwind theme, change `tailwind.config.ts` - link to DaisyUI customization page.

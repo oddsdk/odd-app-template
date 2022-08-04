@@ -1,16 +1,10 @@
 <script lang="ts">
-  import { goto } from '$app/navigation'
-  import { onDestroy, onMount } from 'svelte'
-
-  import { appName } from '$lib/appName'
+  import { appName } from '$lib/app-name'
   import {
-    bootstrapFilesystem,
     isUsernameValid,
     isUsernameAvailable,
     register
   } from '$lib/common/webnative'
-  import { filesystemStore, sessionStore } from '../../stores'
-  import type { Session } from '$lib/session'
   import CheckIcon from '$components/icons/CheckIcon.svelte'
   import XIcon from '$components/icons/XIcon.svelte'
 
@@ -20,20 +14,11 @@
   let registrationSuccess = true
   let checkingUsername = false
 
-  let unsubscribeSessionStore: () => void = () => {}
-
-  onMount(() => {
-    unsubscribeSessionStore = sessionStore.subscribe((session: Session) => {
-      if (session.authed) {
-        goto('/')
-      }
-    })
-  })
-
   const checkUsername = async (event: Event) => {
-    checkingUsername = true
     const { value } = event.target as HTMLInputElement
+
     username = value
+    checkingUsername = true
 
     usernameValid = await isUsernameValid(username)
 
@@ -46,27 +31,10 @@
 
   const registerUser = async () => {
     registrationSuccess = await register(username)
-
-    if (registrationSuccess) {
-      sessionStore.update(session => ({
-        ...session,
-        username,
-        authed: true
-      }))
-
-      console.log('session after registration', $sessionStore)
-
-      const fs = await bootstrapFilesystem()
-      filesystemStore.set(fs)
-
-      goto('/linkDevice')
-    }
   }
-
-  onDestroy(unsubscribeSessionStore)
 </script>
 
-<input type="checkbox" id="my-modal-5" checked class="modal-toggle" />
+<input type="checkbox" id="register-modal" checked class="modal-toggle" />
 <div class="modal">
   <div class="modal-box w-80 relative text-center">
     <a href="/" class="btn btn-xs btn-circle absolute right-2 top-2">✕</a>
