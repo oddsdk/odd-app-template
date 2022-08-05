@@ -1,10 +1,25 @@
 <script lang="ts">
+  import clipboardCopy from 'clipboard-copy'
+  import QRCode from 'qrcode-svg'
   import { createEventDispatcher } from 'svelte'
 
+  import { sessionStore, theme } from '../../../stores'
   import type { BackupView } from '$lib/views'
   import ClipboardIcon from '$components/icons/ClipboardIcon.svelte'
 
   const dispatch = createEventDispatcher()
+
+  const origin = window.location.origin
+  const connectionLink = `${origin}/link?username=${$sessionStore.username}`
+  const qrcode = new QRCode({
+    content: connectionLink,
+    color: $theme === 'light' ? '#334155' : '#E2E8F0',
+    background: '#ffffff00'
+  }).svg()
+
+  const copyLink = async () => {
+    await clipboardCopy(connectionLink)
+  }
 
   const navigate = (view: BackupView) => {
     dispatch('navigate', { view })
@@ -15,16 +30,12 @@
 <div class="modal">
   <div class="modal-box w-80 relative text-center">
     <div>
-      <h3 class="mb-7 text-xl font-serif">Connect a backup device</h3>
-
-      <!-- GIANT QR CODE GOES HERE -->
-      QR Codes
-
-      <p class="mt-8 mb-4">
+      <h3 class="pb-1 text-xl font-serif">Connect a backup device</h3>
+      {@html qrcode}
+      <p class="font-extralight pt-1 mb-8">
         Scan this code on the new device, or share the connection link.
       </p>
-
-      <button class="btn btn-primary btn-outline" href="/backup">
+      <button class="btn btn-primary btn-outline" on:click={copyLink}>
         <ClipboardIcon />
         <span class="ml-2">Copy connection link</span>
       </button>

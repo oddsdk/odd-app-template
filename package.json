@@ -50,6 +50,8 @@
     ]
   },
   "dependencies": {
+    "clipboard-copy": "^4.0.1",
+    "qrcode-svg": "^1.1.0",
     "webnative": "0.33.0-alpha-4"
   }
 }
