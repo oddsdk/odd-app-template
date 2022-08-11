@@ -4,9 +4,14 @@ import { setup } from 'webnative'
 
 import { asyncDebounce } from '$lib/common/utils'
 import { filesystemStore, sessionStore } from '../../stores'
+import type { account } from 'webnative'
 
 // runfission.net = staging
-setup.endpoints({ api: 'https://runfission.net', lobby: 'https://auth.runfission.net', user: 'fissionuser.net' })
+setup.endpoints({
+  api: 'https://runfission.net',
+  lobby: 'https://auth.runfission.net',
+  user: 'fissionuser.net'
+})
 
 let state: webnative.AppState
 
@@ -93,6 +98,17 @@ export const bootstrapFilesystem = async (): Promise<FileSystem> => {
   return await webnative.bootstrapRootFileSystem()
 }
 
+export const createAccountLinkingConsumer = async (
+  username: string
+): Promise<account.AccountLinkingConsumer> => {
+  return await webnative.account.createConsumer({ username })
+}
+
+export const createAccountLinkingProducer = async (
+  username: string
+): Promise<account.AccountLinkingProducer> => {
+  return await webnative.account.createProducer({ username })
+}
 // interface StateFS {
 //   fs?: FileSystem
 // }

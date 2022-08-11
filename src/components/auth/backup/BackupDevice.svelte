@@ -3,14 +3,20 @@
   import QRCode from 'qrcode-svg'
   import { createEventDispatcher } from 'svelte'
 
-  import { sessionStore, theme } from '../../../stores'
+  import {
+    accountLinkingProducerStore,
+    sessionStore,
+    theme
+  } from '../../../stores'
   import type { BackupView } from '$lib/views'
   import ClipboardIcon from '$components/icons/ClipboardIcon.svelte'
+  import { createAccountLinkingProducer } from '$lib/common/webnative'
+  import { goto } from '$app/navigation'
 
   const dispatch = createEventDispatcher()
 
   const origin = window.location.origin
-  const connectionLink = `${origin}/link?username=${$sessionStore.username}`
+  const connectionLink = `${origin}/link-device?username=${$sessionStore.username}`
   const qrcode = new QRCode({
     content: connectionLink,
     color: $theme === 'light' ? '#334155' : '#E2E8F0',
@@ -24,6 +30,33 @@
   const navigate = (view: BackupView) => {
     dispatch('navigate', { view })
   }
+
+  // Subscribe to the challenge event on the  and wait for the challenge event
+  let confirmPin
+  let rejectPin
+
+  const initAccountLinkingProducer = async () => {
+    const accountLinkingProducer = await createAccountLinkingProducer(
+      $sessionStore.username
+    )
+    accountLinkingProducerStore.set(accountLinkingProducer)
+
+    accountLinkingProducer.on(
+      'challenge',
+      ({ pin, confirmPin: confirm, rejectPin: reject }) => {
+        confirmPin = confirm
+        rejectPin = reject
+        console.log('pin: ', pin)
+
+        // Put pin, confirmPin, and rejectPin on the store
+
+        confirmPin()
+        goto('/delegate-account')
+      }
+    )
+  }
+
+  initAccountLinkingProducer()
 </script>
 
 <input type="checkbox" id="backup-device-modal" checked class="modal-toggle" />

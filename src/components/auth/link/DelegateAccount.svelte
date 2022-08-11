@@ -1,0 +1,41 @@
+<script lang="ts">
+  import { accountLinkingProducerStore } from '../../../stores'
+  import { createAccountLinkingProducer } from '$lib/common/webnative'
+  import { sessionStore } from '../../../stores'
+
+  // Subscribe to the link event
+  const initAccountLinkingProducer = async () => {
+    const accountLinkingProducer = await createAccountLinkingProducer(
+      $sessionStore.username
+    )
+    accountLinkingProducerStore.set(accountLinkingProducer)
+
+    accountLinkingProducer.on('link', ({ approved, username }) => {
+      console.log('approved: ', approved)
+
+      // Send up a toast
+      // Redirect to '/'
+    })
+  }
+
+  initAccountLinkingProducer()
+</script>
+
+<input type="checkbox" id="my-modal-5" checked class="modal-toggle" />
+<div class="modal">
+  <div class="modal-box w-80 relative text-center">
+    <a href="/" class="btn btn-xs btn-circle absolute right-2 top-2">✕</a>
+
+    <div>
+      <h3 class="mb-7 text-xl font-serif">Delegate Account</h3>
+      <div>
+        <a class="btn btn-primary mb-5 w-full" href="/register">
+          Create a new account
+        </a>
+        <a class="btn btn-primary btn-outline w-full" href="/">
+          I have an existing account
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
