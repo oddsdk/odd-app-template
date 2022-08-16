@@ -23,37 +23,31 @@
     background: '#ffffff00'
   }).svg()
 
+  const initAccountLinkingProducer = async () => {
+    const accountLinkingProducer = await createAccountLinkingProducer(
+      $sessionStore.username
+    )
+
+    accountLinkingProducer.on('challenge', ({ pin, confirmPin, rejectPin }) => {
+      console.log('pin: ', pin)
+
+      accountLinkingProducerStore.set({
+        accountLinkingProducer,
+        pin,
+        confirmPin,
+        rejectPin
+      })
+
+      goto('/delegate-account')
+    })
+  }
+
   const copyLink = async () => {
     await clipboardCopy(connectionLink)
   }
 
   const navigate = (view: BackupView) => {
     dispatch('navigate', { view })
-  }
-
-  // Subscribe to the challenge event on the  and wait for the challenge event
-  let confirmPin
-  let rejectPin
-
-  const initAccountLinkingProducer = async () => {
-    const accountLinkingProducer = await createAccountLinkingProducer(
-      $sessionStore.username
-    )
-    accountLinkingProducerStore.set(accountLinkingProducer)
-
-    accountLinkingProducer.on(
-      'challenge',
-      ({ pin, confirmPin: confirm, rejectPin: reject }) => {
-        confirmPin = confirm
-        rejectPin = reject
-        console.log('pin: ', pin)
-
-        // Put pin, confirmPin, and rejectPin on the store
-
-        confirmPin()
-        goto('/delegate-account')
-      }
-    )
   }
 
   initAccountLinkingProducer()

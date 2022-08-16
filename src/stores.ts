@@ -23,6 +23,11 @@ export const accountLinkingConsumerStore: Writable<account.AccountLinkingConsume
   null
 )
 
-export const accountLinkingProducerStore: Writable<account.AccountLinkingProducer> = writable(
+export const accountLinkingProducerStore: Writable<{
+  accountLinkingProducer: account.AccountLinkingProducer
+  pin: number[]
+  confirmPin: () => void
+  rejectPin: () => void
+ }> = writable(
   null
 )
