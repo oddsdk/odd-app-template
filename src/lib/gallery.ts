@@ -1,27 +1,81 @@
 import { get as getStore } from 'svelte/store'
 import * as wn from 'webnative'
-import { filesystemStore } from '../stores'
+import { filesystemStore, galleryStore } from '../stores'
+
+const PUBLIC_GALLERY_DIR = ['public', 'gallery']
+
+type Image = {
+  name: string
+  src: string
+}
+
+export type Gallery = {
+  publicImages: Image[] | null
+  // privateImages: Image[] | null // TODO: handle private files
+  loading: boolean
+}
 
 /**
- * Upload an image to either the user's public or private WNFS
+ * Get images from the user's public WNFS and construct the `src` value for the images
+ */
+export const getImagesFromWNFS: () => Promise<void> = async () => {
+  try {
+    // Set loading: true on the galleryStore
+    galleryStore.update((store) => ({ ...store, loading: true }))
+
+    const fs = getStore(filesystemStore)
+
+    // Set path to public gallery dir
+    const publicPath = wn.path.directory(...PUBLIC_GALLERY_DIR)
+
+    // Get list of links for files in the public gallery dir
+    const publicLinks = await fs.ls(publicPath)
+
+    console.log('publicLinks', publicLinks)
+
+    const images = Object.keys(publicLinks).map(name => ({
+      name,
+      src: `https://ipfs.io/ipfs/${publicLinks[
+        name
+      ]?.cid?.toString()}/userland`
+    }))
+
+    // Push images to the galleryStore
+    galleryStore.update((store) => ({
+      ...store,
+      publicImages: images,
+      loading: false,
+    }))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+/**
+ * Upload an image to either the user's public WNFS
  * @param image
  */
-const uploadImageToWNFS: (
+export const uploadImageToWNFS: (
   image: File
 ) => Promise<void> = async image => {
   try {
     const fs = getStore(filesystemStore)
 
+    // Check if image already exists in the public gallery dir
     const imageExists = await fs.exists(
-      wn.path.file('public', 'gallery', image.name)
+      wn.path.file(...PUBLIC_GALLERY_DIR, image.name)
     )
 
     if (!imageExists) {
       // Create a sub directory and add some content
-      await fs.write(wn.path.file('public', 'gallery', image.name), image)
+      await fs.write(wn.path.file(...PUBLIC_GALLERY_DIR, image.name), image)
 
       // Announce the changes to the server
       await fs.publish()
+
+      console.log(`${image.name} image has been published`)
+    } else {
+      throw new Error(`${image.name} image alread exists`)
     }
   } catch (error) {
     console.log(error)
@@ -29,52 +83,32 @@ const uploadImageToWNFS: (
 }
 
 /**
- * Process files being dropped in the drop zone and ensure they are images
- * @param event
+ * Delete an image from the user's public WNFS
+ * @param name
  */
-export const handleDrop: (event: DragEvent) => Promise<void> = async event => {
-  // Prevent default behavior (Prevent file from being opened)
-  event.preventDefault()
+export const deleteImageFromWNFS: (name: string) => Promise<void> = async (name) => {
+  try {
+    const fs = getStore(filesystemStore)
 
-  console.log(
-    `${event.dataTransfer.items.length} file${
-      event.dataTransfer.items.length > 1 ? 's' : ''
-    } dropped`
-  )
+    const imageExists = await fs.exists(
+      wn.path.file(...PUBLIC_GALLERY_DIR, name)
+    )
 
-  // Use DataTransferItemList interface to access the file(s)
-  // NOTE: DataTransfer.items is suppported by every browser except IE ¯\_(ツ)_/¯
-  for (let i = 0; i < event.dataTransfer.items.length; i++) {
-    if (event.dataTransfer.items[i].kind === 'file') {
-      const file: File = event.dataTransfer.items[i].getAsFile()
+    if (imageExists) {
+      // Remove images from server
+      await fs.rm(wn.path.file(...PUBLIC_GALLERY_DIR, name))
 
-      // If dropped items aren't files, reject them
-      if (!file.type.match('image/*')) {
-        console.error('Please upload images only')
-      } else {
-        console.log(`file[${i}].name = ${file.name}`)
-        await uploadImageToWNFS(file)
-      }
+      // Announce the changes to the server
+      await fs.publish()
+
+      console.log(`${name} image has been deleted`)
+
+      // Refetch images and update galleryStore
+      await getImagesFromWNFS()
+    } else {
+      throw new Error(`${name} image has already been deleted`)
     }
+  } catch (error) {
+    console.error(error)
   }
-}
-
-/**
- * This is needed to prevent the default behaviour of the file opening in browser
- * when it is dropped
- * @param event
- */
-export const handleDragOver: (event: DragEvent) => void = event => {
-  event.preventDefault()
-}
-
-/**
- * Handle uploads made by interacting with the file input directly
- */
-export const handleFileInput: (files: FileList) => Promise<void> = async files => {
-  await Promise.all(
-    Array.from(files).map(async file => {
-      await uploadImageToWNFS(file)
-    })
-  )
 }
