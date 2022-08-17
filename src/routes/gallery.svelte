@@ -1,7 +1,7 @@
 <script lang="ts">
   import { sessionStore } from '../stores'
-  import FileUpload from '$components/gallery/FileUpload.svelte'
-  import ImageGallery from '$components/gallery/ImageGallery.svelte'
+  import FileUpload from '$components/gallery/upload/FileUpload.svelte'
+  import ImageGallery from '$components/gallery/imageGallery/ImageGallery.svelte'
 </script>
 
 <div class="p-2 text-center">

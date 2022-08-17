@@ -7,9 +7,9 @@
     deleteImageFromWNFS(fileName)
 </script>
 
-<div class="absolute top-2 right-4">
+<div class="absolute top-0 right-4">
   <div class="dropdown dropdown-end">
-    <div tabindex="0" class="dots cursor-pointer" />
+    <div tabindex="0" class="dots cursor-pointer text-base-100" />
     <ul
       tabindex="0"
       class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
@@ -22,6 +22,6 @@
 <style>
   .dots:after {
     content: '\22EE';
-    font-size: 30px;
+    font-size: 50px;
   }
 </style>

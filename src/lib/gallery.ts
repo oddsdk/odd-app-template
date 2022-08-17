@@ -4,7 +4,8 @@ import { filesystemStore, galleryStore } from '../stores'
 
 const PUBLIC_GALLERY_DIR = ['public', 'gallery']
 
-type Image = {
+export type Image = {
+  cid: string
   name: string
   src: string
 }
@@ -33,12 +34,15 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
 
     console.log('publicLinks', publicLinks)
 
-    const images = Object.keys(publicLinks).map(name => ({
-      name,
-      src: `https://ipfs.io/ipfs/${publicLinks[
-        name
-      ]?.cid?.toString()}/userland`
-    }))
+    const images = Object.keys(publicLinks).map(name => {
+      const cid = publicLinks[name]?.cid?.toString()
+
+      return {
+        cid,
+        name,
+        src: `https://ipfs.io/ipfs/${cid}/userland`
+      }
+    })
 
     // Push images to the galleryStore
     galleryStore.update((store) => ({

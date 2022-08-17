@@ -67,6 +67,15 @@
   }
 </script>
 
+<!-- The button to open modal -->
+<!-- <label for="file-upload-modal" class="btn modal-button">Upload files</label>
+
+<input type="checkbox" id="file-upload-modal" class="modal-toggle" />
+<label for="file-upload-modal" class="modal cursor-pointer">
+  <label class="modal-box relative" for="">
+
+  </label>
+</label> -->
 <div class="flex justify-center items-center w-full">
   <label
     on:drop={handleDrop}
