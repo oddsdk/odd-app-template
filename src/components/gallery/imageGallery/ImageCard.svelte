@@ -7,7 +7,7 @@
   const { name, src } = image
 </script>
 
-<div class="flex flex-wrap w-1/3">
+<div class="flex flex-wrap w-1/4">
   <div class="relative group w-full p-1 md:p-2">
     <div
       class="flex items-center justify-center absolute top-1 right-1 bottom-1 left-1 md:top-2 md:right-2 md:bottom-2 md:left-2 rounded-lg bg-[#00000060] opacity-0 group-hover:opacity-100 transition-opacity ease-in"

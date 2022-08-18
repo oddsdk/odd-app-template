@@ -7,6 +7,8 @@ const PUBLIC_GALLERY_DIR = ['public', 'gallery']
 export type Image = {
   cid: string
   name: string
+  private: boolean
+  size: number
   src: string
 }
 
@@ -40,6 +42,8 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
       return {
         cid,
         name,
+        private: false,
+        size: publicLinks[name].size,
         src: `https://ipfs.io/ipfs/${cid}/userland`
       }
     })
@@ -77,6 +81,7 @@ export const uploadImageToWNFS: (
       // Announce the changes to the server
       await fs.publish()
 
+      // TODO: replace with Toast notification once they've been added to the app
       console.log(`${image.name} image has been published`)
     } else {
       throw new Error(`${image.name} image alread exists`)
@@ -105,12 +110,14 @@ export const deleteImageFromWNFS: (name: string) => Promise<void> = async (name)
       // Announce the changes to the server
       await fs.publish()
 
+      // TODO: replace with Toast notification once they've been added to the app
       console.log(`${name} image has been deleted`)
 
       // Refetch images and update galleryStore
       await getImagesFromWNFS()
     } else {
       throw new Error(`${name} image has already been deleted`)
+      // TODO: add Toast notification once they've been added to the app
     }
   } catch (error) {
     console.error(error)

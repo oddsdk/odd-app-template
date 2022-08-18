@@ -7,14 +7,22 @@
     deleteImageFromWNFS(fileName)
 </script>
 
-<div class="absolute top-0 right-4">
-  <div class="dropdown dropdown-end">
+<!-- dropdown-hover -->
+<div class="absolute -top-1 right-2">
+  <div class="dropdown dropdown-hover dropdown-left">
     <div tabindex="0" class="dots cursor-pointer text-base-100" />
     <ul
       tabindex="0"
-      class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+      class="dropdown-content menu !top-4 p-1 shadow bg-neutral rounded"
     >
-      <li><button on:click={handleDeleteImage}>Delete Image</button></li>
+      <li class="text-right">
+        <button
+          class="btn btn-xs btn-link text-sm p-0 font-normal"
+          on:click={handleDeleteImage}
+        >
+          Delete
+        </button>
+      </li>
     </ul>
   </div>
 </div>
@@ -22,6 +30,6 @@
 <style>
   .dots:after {
     content: '\22EE';
-    font-size: 50px;
+    font-size: 40px;
   }
 </style>
