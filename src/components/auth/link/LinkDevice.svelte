@@ -1,12 +1,17 @@
 <script lang="ts">
-  import { accountLinkingConsumerStore } from '../../../stores'
-  import { createAccountLinkingConsumer } from '$lib/common/webnative'
-  import type { Page } from '@sveltejs/kit'
-  import type { Readable } from 'svelte/store'
+  import { accountLinkingConsumerStore, sessionStore } from '../../../stores'
+  import {
+    createAccountLinkingConsumer,
+    loadAccount
+  } from '$lib/common/webnative'
   import { page } from '$app/stores'
+  import { appName } from '$lib/app-name'
+  import { goto } from '$app/navigation'
 
+  let displayPin: string = ''
   let url = $page.url
   const username = url.searchParams.get('username')
+
   // clear the params
   url.searchParams.delete('username')
   history.replaceState(null, document.title, url.toString())
@@ -18,15 +23,18 @@
     accountLinkingConsumerStore.set(accountLinkingConsumer)
 
     accountLinkingConsumer.on('challenge', ({ pin }) => {
+      displayPin = pin.join(' ')
       console.log('pin: ', pin)
     })
 
-    accountLinkingConsumer.on('link', ({ approved, username }) => {
+    accountLinkingConsumer.on('link', async ({ approved, username }) => {
       console.log('approved: ', approved)
 
-      // Send up a toast
-      // Load the filesystem and put on the store (call in webnative lib?)
-      // Redirect to '/'
+      if (approved) {
+        await loadAccount(username)
+        goto('/')
+        // Send up a toast on '/'
+      }
     })
   }
 
@@ -36,17 +44,32 @@
 <input type="checkbox" id="my-modal-5" checked class="modal-toggle" />
 <div class="modal">
   <div class="modal-box w-80 relative text-center">
-    <a href="/" class="btn btn-xs btn-circle absolute right-2 top-2">✕</a>
-
-    <div>
-      <h3 class="mb-7 text-xl font-serif">Link Device</h3>
+    <div class="grid grid-flow-row auto-rows-max gap-7">
+      <h3 class="text-xl font-serif">Connection Requested</h3>
+      <div class="grid grid-flow-row auto-rows-max gap-4 justify-items-center">
+        {#if displayPin}
+          <span
+            class="btn btn-info btn-lg rounded-full text-2xl font-extralight tracking-widest w-3/4 cursor-default"
+          >
+            {displayPin}
+          </span>
+        {/if}
+        <span class="text-md">
+          Open {appName} on your already connected device and enter this code.
+        </span>
+        <div
+          class="grid grid-flow-col auto-cols-max gap-4 justify-center items-center text-slate-500"
+        >
+          <span
+            class="rounded-lg border-t-2 border-l-2 border-slate-600 w-4 h-4 block animate-spin"
+          />
+          Waiting for a response...
+        </div>
+      </div>
       <div>
-        <a class="btn btn-primary mb-5 w-full" href="/register">
-          Create a new account
-        </a>
-        <a class="btn btn-primary btn-outline w-full" href="/">
-          I have an existing account
-        </a>
+        <button class="btn btn-primary btn-outline text-base font-normal mt-4">
+          Cancel Request
+        </button>
       </div>
     </div>
   </div>

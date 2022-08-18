@@ -82,8 +82,14 @@ export const isUsernameAvailable = async (
 export const register = async (username: string): Promise<boolean> => {
   const { success } = await webnative.account.register({ username })
 
-  const fs = await bootstrapFilesystem()
+  const fs = await webnative.bootstrapRootFileSystem()
   filesystemStore.set(fs)
+
+  // TODO The filesystem must be seeded or a device has no filesystem to
+  // load during account linking. Can we do something better about this?
+  const publicTestPath = webnative.path.file('public', 'public.json')
+  await fs.write(publicTestPath, JSON.stringify({ text: 'seed data' }))
+  await fs.publish()
 
   sessionStore.update(session => ({
     ...session,
@@ -94,8 +100,15 @@ export const register = async (username: string): Promise<boolean> => {
   return success
 }
 
-export const bootstrapFilesystem = async (): Promise<FileSystem> => {
-  return await webnative.bootstrapRootFileSystem()
+export const loadAccount = async (username: string): Promise<void> => {
+  const fs = await webnative.loadRootFileSystem()
+  filesystemStore.set(fs)
+
+  sessionStore.update(session => ({
+    ...session,
+    username,
+    authed: true
+  }))
 }
 
 export const createAccountLinkingConsumer = async (

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { goto } from '$app/navigation'
+
   import { accountLinkingProducerStore } from '../../../stores'
 
   let pinInput = ''
@@ -16,8 +18,10 @@
     accountLinkingProducer.on('link', ({ approved, username }) => {
       console.log('approved: ', approved)
 
-      // Send up a toast
-      // Redirect to '/'
+      if (approved) {
+        goto('/')
+        // Send up a toast on '/'
+      }
     })
   }
 
@@ -38,8 +42,6 @@
 <input type="checkbox" id="my-modal-5" checked class="modal-toggle" />
 <div class="modal">
   <div class="modal-box w-80 relative text-center">
-    <a href="/" class="btn btn-xs btn-circle absolute right-2 top-2">✕</a>
-
     <div>
       <h3 class="mb-7 text-xl font-serif">
         A new device would like to connect to your account
