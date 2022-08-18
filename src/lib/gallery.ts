@@ -3,6 +3,7 @@ import * as wn from 'webnative'
 import { filesystemStore, galleryStore } from '../stores'
 
 const PUBLIC_GALLERY_DIR = ['public', 'gallery']
+const FILE_SIZE_LIMIT = 5
 
 export type Image = {
   cid: string
@@ -56,6 +57,10 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
     }))
   } catch (error) {
     console.error(error)
+    galleryStore.update(store => ({
+      ...store,
+      loading: false,
+    }))
   }
 }
 
@@ -68,6 +73,12 @@ export const uploadImageToWNFS: (
 ) => Promise<void> = async image => {
   try {
     const fs = getStore(filesystemStore)
+
+    // Reject files over 5MB
+    const imageSizeInMB = Number((image.size / (1024 * 1024)).toFixed(2))
+    if (imageSizeInMB > FILE_SIZE_LIMIT) {
+      throw new Error('Image can be no larger than 5MB')
+    }
 
     // Check if image already exists in the public gallery dir
     const imageExists = await fs.exists(
