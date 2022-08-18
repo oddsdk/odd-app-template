@@ -5,9 +5,10 @@
   const { cid, name, src } = image
 </script>
 
-<label for={`image-modal-${cid}`} class="btn btn-primary modal-button">
-  View
-</label>
+<label
+  for={`image-modal-${cid}`}
+  class="absolute top-0 right-0 bottom-0 left-0 z-10 modal-button cursor-pointer"
+/>
 
 <input type="checkbox" id={`image-modal-${cid}`} class="modal-toggle" />
 <label for={`image-modal-${cid}`} class="modal cursor-pointer">
