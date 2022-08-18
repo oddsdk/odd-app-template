@@ -7,7 +7,6 @@
     deleteImageFromWNFS(fileName)
 </script>
 
-<!-- dropdown-hover -->
 <div class="absolute -top-1 right-2">
   <div class="dropdown dropdown-hover dropdown-left">
     <div tabindex="0" class="dots cursor-pointer text-base-100" />

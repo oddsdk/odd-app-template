@@ -2,16 +2,15 @@
   import { galleryStore } from '../../../stores'
   import { getImagesFromWNFS } from '$lib/gallery'
   import ImageCard from '$components/gallery/imageGallery/ImageCard.svelte'
+  import LoadingSpinner from '$components/common/LoadingSpinner.svelte'
 
   // Get images from the user's public WNFS
   getImagesFromWNFS()
 </script>
 
 {#if $galleryStore.loading}
-  <div class="flex justify-center items-center">
-    <div
-      class="spinner-border animate-spin inline-block w-8 h-8 border-4 border-primary rounded-full"
-    />
+  <div class="flex justify-center items-center p-12">
+    <LoadingSpinner />
   </div>
 {:else}
   <section class="overflow-hidden text-gray-700 ">
