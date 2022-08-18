@@ -1,6 +1,5 @@
 <script lang="ts">
   import { getImagesFromWNFS, uploadImageToWNFS } from '$lib/gallery'
-  import FileUploadIcon from '$components/icons/FileUploadIcon.svelte'
 
   /**
    * Process files being dropped in the drop zone and ensure they are images

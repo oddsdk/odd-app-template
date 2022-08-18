@@ -1,13 +1,35 @@
 <script lang="ts">
-  import { sessionStore } from '../stores'
+  import { galleryStore, sessionStore } from '../stores'
   import Dropzone from '$components/gallery/upload/Dropzone.svelte'
   import ImageGallery from '$components/gallery/imageGallery/ImageGallery.svelte'
+  import { AREAS } from '$lib/gallery'
+
+  /**
+   * Tab between the public/private areas and load associated images
+   * @param area
+   */
+  const handleChangeTab: (area: AREAS) => void = area =>
+    galleryStore.update(store => ({
+      ...store,
+      selectedArea: area
+    }))
 </script>
 
 <div class="p-2 text-center">
-  <h1 class="mb-10">Gallery</h1>
-
   {#if $sessionStore.authed}
+    <div class="tabs tabs-boxed mx-5 w-fit">
+      {#each Object.keys(AREAS) as area}
+        <button
+          on:click={() => handleChangeTab(AREAS[area])}
+          class="tab {$galleryStore.selectedArea === AREAS[area]
+            ? 'tab-active'
+            : 'hover:text-primary'} ease-in"
+        >
+          {AREAS[area]} WNFS
+        </button>
+      {/each}
+    </div>
+
     <Dropzone>
       <ImageGallery />
     </Dropzone>

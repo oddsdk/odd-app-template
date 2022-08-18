@@ -2,8 +2,10 @@ import { get as getStore } from 'svelte/store'
 import * as wn from 'webnative'
 import { filesystemStore, galleryStore } from '../stores'
 
-const PUBLIC_GALLERY_DIR = ['public', 'gallery']
-const FILE_SIZE_LIMIT = 5
+export enum AREAS {
+  PUBLIC = 'Public',
+  PRIVATE = 'Private',
+}
 
 export type Image = {
   cid: string
@@ -15,36 +17,42 @@ export type Image = {
 
 export type Gallery = {
   publicImages: Image[] | null
-  // privateImages: Image[] | null // TODO: handle private files
+  privateImages: Image[] | null
+  selectedArea: AREAS
   loading: boolean
 }
 
+const GALLERY_DIRS = {
+  [AREAS.PUBLIC]: ['public', 'gallery'],
+  [AREAS.PRIVATE]: ['private', 'gallery'],
+}
+const FILE_SIZE_LIMIT = 5
+
 /**
- * Get images from the user's public WNFS and construct the `src` value for the images
+ * Get images from the user's WNFS and construct the `src` value for the images
  */
 export const getImagesFromWNFS: () => Promise<void> = async () => {
   try {
     // Set loading: true on the galleryStore
     galleryStore.update((store) => ({ ...store, loading: true }))
 
+    const { selectedArea } = getStore(galleryStore)
     const fs = getStore(filesystemStore)
 
-    // Set path to public gallery dir
-    const publicPath = wn.path.directory(...PUBLIC_GALLERY_DIR)
+    // Set path to either private or public gallery dir
+    const path = wn.path.directory(...GALLERY_DIRS[selectedArea])
 
-    // Get list of links for files in the public gallery dir
-    const publicLinks = await fs.ls(publicPath)
+    // Get list of links for files in the gallery dir
+    const links = await fs.ls(path)
 
-    console.log('publicLinks', publicLinks)
-
-    const images = Object.keys(publicLinks).map(name => {
-      const cid = publicLinks[name]?.cid?.toString()
+    const images = Object.keys(links).map(name => {
+      const cid = links[name]?.cid?.toString()
 
       return {
         cid,
         name,
-        private: false,
-        size: publicLinks[name].size,
+        private: selectedArea === AREAS.PRIVATE,
+        size: links[name].size,
         src: `https://ipfs.io/ipfs/${cid}/userland`
       }
     })
@@ -52,7 +60,11 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
     // Push images to the galleryStore
     galleryStore.update((store) => ({
       ...store,
-      publicImages: images,
+      ...(selectedArea === AREAS.PRIVATE ? {
+        privateImages: images,
+      } : {
+        publicImages: images,
+      }),
       loading: false,
     }))
   } catch (error) {
@@ -65,29 +77,33 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
 }
 
 /**
- * Upload an image to either the user's public WNFS
+ * Upload an image to the user's private or public WNFS
  * @param image
  */
 export const uploadImageToWNFS: (
   image: File
 ) => Promise<void> = async image => {
   try {
+    const { selectedArea } = getStore(galleryStore)
     const fs = getStore(filesystemStore)
 
     // Reject files over 5MB
-    const imageSizeInMB = Number((image.size / (1024 * 1024)).toFixed(2))
+    const imageSizeInMB = image.size / (1024 * 1024)
     if (imageSizeInMB > FILE_SIZE_LIMIT) {
       throw new Error('Image can be no larger than 5MB')
     }
 
-    // Check if image already exists in the public gallery dir
+    // Check if image already exists in the gallery dir
     const imageExists = await fs.exists(
-      wn.path.file(...PUBLIC_GALLERY_DIR, image.name)
+      wn.path.file(...GALLERY_DIRS[selectedArea], image.name)
     )
 
     if (!imageExists) {
       // Create a sub directory and add some content
-      await fs.write(wn.path.file(...PUBLIC_GALLERY_DIR, image.name), image)
+      await fs.write(
+        wn.path.file(...GALLERY_DIRS[selectedArea], image.name),
+        image
+      )
 
       // Announce the changes to the server
       await fs.publish()
@@ -103,20 +119,21 @@ export const uploadImageToWNFS: (
 }
 
 /**
- * Delete an image from the user's public WNFS
+ * Delete an image from the user's private or public WNFS
  * @param name
  */
 export const deleteImageFromWNFS: (name: string) => Promise<void> = async (name) => {
   try {
+    const { selectedArea } = getStore(galleryStore)
     const fs = getStore(filesystemStore)
 
     const imageExists = await fs.exists(
-      wn.path.file(...PUBLIC_GALLERY_DIR, name)
+      wn.path.file(...GALLERY_DIRS[selectedArea], name)
     )
 
     if (imageExists) {
       // Remove images from server
-      await fs.rm(wn.path.file(...PUBLIC_GALLERY_DIR, name))
+      await fs.rm(wn.path.file(...GALLERY_DIRS[selectedArea], name))
 
       // Announce the changes to the server
       await fs.publish()

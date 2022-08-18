@@ -4,6 +4,7 @@ import type FileSystem from 'webnative/fs/index'
 
 import { loadTheme } from '$lib/theme'
 import type { Device } from '$lib/device'
+import { AREAS } from '$lib/gallery'
 import type { Gallery } from '$lib/gallery'
 import type { Session } from '$lib/session'
 import type { Theme } from '$lib/theme'
@@ -20,4 +21,9 @@ export const filesystemStore: Writable<FileSystem | null> = writable(null)
 
 export const deviceStore: Writable<Device> = writable({ isMobile: true })
 
-export const galleryStore: Writable<Gallery> = writable({ loading: true, publicImages: null })
+export const galleryStore: Writable<Gallery> = writable({
+  loading: true,
+  publicImages: [],
+  privateImages: [],
+  selectedArea: AREAS.PUBLIC,
+})
