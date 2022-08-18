@@ -15,7 +15,7 @@
   </div>
 {:else}
   <section class="overflow-hidden text-gray-700 ">
-    <div class="px-5 py-2 mx-auto lg:pt-12 lg:px-32">
+    <div class="p-4 mx-auto">
       <div class="flex flex-wrap -m-1 md:-m-2">
         {#each $galleryStore.publicImages as image}
           <ImageCard {image} />

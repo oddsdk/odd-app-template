@@ -25,7 +25,7 @@
 
 <div class="flex flex-wrap w-1/6">
   <label
-    for="dropzone-file"
+    for="upload-file"
     class="group flex flex-col justify-center items-center w-full m-1 md:m-2 object-cover rounded-lg hover:border-primary overflow-hidden text-gray-500 dark:text-gray-400 hover:text-primary transition-colors ease-in bg-gray-50 border-2 border-gray-300 border-dashed cursor-pointer"
   >
     <div class="flex flex-col justify-center items-center pt-5 pb-6">
@@ -37,7 +37,7 @@
     </div>
     <input
       bind:files
-      id="dropzone-file"
+      id="upload-file"
       type="file"
       multiple
       accept="image/*"

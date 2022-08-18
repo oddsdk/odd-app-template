@@ -65,34 +65,32 @@
   $: if (files) {
     handleFileInput(files)
   }
+
+  /**
+   * Detect when a user drags a file in or out of the dropzone to change the styles
+   */
+  let isDragging = false
+  const handleDragEnter: () => void = () => (isDragging = true)
+  const handleDragLeave: () => void = () => (isDragging = false)
 </script>
 
-<div
-  class="flex justify-center items-center w-full container ml-auto mr-auto mb-10"
+<label
+  on:drop={handleDrop}
+  on:dragover={handleDragOver}
+  on:dragenter={handleDragEnter}
+  on:dragleave={handleDragLeave}
+  for="dropzone-file"
+  class="block w-full rounded-lg border-2 border-gray-300 border-dashed border-transparent transition-colors ease-in cursor-pointer {isDragging
+    ? '!border-primary'
+    : ''}"
 >
-  <label
-    on:drop={handleDrop}
-    on:dragover={handleDragOver}
-    for="dropzone-file"
-    class="flex flex-col justify-center items-center w-full h-64 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer hover:bg-gray-100"
-  >
-    <div class="flex flex-col justify-center items-center pt-5 pb-6">
-      <FileUploadIcon />
-      <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-        <span class="font-semibold">Click to upload</span>
-        or drag and drop
-      </p>
-      <p class="text-xs text-gray-500 dark:text-gray-400">
-        SVG, PNG, JPG or GIF
-      </p>
-    </div>
-    <input
-      bind:files
-      id="dropzone-file"
-      type="file"
-      multiple
-      accept="image/*"
-      class="hidden"
-    />
-  </label>
-</div>
+  <slot />
+  <input
+    bind:files
+    id="dropzone-file"
+    type="file"
+    multiple
+    accept="image/*"
+    class="hidden"
+  />
+</label>

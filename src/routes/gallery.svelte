@@ -1,6 +1,6 @@
 <script lang="ts">
   import { sessionStore } from '../stores'
-  import FileUpload from '$components/gallery/upload/FileUpload.svelte'
+  import Dropzone from '$components/gallery/upload/Dropzone.svelte'
   import ImageGallery from '$components/gallery/imageGallery/ImageGallery.svelte'
 </script>
 
@@ -8,7 +8,8 @@
   <h1 class="mb-10">Gallery</h1>
 
   {#if $sessionStore.authed}
-    <FileUpload />
-    <ImageGallery />
+    <Dropzone>
+      <ImageGallery />
+    </Dropzone>
   {/if}
 </div>
