@@ -1,6 +1,7 @@
 <script lang="ts">
   import { galleryStore } from '../../../stores'
   import { getImagesFromWNFS } from '$lib/gallery'
+  import FileUploadCard from '$components/gallery/upload/FileUploadCard.svelte'
   import ImageCard from '$components/gallery/imageGallery/ImageCard.svelte'
   import LoadingSpinner from '$components/common/LoadingSpinner.svelte'
 
@@ -19,6 +20,7 @@
         {#each $galleryStore.publicImages as image}
           <ImageCard {image} />
         {/each}
+        <FileUploadCard />
       </div>
     </div>
   </section>

@@ -68,7 +68,7 @@
 </script>
 
 <div
-  class="flex justify-center items-center w-full max-w-3xl ml-auto mr-auto mb-10"
+  class="flex justify-center items-center w-full container ml-auto mr-auto mb-10"
 >
   <label
     on:drop={handleDrop}
