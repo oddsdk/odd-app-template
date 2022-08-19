@@ -1,5 +1,4 @@
 import * as webnative from 'webnative'
-import type FileSystem from 'webnative/fs/index'
 import { setup } from 'webnative'
 
 import { asyncDebounce } from '$lib/common/utils'

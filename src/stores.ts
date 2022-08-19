@@ -1,6 +1,8 @@
 import { writable } from 'svelte/store'
 import type { Writable } from 'svelte/store'
-import type { account, fs as FileSystem } from 'webnative'
+import type { account } from 'webnative'
+import type FileSystem from 'webnative/fs/index'
+
 
 import { loadTheme } from '$lib/theme'
 import type { Device } from '$lib/device'
