@@ -4,6 +4,7 @@
   import { accountLinkingProducerStore } from '../../../stores'
 
   let pinInput = ''
+  let pinError = false
 
   // TODO: Handle null store case
   const {
@@ -32,6 +33,7 @@
     if (JSON.stringify(input) === JSON.stringify(pin)) {
       confirmPin()
     } else {
+      pinError = true
       console.log(`Input ${pinInput} did not match expected pin.`)
     }
   }
@@ -54,9 +56,15 @@
           bind:value={pinInput}
         />
         <label for="pin" class="label">
-          <span class="label-text-alt text-slate-500">
-            Enter the connection code to approve the connection
-          </span>
+          {#if !pinError}
+            <span class="label-text-alt text-slate-500">
+              Enter the connection code to approve the connection
+            </span>
+          {:else}
+            <span class="label-text-alt text-error">
+              Entered pin does not match a pin from a known device
+            </span>
+          {/if}
         </label>
       </div>
       <div>
