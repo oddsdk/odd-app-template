@@ -4,6 +4,7 @@ import { setup } from 'webnative'
 import { asyncDebounce } from '$lib/common/utils'
 import { filesystemStore, sessionStore } from '../../stores'
 import type { account } from 'webnative'
+import type FileSystem from 'webnative/fs/index'
 
 // runfission.net = staging
 setup.endpoints({
@@ -26,16 +27,22 @@ export const initialize = async (): Promise<void> => {
         sessionStore.set({
           username: '',
           authed: false,
-          loading: false
+          loading: false,
+          backupCreated: null
         })
         break
 
       case webnative.AppScenario.Authed:
+        // TODO Set outside case statement or relax eslint rule?
+        const { backupCreated } = await getBackupStatus(state.fs)
+
         sessionStore.set({
           username: state.username,
           authed: state.authenticated,
-          loading: false
+          loading: false,
+          backupCreated
         })
+
         filesystemStore.set(state.fs)
         break
 
@@ -84,11 +91,7 @@ export const register = async (username: string): Promise<boolean> => {
   const fs = await webnative.bootstrapRootFileSystem()
   filesystemStore.set(fs)
 
-  // TODO The filesystem must be seeded or a device has no filesystem to
-  // load during account linking. Can we do something better about this?
-  const publicTestPath = webnative.path.file('public', 'public.json')
-  await fs.write(publicTestPath, JSON.stringify({ text: 'seed data' }))
-  await fs.publish()
+  await setBackupStatus(fs, false)
 
   sessionStore.update(session => ({
     ...session,
@@ -108,6 +111,30 @@ export const loadAccount = async (username: string): Promise<void> => {
     username,
     authed: true
   }))
+}
+
+export const setBackupStatus = async (fs: FileSystem, status: boolean): Promise<void> => {
+  const backupStatusPath = webnative.path.file('private', 'backup-status.json')
+  await fs.write(backupStatusPath, JSON.stringify({ backupCreated: status }))
+  await fs.publish()
+}
+
+export const getBackupStatus = async (fs: FileSystem): Promise<{ backupCreated: boolean } | null> => {
+  const backupStatusPath = webnative.path.file('private', 'backup-status.json')
+
+  if (await fs.exists(backupStatusPath)) {
+    const fileContent = await fs.read(backupStatusPath)
+
+    if (typeof fileContent === 'string') {
+      return JSON.parse(fileContent)
+    }
+
+    // TODO could not read status error?
+    return { backupCreated: false }
+  } else {
+    console.log('No backup status file')
+    return { backupCreated: false }
+  }
 }
 
 export const createAccountLinkingConsumer = async (

@@ -14,7 +14,8 @@ export const theme: Writable<Theme> = writable(loadTheme())
 export const sessionStore: Writable<Session> = writable({
   username: '',
   authed: false,
-  loading: true
+  loading: true,
+  backupCreated: null
 })
 
 export const filesystemStore: Writable<FileSystem | null> = writable(null)

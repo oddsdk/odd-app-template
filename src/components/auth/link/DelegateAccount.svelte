@@ -1,7 +1,12 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
 
-  import { accountLinkingProducerStore } from '../../../stores'
+  import {
+    accountLinkingProducerStore,
+    filesystemStore,
+    sessionStore
+  } from '../../../stores'
+  import { setBackupStatus } from '$lib/common/webnative'
 
   let pinInput = ''
   let pinError = false
@@ -16,10 +21,18 @@
 
   // Subscribe to the link event
   const initAccountLinkingProducer = async () => {
-    accountLinkingProducer.on('link', ({ approved, username }) => {
+    accountLinkingProducer.on('link', async ({ approved, username }) => {
       console.log('approved: ', approved)
 
       if (approved) {
+        sessionStore.update(session => ({
+          ...session,
+          backupCreated: true
+        }))
+
+        const fs = $filesystemStore
+        await setBackupStatus(fs, true)
+
         goto('/')
         // Send up a toast on '/'
       }

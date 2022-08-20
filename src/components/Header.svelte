@@ -25,5 +25,9 @@
     <div class="flex-none">
       <a class="btn btn-sm btn-primary normal-case" href="/connect">Connect</a>
     </div>
+  {:else if $sessionStore.backupCreated === false}
+    <span class="btn btn-sm btn-warning rounded-full font-extralight">
+      Backup required
+    </span>
   {/if}
 </header>
