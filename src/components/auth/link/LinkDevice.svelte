@@ -1,12 +1,11 @@
 <script lang="ts">
-  import { accountLinkingConsumerStore, sessionStore } from '../../../stores'
-  import {
-    createAccountLinkingConsumer,
-    loadAccount
-  } from '$lib/common/webnative'
-  import { page } from '$app/stores'
-  import { appName } from '$lib/app-name'
   import { goto } from '$app/navigation'
+  import { page } from '$app/stores'
+
+  import { accountLinkingConsumerStore } from '../../../stores'
+  import { appName } from '$lib/app-name'
+  import { createAccountLinkingConsumer } from '$lib/auth/linking'
+  import { loadAccount } from '$lib/common/webnative'
 
   let displayPin: string = ''
   let url = $page.url

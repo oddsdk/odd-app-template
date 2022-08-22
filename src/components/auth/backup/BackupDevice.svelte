@@ -10,7 +10,7 @@
   } from '../../../stores'
   import type { BackupView } from '$lib/views'
   import ClipboardIcon from '$components/icons/ClipboardIcon.svelte'
-  import { createAccountLinkingProducer } from '$lib/common/webnative'
+  import { createAccountLinkingProducer } from '$lib/auth/linking'
   import { goto } from '$app/navigation'
 
   const dispatch = createEventDispatcher()
