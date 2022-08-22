@@ -21,13 +21,17 @@
     </button>
   </div>
 
-  {#if !$sessionStore.loading && !$sessionStore.authed}
-    <div class="flex-none">
-      <a class="btn btn-sm btn-primary normal-case" href="/connect">Connect</a>
-    </div>
-  {:else if $sessionStore.backupCreated === false}
-    <span class="btn btn-sm btn-warning rounded-full font-extralight">
-      Backup required
-    </span>
+  {#if !$sessionStore.loading}
+    {#if !$sessionStore.authed}
+      <div class="flex-none">
+        <a class="btn btn-sm btn-primary normal-case" href="/connect">
+          Connect
+        </a>
+      </div>
+    {:else if $sessionStore.backupCreated === false}
+      <span class="btn btn-sm btn-warning rounded-full font-extralight">
+        Backup required
+      </span>
+    {/if}
   {/if}
 </header>

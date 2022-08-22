@@ -1,10 +1,10 @@
 import * as webnative from 'webnative'
+import type { account } from 'webnative'
 import { setup } from 'webnative'
 
 import { asyncDebounce } from '$lib/common/utils'
 import { filesystemStore, sessionStore } from '../../stores'
-import type { account } from 'webnative'
-import type FileSystem from 'webnative/fs/index'
+import { getBackupStatus, setBackupStatus, type BackupStatus } from '$lib/auth/backup'
 
 // runfission.net = staging
 setup.endpoints({
@@ -20,6 +20,8 @@ setup.debug({ enabled: false })
 
 export const initialize = async (): Promise<void> => {
   try {
+    let backupStatus: BackupStatus = null
+
     state = await webnative.app({ useWnfs: true })
 
     switch (state.scenario) {
@@ -33,14 +35,13 @@ export const initialize = async (): Promise<void> => {
         break
 
       case webnative.AppScenario.Authed:
-        // TODO Set outside case statement or relax eslint rule?
-        const { backupCreated } = await getBackupStatus(state.fs)
+        backupStatus = await getBackupStatus(state.fs)
 
         sessionStore.set({
           username: state.username,
           authed: state.authenticated,
           loading: false,
-          backupCreated
+          backupCreated: backupStatus.created
         })
 
         filesystemStore.set(state.fs)
@@ -91,7 +92,7 @@ export const register = async (username: string): Promise<boolean> => {
   const fs = await webnative.bootstrapRootFileSystem()
   filesystemStore.set(fs)
 
-  await setBackupStatus(fs, false)
+  await setBackupStatus(fs, { created: false })
 
   sessionStore.update(session => ({
     ...session,
@@ -113,30 +114,6 @@ export const loadAccount = async (username: string): Promise<void> => {
   }))
 }
 
-export const setBackupStatus = async (fs: FileSystem, status: boolean): Promise<void> => {
-  const backupStatusPath = webnative.path.file('private', 'backup-status.json')
-  await fs.write(backupStatusPath, JSON.stringify({ backupCreated: status }))
-  await fs.publish()
-}
-
-export const getBackupStatus = async (fs: FileSystem): Promise<{ backupCreated: boolean } | null> => {
-  const backupStatusPath = webnative.path.file('private', 'backup-status.json')
-
-  if (await fs.exists(backupStatusPath)) {
-    const fileContent = await fs.read(backupStatusPath)
-
-    if (typeof fileContent === 'string') {
-      return JSON.parse(fileContent)
-    }
-
-    // TODO could not read status error?
-    return { backupCreated: false }
-  } else {
-    console.log('No backup status file')
-    return { backupCreated: false }
-  }
-}
-
 export const createAccountLinkingConsumer = async (
   username: string
 ): Promise<account.AccountLinkingConsumer> => {
@@ -148,8 +125,3 @@ export const createAccountLinkingProducer = async (
 ): Promise<account.AccountLinkingProducer> => {
   return await webnative.account.createProducer({ username })
 }
-// interface StateFS {
-//   fs?: FileSystem
-// }
-
-// export const getWNFS: () => FileSystem = () => (state as StateFS)?.fs

@@ -6,7 +6,7 @@
     filesystemStore,
     sessionStore
   } from '../../../stores'
-  import { setBackupStatus } from '$lib/common/webnative'
+  import { setBackupStatus } from '$lib/auth/backup'
 
   let pinInput = ''
   let pinError = false
@@ -31,7 +31,7 @@
         }))
 
         const fs = $filesystemStore
-        await setBackupStatus(fs, true)
+        await setBackupStatus(fs, { created: true })
 
         goto('/')
         // Send up a toast on '/'
