@@ -49,14 +49,11 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
     // Get list of links for files in the gallery dir
     const links = await fs.ls(path)
 
-    console.log('links', links)
-
     const images = await Promise.all(
-      Object.entries(links).map(async ([name, _]) => {
+      Object.entries(links).map(async ([name]) => {
         const file = await fs.get(
           wn.path.file(...GALLERY_DIRS[selectedArea], `${name}`)
         )
-        console.log('file', file)
 
         // The CID for private files is currently located in `file.header.content`,
         // whereas the CID for public files is located at `file.cid`
