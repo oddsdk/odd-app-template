@@ -59,7 +59,7 @@
   on:dragenter={handleDragEnter}
   on:dragleave={handleDragLeave}
   for="dropzone-file"
-  class="block w-full rounded-lg border-2 border-gray-300 border-dashed transition-colors ease-in cursor-pointer {isDragging
+  class="block w-full min-h-[calc(100vh-154px)] rounded-lg border-2 border-gray-300 border-dashed transition-colors ease-in cursor-pointer {isDragging
     ? '!border-primary'
     : ''}"
 >
