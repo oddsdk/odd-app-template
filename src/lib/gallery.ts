@@ -11,7 +11,6 @@ export enum AREAS {
 export type Image = {
   cid: string
   ctime: number
-  mtime: number
   name: string
   private: boolean
   size: number
@@ -54,7 +53,7 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
         const file = await fs.get(
           wn.path.file(...GALLERY_DIRS[selectedArea], `${name}`)
         )
-
+        console.log('file', file)
         // The CID for private files is currently located in `file.header.content`,
         // whereas the CID for public files is located at `file.cid`
         const cid = isPrivate ? file.header.content.toString() : file.cid.toString()
@@ -67,7 +66,6 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
         return {
           cid,
           ctime: file.header.metadata.unixMeta.ctime,
-          mtime: file.header.metadata.unixMeta.mtime,
           name,
           private: isPrivate,
           size: links[name].size,
@@ -76,9 +74,9 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
       })
     )
 
-    // Sort images by mtime(modified date)
+    // Sort images by ctime(created at date)
     // NOTE: this will eventually be controlled via the UI
-    images.sort((a, b) => b.mtime - a.mtime)
+    images.sort((a, b) => b.ctime - a.ctime)
 
     console.log('images', images)
 
