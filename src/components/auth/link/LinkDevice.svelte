@@ -14,19 +14,14 @@
   url.searchParams.delete('username')
   history.replaceState(null, document.title, url.toString())
 
-  console.log('username: ', username)
-
   const initAccountLinkingConsumer = async () => {
     const accountLinkingConsumer = await createAccountLinkingConsumer(username)
 
     accountLinkingConsumer.on('challenge', ({ pin }) => {
       displayPin = pin.join(' ')
-      console.log('pin: ', pin)
     })
 
     accountLinkingConsumer.on('link', async ({ approved, username }) => {
-      console.log('approved: ', approved)
-
       if (approved) {
         await loadAccount(username)
         goto('/')
