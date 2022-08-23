@@ -13,7 +13,7 @@
 />
 
 <input type="checkbox" id={`image-modal-${id}`} class="modal-toggle" />
-<label for={`image-modal-${id}`} class="modal cursor-pointer">
+<label for={`image-modal-${id}`} class="modal cursor-pointer z-50">
   <div class="modal-box relative text-center">
     <label
       for={`image-modal-${id}`}

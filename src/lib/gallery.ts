@@ -1,7 +1,7 @@
 import { get as getStore } from 'svelte/store'
 import * as wn from 'webnative'
 import { filesystemStore, galleryStore } from '../stores'
-import { convertUint8ToString, uuid } from '$lib/common/utils'
+import { convertUint8ToString } from '$lib/common/utils'
 
 export enum AREAS {
   PUBLIC = 'Public',
@@ -9,7 +9,8 @@ export enum AREAS {
 }
 
 export type Image = {
-  id: string
+  cid: string
+  ctime: number
   mtime: number
   name: string
   private: boolean
@@ -57,12 +58,18 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
         )
         console.log('file', file)
 
+        // The CID for private files is currently located in `file.header.content`,
+        // whereas the CID for public files is located at `file.cid`
+        const cid = isPrivate ? file.header.content.toString() : file.cid.toString()
+
+        // Create a base64 string to use as the image `src`
         const src = `data:image/jpeg;base64, ${btoa(
           convertUint8ToString(file.content as Uint8Array)
         )}`
 
         return {
-          id: uuid(),
+          cid,
+          ctime: file.header.metadata.unixMeta.ctime,
           mtime: file.header.metadata.unixMeta.mtime,
           name,
           private: isPrivate,
