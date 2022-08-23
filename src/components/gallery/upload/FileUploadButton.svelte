@@ -11,10 +11,11 @@
 
 <label
   for="upload-file-button"
-  class="hidden sm:flex flex-col justify-center items-center text-gray-500 dark:text-gray-400 cursor-pointer"
+  class="flex flex-col justify-center items-center text-gray-500 dark:text-gray-400 cursor-pointer"
 >
   <span class="btn btn-primary min-h-0 h-10">
-    Click to upload <FileUploadIcon classes="ml-2 w-5 h-5" />
+    <span class="hidden sm:inline">Click to upload</span>
+    <FileUploadIcon classes="sm:ml-2 w-5 h-5" />
   </span>
   <input
     bind:files
