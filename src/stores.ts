@@ -10,7 +10,7 @@ import type { Theme } from '$lib/theme'
 export const theme: Writable<Theme> = writable(loadTheme())
 
 export const sessionStore: Writable<Session> = writable({
-  username: '',
+  username: null,
   authed: false,
   loading: true,
   backupCreated: null

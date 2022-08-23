@@ -2,6 +2,7 @@
   import clipboardCopy from 'clipboard-copy'
   import QRCode from 'qrcode-svg'
   import { goto } from '$app/navigation'
+  import { onMount } from 'svelte'
 
   import { createAccountLinkingProducer } from '$lib/auth/linking'
   import { filesystemStore, sessionStore, theme } from '../../../stores'
@@ -10,13 +11,8 @@
 
   let view: 'backup-device' | 'delegate-account' = 'backup-device'
 
-  const origin = window.location.origin
-  const connectionLink = `${origin}/link-device?username=${$sessionStore.username}`
-  const qrcode = new QRCode({
-    content: connectionLink,
-    color: $theme === 'light' ? '#334155' : '#E2E8F0',
-    background: '#ffffff00'
-  }).svg()
+  let connectionLink = null
+  let qrcode = null
 
   let pin: number[]
   let pinInput = ''
@@ -24,22 +20,37 @@
   let confirmPin = () => {}
   let rejectPin = () => {}
 
-  const initAccountLinkingProducer = async () => {
-    const accountLinkingProducer = await createAccountLinkingProducer(
-      $sessionStore.username
-    )
+  onMount(() => {
+    sessionStore.subscribe(val => {
+      const username = val.username
 
-    accountLinkingProducer.on(
-      'challenge',
-      ({ pin: p, confirmPin: confirm, rejectPin: reject }) => {
-        pin = p
-        confirmPin = confirm
-        rejectPin = reject
-        view = 'delegate-account'
+      if (username) {
+        const origin = window.location.origin
+
+        connectionLink = `${origin}/link-device?username=${username}`
+        qrcode = new QRCode({
+          content: connectionLink,
+          color: $theme === 'light' ? '#334155' : '#E2E8F0',
+          background: '#ffffff00'
+        }).svg()
+
+        initAccountLinkingProducer(username)
       }
-    )
+    })
+  })
 
-    accountLinkingProducer.on('link', async ({ approved, username }) => {
+  const initAccountLinkingProducer = async (username: string) => {
+    const accountLinkingProducer = await createAccountLinkingProducer(username)
+
+    accountLinkingProducer.on('challenge', detail => {
+      pin = detail.pin
+      confirmPin = detail.confirmPin
+      rejectPin = detail.rejectPin
+
+      view = 'delegate-account'
+    })
+
+    accountLinkingProducer.on('link', async ({ approved }) => {
       if (approved) {
         sessionStore.update(session => ({
           ...session,
@@ -72,8 +83,6 @@
 
     view = 'backup-device'
   }
-
-  initAccountLinkingProducer()
 </script>
 
 {#if view === 'backup-device'}
