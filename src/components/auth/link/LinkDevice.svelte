@@ -2,7 +2,6 @@
   import { goto } from '$app/navigation'
   import { page } from '$app/stores'
 
-  import { accountLinkingConsumerStore } from '../../../stores'
   import { appName } from '$lib/app-name'
   import { createAccountLinkingConsumer } from '$lib/auth/linking'
   import { loadAccount } from '$lib/common/webnative'
@@ -19,7 +18,6 @@
 
   const initAccountLinkingConsumer = async () => {
     const accountLinkingConsumer = await createAccountLinkingConsumer(username)
-    accountLinkingConsumerStore.set(accountLinkingConsumer)
 
     accountLinkingConsumer.on('challenge', ({ pin }) => {
       displayPin = pin.join(' ')

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import { goto } from '$app/navigation'
 
   import { appName } from '$lib/app-name'
   import type { BackupView } from '$lib/views'
@@ -25,10 +26,7 @@
         device.
       </p>
 
-      <button
-        class="btn btn-primary"
-        on:click={() => navigate('backup-device')}
-      >
+      <button class="btn btn-primary" on:click={() => goto('delegate-account')}>
         Connect a backup device
       </button>
       <button

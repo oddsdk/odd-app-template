@@ -1,5 +1,8 @@
 <script lang="ts">
+  import { goto } from '$app/navigation'
   import { sessionStore } from '../stores'
+
+  import Shield from '$components/icons/Shield.svelte'
 </script>
 
 <header class="navbar bg-base-100 pt-0">
@@ -29,8 +32,12 @@
         </a>
       </div>
     {:else if $sessionStore.backupCreated === false}
-      <span class="btn btn-sm btn-warning rounded-full font-extralight">
-        Backup required
+      <span
+        on:click={() => goto('delegate-account')}
+        class="btn btn-sm btn-warning rounded-full font-extralight"
+      >
+        <Shield />
+        <span class="ml-2">Backup required</span>
       </span>
     {/if}
   {/if}

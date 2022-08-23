@@ -34,10 +34,7 @@
         Without a backup device, if you lose this device or reset your browser,
         you will not be able to recover your account data.
       </p>
-      <button
-        class="btn btn-primary"
-        on:click={() => navigate('backup-device')}
-      >
+      <button class="btn btn-primary" on:click={() => goto('delegate-account')}>
         Connect a backup device
       </button>
       <span
