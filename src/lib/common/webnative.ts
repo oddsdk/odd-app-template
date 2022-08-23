@@ -3,7 +3,7 @@ import { setup } from 'webnative'
 
 import { asyncDebounce } from '$lib/common/utils'
 import { filesystemStore, sessionStore } from '../../stores'
-import { getBackupStatus, setBackupStatus, type BackupStatus } from '$lib/auth/backup'
+import { getBackupStatus, type BackupStatus } from '$lib/auth/backup'
 
 // runfission.net = staging
 setup.endpoints({
@@ -90,8 +90,6 @@ export const register = async (username: string): Promise<boolean> => {
 
   const fs = await webnative.bootstrapRootFileSystem()
   filesystemStore.set(fs)
-
-  await setBackupStatus(fs, { created: false })
 
   sessionStore.update(session => ({
     ...session,

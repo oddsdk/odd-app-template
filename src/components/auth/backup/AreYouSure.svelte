@@ -1,12 +1,26 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
 
+  import { filesystemStore, sessionStore } from '../../../stores'
+  import { setBackupStatus } from '$lib/auth/backup'
   import type { BackupView } from '$lib/views'
+  import { goto } from '$app/navigation'
 
   const dispatch = createEventDispatcher()
 
   const navigate = (view: BackupView) => {
     dispatch('navigate', { view })
+  }
+
+  const skipBackup = () => {
+    setBackupStatus($filesystemStore, { created: false })
+
+    sessionStore.update(session => ({
+      ...session,
+      backupCreated: false
+    }))
+
+    goto('/')
   }
 </script>
 
@@ -26,9 +40,12 @@
       >
         Connect a backup device
       </button>
-      <a class="text-error underline block mt-4" href="/">
+      <span
+        class="text-error underline block mt-4 cursor-pointer"
+        on:click={skipBackup}
+      >
         YOLO&mdash;I'll risk just one device for now
-      </a>
+      </span>
     </div>
   </div>
 </div>

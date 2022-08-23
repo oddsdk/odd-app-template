@@ -22,8 +22,6 @@
   // Subscribe to the link event
   const initAccountLinkingProducer = async () => {
     accountLinkingProducer.on('link', async ({ approved, username }) => {
-      console.log('approved: ', approved)
-
       if (approved) {
         sessionStore.update(session => ({
           ...session,
