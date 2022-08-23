@@ -1,6 +1,7 @@
 <script lang="ts">
   import { galleryStore, sessionStore } from '../stores'
   import Dropzone from '$components/gallery/upload/Dropzone.svelte'
+  import FileUploadButton from '$components/gallery/upload/FileUploadButton.svelte'
   import ImageGallery from '$components/gallery/imageGallery/ImageGallery.svelte'
   import { AREAS } from '$lib/gallery'
 
@@ -17,17 +18,21 @@
 
 <div class="p-2 text-center">
   {#if $sessionStore.authed}
-    <div class="tabs tabs-boxed mx-5 w-fit">
-      {#each Object.keys(AREAS) as area}
-        <button
-          on:click={() => handleChangeTab(AREAS[area])}
-          class="tab {$galleryStore.selectedArea === AREAS[area]
-            ? 'tab-active'
-            : 'hover:text-primary'} ease-in"
-        >
-          {AREAS[area]} WNFS
-        </button>
-      {/each}
+    <div class="flex items-center justify-between mb-4">
+      <div class="tabs tabs-boxed w-fit">
+        {#each Object.keys(AREAS) as area}
+          <button
+            on:click={() => handleChangeTab(AREAS[area])}
+            class="tab {$galleryStore.selectedArea === AREAS[area]
+              ? 'tab-active'
+              : 'hover:text-primary'} ease-in"
+          >
+            {AREAS[area]} WNFS
+          </button>
+        {/each}
+      </div>
+
+      <FileUploadButton />
     </div>
 
     <Dropzone>

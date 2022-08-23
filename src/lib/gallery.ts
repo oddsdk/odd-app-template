@@ -1,6 +1,7 @@
 import { get as getStore } from 'svelte/store'
 import * as wn from 'webnative'
 import { filesystemStore, galleryStore } from '../stores'
+import { convertUint8ToString, uuid } from '$lib/common/utils'
 
 export enum AREAS {
   PUBLIC = 'Public',
@@ -8,7 +9,8 @@ export enum AREAS {
 }
 
 export type Image = {
-  cid: string
+  id: string
+  mtime: number
   name: string
   private: boolean
   size: number
@@ -37,6 +39,7 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
     galleryStore.update((store) => ({ ...store, loading: true }))
 
     const { selectedArea } = getStore(galleryStore)
+    const isPrivate = selectedArea === AREAS.PRIVATE
     const fs = getStore(filesystemStore)
 
     // Set path to either private or public gallery dir
@@ -45,22 +48,40 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
     // Get list of links for files in the gallery dir
     const links = await fs.ls(path)
 
-    const images = Object.keys(links).map(name => {
-      const cid = links[name]?.cid?.toString()
+    console.log('links', links)
 
-      return {
-        cid,
-        name,
-        private: selectedArea === AREAS.PRIVATE,
-        size: links[name].size,
-        src: `https://ipfs.io/ipfs/${cid}/userland`
-      }
-    })
+    const images = await Promise.all(
+      Object.entries(links).map(async ([name, _]) => {
+        const file = await fs.get(
+          wn.path.file(...GALLERY_DIRS[selectedArea], `${name}`)
+        )
+        console.log('file', file)
+
+        const src = `data:image/jpeg;base64, ${btoa(
+          convertUint8ToString(file.content as Uint8Array)
+        )}`
+
+        return {
+          id: uuid(),
+          mtime: file.header.metadata.unixMeta.mtime,
+          name,
+          private: isPrivate,
+          size: links[name].size,
+          src,
+        }
+      })
+    )
+
+    // Sort images by mtime(modified date)
+    // NOTE: this will eventually be controlled via the UI
+    images.sort((a, b) => b.mtime - a.mtime)
+
+    console.log('images', images)
 
     // Push images to the galleryStore
     galleryStore.update((store) => ({
       ...store,
-      ...(selectedArea === AREAS.PRIVATE ? {
+      ...(isPrivate ? {
         privateImages: images,
       } : {
         publicImages: images,
@@ -86,7 +107,7 @@ export const uploadImageToWNFS: (
   try {
     const { selectedArea } = getStore(galleryStore)
     const fs = getStore(filesystemStore)
-
+    console.log('image', image)
     // Reject files over 5MB
     const imageSizeInMB = image.size / (1024 * 1024)
     if (imageSizeInMB > FILE_SIZE_LIMIT) {
@@ -150,4 +171,20 @@ export const deleteImageFromWNFS: (name: string) => Promise<void> = async (name)
   } catch (error) {
     console.error(error)
   }
+}
+
+/**
+ * Handle uploads made by interacting with the file input directly
+ */
+export const handleFileInput: (
+  files: FileList
+) => Promise<void> = async files => {
+  await Promise.all(
+    Array.from(files).map(async file => {
+      await uploadImageToWNFS(file)
+    })
+  )
+
+  // Refetch images and update galleryStore
+  await getImagesFromWNFS()
 }

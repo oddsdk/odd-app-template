@@ -2,12 +2,17 @@
   import { getImagesFromWNFS, uploadImageToWNFS } from '$lib/gallery'
 
   /**
+   * Detect when a user drags a file in or out of the dropzone to change the styles
+   */
+  let isDragging = false
+  const handleDragEnter: () => void = () => (isDragging = true)
+  const handleDragLeave: () => void = () => (isDragging = false)
+
+  /**
    * Process files being dropped in the drop zone and ensure they are images
    * @param event
    */
-  export const handleDrop: (
-    event: DragEvent
-  ) => Promise<void> = async event => {
+  const handleDrop: (event: DragEvent) => Promise<void> = async event => {
     // Prevent default behavior (Prevent file from being opened)
     event.preventDefault()
 
@@ -34,6 +39,9 @@
 
     // Refetch images and update galleryStore
     await getImagesFromWNFS()
+
+    // Disable isDragging state
+    isDragging = false
   }
 
   /**
@@ -41,36 +49,8 @@
    * when it is dropped
    * @param event
    */
-  export const handleDragOver: (event: DragEvent) => void = event => {
+  const handleDragOver: (event: DragEvent) => void = event =>
     event.preventDefault()
-  }
-
-  /**
-   * Handle uploads made by interacting with the file input directly
-   */
-  export const handleFileInput: (
-    files: FileList
-  ) => Promise<void> = async files => {
-    await Promise.all(
-      Array.from(files).map(async file => {
-        await uploadImageToWNFS(file)
-      })
-    )
-
-    // Refetch images and update galleryStore
-    await getImagesFromWNFS()
-  }
-  let files: FileList
-  $: if (files) {
-    handleFileInput(files)
-  }
-
-  /**
-   * Detect when a user drags a file in or out of the dropzone to change the styles
-   */
-  let isDragging = false
-  const handleDragEnter: () => void = () => (isDragging = true)
-  const handleDragLeave: () => void = () => (isDragging = false)
 </script>
 
 <label
@@ -79,17 +59,9 @@
   on:dragenter={handleDragEnter}
   on:dragleave={handleDragLeave}
   for="dropzone-file"
-  class="block w-full rounded-lg border-2 border-gray-300 border-dashed border-transparent transition-colors ease-in cursor-pointer {isDragging
+  class="block w-full rounded-lg border-2 border-gray-300 border-dashed transition-colors ease-in cursor-pointer {isDragging
     ? '!border-primary'
     : ''}"
 >
   <slot />
-  <input
-    bind:files
-    id="dropzone-file"
-    type="file"
-    multiple
-    accept="image/*"
-    class="hidden"
-  />
 </label>

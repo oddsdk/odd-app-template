@@ -10,6 +10,7 @@
   // Get images from the user's public WNFS
   getImagesFromWNFS()
 
+  // Get initial selectedArea
   let selectedArea = getStore(galleryStore).selectedArea
 
   // If galleryStore.selectedArea changes from private to public, re-run getImagesFromWNFS

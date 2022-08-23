@@ -1,6 +1,10 @@
+<script lang="ts">
+  export let classes: string = 'mb-3 w-10 h-10'
+</script>
+
 <svg
   aria-hidden="true"
-  class="mb-3 w-10 h-10"
+  class={classes}
   fill="none"
   stroke="currentColor"
   viewBox="0 0 24 24"
