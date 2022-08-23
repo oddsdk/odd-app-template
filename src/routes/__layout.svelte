@@ -53,7 +53,7 @@
 
 <svelte:window on:resize={setDevice} />
 
-<div data-theme={$theme}>
+<div data-theme={$theme} class="min-h-screen">
   <Header />
 
   {#if session.error}
