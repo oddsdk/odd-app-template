@@ -40,11 +40,11 @@
   <input type="checkbox" id="initializing" checked class="modal-toggle" />
   <div class="modal">
     <div
-      class="modal-box rounded-lg shadow-sm bg-slate-100 w-80 relative text-center"
+      class="modal-box rounded-lg shadow-sm bg-slate-100 w-80 relative text-center dark:bg-slate-900 dark:border-slate-600 dark:border "
     >
-      <p class="text-slate-500">
+      <p class="text-slate-500 dark:text-slate-50">
         <span
-          class="rounded-lg border-t-2 border-l-2 border-slate-500 w-4 h-4 inline-block animate-spin mr-1"
+          class="rounded-lg border-t-2 border-l-2 border-slate-500 dark:border-slate-50 w-4 h-4 inline-block animate-spin mr-1"
         />
         Initializing file system...
       </p>
@@ -53,8 +53,15 @@
 {:else}
   <input type="checkbox" id="register-modal" checked class="modal-toggle" />
   <div class="modal">
-    <div class="modal-box w-80 relative text-center">
-      <a href="/" class="btn btn-xs btn-circle absolute right-2 top-2">✕</a>
+    <div
+      class="modal-box w-80 relative text-center dark:border-slate-600 dark:border"
+    >
+      <a
+        href="/"
+        class="btn btn-xs btn-circle absolute right-2 top-2 dark:bg-slate-600"
+      >
+        ✕
+      </a>
 
       <div>
         <h3 class="mb-7 text-xl font-serif">Choose a username</h3>
@@ -63,14 +70,14 @@
             id="registration"
             type="text"
             placeholder="Type here"
-            class="input input-bordered w-full block"
+            class="input input-bordered w-full block dark:border-slate-300"
             class:input-error={username.length !== 0 &&
               (!usernameValid || !usernameAvailable)}
             on:input={checkUsername}
           />
           {#if checkingUsername}
             <span
-              class="rounded-lg border-t-2 border-l-2 border-slate-600 w-4 h-4 block absolute top-4 right-4 animate-spin"
+              class="rounded-lg border-t-2 border-l-2 border-slate-600 dark:border-slate-50 w-4 h-4 block absolute top-4 right-4 animate-spin"
             />
           {/if}
           {#if !(username.length === 0) && usernameAvailable && usernameValid && !checkingUsername}
@@ -117,7 +124,7 @@
           <input
             type="checkbox"
             id="shared-computer"
-            class="peer checkbox checkbox-primary inline-grid align-bottom"
+            class="peer checkbox checkbox-primary inline-grid align-bottom dark:border-slate-300"
           />
           <!-- Warning when "This is a shared computer" is checked -->
           <label
@@ -140,7 +147,7 @@
         <div class="mt-5">
           <a class="btn btn-primary btn-outline" href="/connect">Back</a>
           <button
-            class="btn btn-primary"
+            class="ml-2 btn btn-primary"
             disabled={username.length === 0 ||
               !usernameValid ||
               !usernameAvailable}

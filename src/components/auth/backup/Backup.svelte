@@ -14,7 +14,9 @@
 
 <input type="checkbox" id="backup-modal" checked class="modal-toggle" />
 <div class="modal">
-  <div class="modal-box w-80 relative text-center">
+  <div
+    class="modal-box w-80 relative text-center dark:border-slate-600 dark:border"
+  >
     <div id="backup-message" class="peer-checked:hidden">
       <h3 class="mb-7 text-xl font-serif">Backup your account</h3>
       <p class="mt-8 mb-4">

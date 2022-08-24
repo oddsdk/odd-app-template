@@ -6,7 +6,9 @@
 
 <input type="checkbox" id="link-device-modal" checked class="modal-toggle" />
 <div class="modal">
-  <div class="modal-box w-80 relative text-center">
+  <div
+    class="modal-box w-80 relative text-center dark:border-slate-600 dark:border"
+  >
     <div>
       <h3 class="mb-7 text-xl font-serif">
         Welcome, {$sessionStore.username}!

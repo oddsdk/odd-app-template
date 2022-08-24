@@ -93,11 +93,13 @@
     class="modal-toggle"
   />
   <div class="modal">
-    <div class="modal-box w-80 relative text-center">
+    <div
+      class="modal-box w-80 relative text-center dark:border-slate-600 dark:border"
+    >
       <div>
         <h3 class="pb-1 text-xl font-serif">Connect a backup device</h3>
         {@html qrcode}
-        <p class="font-extralight pt-1 mb-8">
+        <p class="pt-1 mb-8">
           Scan this code on the new device, or share the connection link.
         </p>
         <button class="btn btn-primary btn-outline" on:click={copyLink}>
