@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { galleryStore, sessionStore } from '../stores'
+  import { galleryStore, sessionStore, theme as themeStore } from '../stores'
   import Dropzone from '$components/gallery/upload/Dropzone.svelte'
   import ImageGallery from '$components/gallery/imageGallery/ImageGallery.svelte'
   import { AREAS } from '$lib/gallery'
@@ -18,7 +18,11 @@
 <div class="p-2 text-center">
   {#if $sessionStore.authed}
     <div class="flex mb-4">
-      <div class="tabs tabs-boxed w-fit">
+      <div
+        class="tabs tabs-boxed w-fit border {$themeStore === 'light'
+          ? 'button-transparent'
+          : 'border-primary'}"
+      >
         {#each Object.keys(AREAS) as area}
           <button
             on:click={() => handleChangeTab(AREAS[area])}

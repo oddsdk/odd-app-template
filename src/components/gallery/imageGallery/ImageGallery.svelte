@@ -16,10 +16,7 @@
    * @param image
    */
   let selectedImage: Image = null
-  const openModal: (image: Image) => void = image => {
-    console.log('image', image)
-    selectedImage = image
-  }
+  const openModal: (image: Image) => void = image => (selectedImage = image)
 
   // Get initial selectedArea
   let selectedArea = getStore(galleryStore).selectedArea

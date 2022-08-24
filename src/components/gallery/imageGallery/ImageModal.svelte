@@ -1,10 +1,14 @@
 <script lang="ts">
+  import { get as getStore } from 'svelte/store'
+  import { galleryStore } from '../../../stores'
   import type { Image } from '$lib/gallery'
   import { deleteImageFromWNFS } from '$lib/gallery'
-  // import { galleryStore } from '../../../stores'
 
   export let image: Image
   export let isModalOpen: boolean = false
+  let currentIndex: number
+  let previousImage: Image | undefined
+  let nextImage: Image | undefined
 
   /**
    * Close the modal and clear the `image` and set `isModalOpen to false
@@ -20,6 +24,31 @@
   const handleDeleteImage: () => Promise<void> = async () => {
     await deleteImageFromWNFS(image.name)
     handleCloseModal()
+  }
+
+  // Detect what the next or previous image is based on the index of the current image
+  $: if (image) {
+    const gallery = getStore(galleryStore)
+    const imageList = image.private
+      ? gallery.privateImages
+      : gallery.publicImages
+    currentIndex = imageList.findIndex(val => val.cid === image.cid)
+    previousImage = imageList[currentIndex - 1]
+    nextImage = imageList[currentIndex + 1]
+    console.log('image', image)
+    console.log('currentIndex', currentIndex)
+    console.log('previousImage', previousImage)
+    console.log('nextImage', nextImage)
+  }
+
+  /**
+   * Load the correct image when a user clicks the Next or Previous arrows
+   * @param direction
+   */
+  const handleNextOrPrevImage: (
+    direction: 'next' | 'prev'
+  ) => void = direction => {
+    image = direction === 'prev' ? previousImage : nextImage
   }
 </script>
 
@@ -45,11 +74,30 @@
       </label>
       <div>
         <h3 class="mb-7 text-xl font-serif">{image.name}</h3>
-        <img
-          class="block object-cover object-center w-full h-full mb-4"
-          alt={`Image: ${image.name}`}
-          src={image.src}
-        />
+
+        <div class="relative">
+          {#if !!previousImage}
+            <button
+              class="absolute top-1/2 -left-[25px] -translate-y-1/2 inline-block text-center text-[40px]"
+              on:click={() => handleNextOrPrevImage('prev')}
+            >
+              &#8249;
+            </button>
+          {/if}
+          <img
+            class="block object-cover object-center w-full h-full mb-4"
+            alt={`Image: ${image.name}`}
+            src={image.src}
+          />
+          {#if !!nextImage}
+            <button
+              class="absolute top-1/2 -right-[25px] -translate-y-1/2 inline-block text-center text-[40px]"
+              on:click={() => handleNextOrPrevImage('next')}
+            >
+              &#8250;
+            </button>
+          {/if}
+        </div>
         <div class="flex flex-col items-center justify-center">
           <a
             href={`https://ipfs.io/ipfs/${image.cid}/userland`}
