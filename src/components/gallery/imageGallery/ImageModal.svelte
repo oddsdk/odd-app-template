@@ -128,16 +128,17 @@
           <p class="mb-4">
             Created at {new Date(image.ctime * 1000).toDateString()}
           </p>
-          <a
-            href={image.src}
-            download={image.name}
-            class="mb-4 btn btn-primary"
-          >
-            Download Image
-          </a>
-          <button class="btn bg-error text-white" on:click={handleDeleteImage}>
-            Delete Image
-          </button>
+          <div class="flex items-center justify-between gap-4">
+            <a href={image.src} download={image.name} class="btn btn-primary">
+              Download Image
+            </a>
+            <button
+              class="btn bg-error text-white"
+              on:click={handleDeleteImage}
+            >
+              Delete Image
+            </button>
+          </div>
         </div>
       </div>
     </div>
