@@ -126,7 +126,7 @@
             View on IPFS
           </a>
           <p class="mb-4">
-            Created at {new Date(image.ctime * 1000).toDateString()}
+            Created at {new Date(image.ctime).toDateString()}
           </p>
           <div class="flex items-center justify-between gap-4">
             <a href={image.src} download={image.name} class="btn btn-primary">
