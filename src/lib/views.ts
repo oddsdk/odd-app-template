@@ -1,1 +1,1 @@
-export type BackupView = 'backup' | 'backup-device' | 'are-you-sure'
+export type BackupView = 'backup' | 'are-you-sure'

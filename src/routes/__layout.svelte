@@ -33,9 +33,6 @@
 
   const init = async () => {
     await initialize()
-
-    // TODO: Remove this debugging statement
-    console.log('session at init', session)
   }
 
   const clearNotification = () => {
