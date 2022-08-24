@@ -5,17 +5,12 @@
   import { appName } from '$lib/app-name'
   import { initialize } from '$lib/common/webnative'
   import { deviceStore, sessionStore, theme } from '../stores'
-  import { storeTheme } from '$lib/theme'
   import { errorToMessage, type Session } from '$lib/session'
   import Toast from '$components/notifications/Toast.svelte'
   import Notifications from '$components/notifications/Notifications.svelte'
   import Header from '$components/Header.svelte'
 
   let session: Session = null
-
-  theme.subscribe(val => {
-    storeTheme(val)
-  })
 
   sessionStore.subscribe(val => {
     session = val

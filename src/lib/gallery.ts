@@ -25,7 +25,7 @@ export type Gallery = {
   loading: boolean
 }
 
-const GALLERY_DIRS = {
+export const GALLERY_DIRS = {
   [AREAS.PUBLIC]: ['public', 'gallery'],
   [AREAS.PRIVATE]: ['private', 'gallery'],
 }
@@ -42,6 +42,8 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
     const { selectedArea } = getStore(galleryStore)
     const isPrivate = selectedArea === AREAS.PRIVATE
     const fs = getStore(filesystemStore)
+    console.log('wn', wn)
+    console.log('fs', fs)
 
     // Set path to either private or public gallery dir
     const path = wn.path.directory(...GALLERY_DIRS[selectedArea])
