@@ -4,6 +4,7 @@ export type Session = {
   username: string
   authed: boolean
   loading: boolean
+  backupCreated: boolean
   error?: SessionError
 }
 

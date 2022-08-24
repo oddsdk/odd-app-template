@@ -1,12 +1,16 @@
 import * as webnative from 'webnative'
-import type FileSystem from 'webnative/fs/index'
 import { setup } from 'webnative'
 
 import { asyncDebounce } from '$lib/common/utils'
 import { filesystemStore, sessionStore } from '../../stores'
+import { getBackupStatus, type BackupStatus } from '$lib/auth/backup'
 
 // runfission.net = staging
-setup.endpoints({ api: 'https://runfission.net', lobby: 'https://auth.runfission.net', user: 'fissionuser.net' })
+setup.endpoints({
+  api: 'https://runfission.net',
+  lobby: 'https://auth.runfission.net',
+  user: 'fissionuser.net'
+})
 
 let state: webnative.AppState
 
@@ -15,6 +19,8 @@ setup.debug({ enabled: false })
 
 export const initialize = async (): Promise<void> => {
   try {
+    let backupStatus: BackupStatus = null
+
     state = await webnative.app({ useWnfs: true })
 
     switch (state.scenario) {
@@ -22,16 +28,21 @@ export const initialize = async (): Promise<void> => {
         sessionStore.set({
           username: '',
           authed: false,
-          loading: false
+          loading: false,
+          backupCreated: null
         })
         break
 
       case webnative.AppScenario.Authed:
+        backupStatus = await getBackupStatus(state.fs)
+
         sessionStore.set({
           username: state.username,
           authed: state.authenticated,
-          loading: false
+          loading: false,
+          backupCreated: backupStatus.created
         })
+
         filesystemStore.set(state.fs)
         break
 
@@ -77,7 +88,7 @@ export const isUsernameAvailable = async (
 export const register = async (username: string): Promise<boolean> => {
   const { success } = await webnative.account.register({ username })
 
-  const fs = await bootstrapFilesystem()
+  const fs = await webnative.bootstrapRootFileSystem()
   filesystemStore.set(fs)
 
   sessionStore.update(session => ({
@@ -89,12 +100,13 @@ export const register = async (username: string): Promise<boolean> => {
   return success
 }
 
-export const bootstrapFilesystem = async (): Promise<FileSystem> => {
-  return await webnative.bootstrapRootFileSystem()
+export const loadAccount = async (username: string): Promise<void> => {
+  const fs = await webnative.loadRootFileSystem()
+  filesystemStore.set(fs)
+
+  sessionStore.update(session => ({
+    ...session,
+    username,
+    authed: true
+  }))
 }
-
-// interface StateFS {
-//   fs?: FileSystem
-// }
-
-// export const getWNFS: () => FileSystem = () => (state as StateFS)?.fs
