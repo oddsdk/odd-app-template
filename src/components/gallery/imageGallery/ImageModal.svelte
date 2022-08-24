@@ -62,6 +62,20 @@
     setCarouselState()
   }
 
+  /**
+   * Detect key presses to either close the modal on `Escape` press or navigate the carousel on `ArrowRight`/`ArrowLeft`
+   * @param event
+   */
+  const handleKeyDown: (event: KeyboardEvent) => void = event => {
+    if (event.key === 'Escape') handleCloseModal()
+
+    if (showNextArrow && event.key === 'ArrowRight')
+      handleNextOrPrevImage('next')
+
+    if (showPreviousArrow && event.key === 'ArrowLeft')
+      handleNextOrPrevImage('prev')
+  }
+
   onMount(() => {
     setCarouselState()
   })
@@ -69,6 +83,8 @@
   // Unsubscribe from galleryStore updates
   onDestroy(unsubcribe)
 </script>
+
+<svelte:window on:keydown={handleKeyDown} />
 
 {#if !!image}
   <!-- bind:checked can't be set to !!image, so we need to set it to a boolean(casting image as a boolean throws a svelte error, so we're using isModalOpen) -->
