@@ -1,21 +1,30 @@
 <script lang="ts">
-  import { get as getStore } from 'svelte/store'
+  import { createEventDispatcher, onDestroy, onMount } from 'svelte'
   import { galleryStore } from '../../../stores'
-  import type { Image } from '$lib/gallery'
+  import type { Gallery, Image } from '$lib/gallery'
   import { deleteImageFromWNFS } from '$lib/gallery'
 
   export let image: Image
   export let isModalOpen: boolean = false
-  let currentIndex: number
   let previousImage: Image | undefined
   let nextImage: Image | undefined
+  let showPreviousArrow: boolean
+  let showNextArrow: boolean
+  let gallery: Gallery
+
+  const dispatch = createEventDispatcher()
+
+  const unsubcribe = galleryStore.subscribe(newState => (gallery = newState))
 
   /**
    * Close the modal and clear the `image` and set `isModalOpen to false
    */
   const handleCloseModal: () => void = () => {
     image = null
+    previousImage = null
+    nextImage = null
     isModalOpen = false
+    dispatch('close')
   }
 
   /**
@@ -26,19 +35,20 @@
     handleCloseModal()
   }
 
-  // Detect what the next or previous image is based on the index of the current image
-  $: if (image) {
-    const gallery = getStore(galleryStore)
+  /**
+   * Set the previous and next images to be toggled to when the arrows are clicked
+   */
+  const setCarouselState = () => {
     const imageList = image.private
       ? gallery.privateImages
       : gallery.publicImages
-    currentIndex = imageList.findIndex(val => val.cid === image.cid)
-    previousImage = imageList[currentIndex - 1]
-    nextImage = imageList[currentIndex + 1]
-    console.log('image', image)
-    console.log('currentIndex', currentIndex)
-    console.log('previousImage', previousImage)
-    console.log('nextImage', nextImage)
+    const currentIndex = imageList.findIndex(val => val.cid === image.cid)
+    previousImage =
+      imageList[currentIndex - 1] ?? imageList[imageList.length - 1]
+    nextImage = imageList[currentIndex + 1] ?? imageList[0]
+
+    showPreviousArrow = imageList.length > 1 && !!previousImage
+    showNextArrow = imageList.length > 1 && !!nextImage
   }
 
   /**
@@ -49,7 +59,15 @@
     direction: 'next' | 'prev'
   ) => void = direction => {
     image = direction === 'prev' ? previousImage : nextImage
+    setCarouselState()
   }
+
+  onMount(() => {
+    setCarouselState()
+  })
+
+  // Unsubscribe from galleryStore updates
+  onDestroy(unsubcribe)
 </script>
 
 {#if !!image}
@@ -69,6 +87,7 @@
       <label
         for={`image-modal-${image.cid}`}
         class="btn btn-xs btn-circle absolute right-2 top-2"
+        on:click={handleCloseModal}
       >
         ✕
       </label>
@@ -76,7 +95,7 @@
         <h3 class="mb-7 text-xl font-serif">{image.name}</h3>
 
         <div class="relative">
-          {#if !!previousImage}
+          {#if showPreviousArrow}
             <button
               class="absolute top-1/2 -left-[25px] -translate-y-1/2 inline-block text-center text-[40px]"
               on:click={() => handleNextOrPrevImage('prev')}
@@ -89,7 +108,7 @@
             alt={`Image: ${image.name}`}
             src={image.src}
           />
-          {#if !!nextImage}
+          {#if showNextArrow}
             <button
               class="absolute top-1/2 -right-[25px] -translate-y-1/2 inline-block text-center text-[40px]"
               on:click={() => handleNextOrPrevImage('next')}

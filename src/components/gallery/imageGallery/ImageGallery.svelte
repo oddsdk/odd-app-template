@@ -15,8 +15,11 @@
    * Open the ImageModal and pass it the selected `image` from the gallery
    * @param image
    */
-  let selectedImage: Image = null
-  const openModal: (image: Image) => void = image => (selectedImage = image)
+  let selectedImage: Image
+  const setSelectedImage: (image: Image) => void = image =>
+    (selectedImage = image)
+
+  const clearSelectedImage = () => (selectedImage = null)
 
   // Get initial selectedArea
   let selectedArea = getStore(galleryStore).selectedArea
@@ -37,11 +40,16 @@
     <div class="flex flex-wrap -m-1 md:-m-2">
       <FileUploadCard />
       {#each $galleryStore.selectedArea === AREAS.PRIVATE ? $galleryStore.privateImages : $galleryStore.publicImages as image}
-        <ImageCard {image} {openModal} />
+        <ImageCard {image} openModal={setSelectedImage} />
       {/each}
     </div>
   </div>
-  {#if !!selectedImage}
-    <ImageModal image={selectedImage} isModalOpen={!!selectedImage} />
+
+  {#if selectedImage}
+    <ImageModal
+      image={selectedImage}
+      isModalOpen={!!selectedImage}
+      on:close={clearSelectedImage}
+    />
   {/if}
 </section>
