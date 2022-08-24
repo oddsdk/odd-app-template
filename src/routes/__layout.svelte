@@ -8,6 +8,7 @@
   import { storeTheme } from '$lib/theme'
   import { errorToMessage, type Session } from '$lib/session'
   import Toast from '$components/notifications/Toast.svelte'
+  import Notifications from '$components/notifications/Notifications.svelte'
   import Header from '$components/Header.svelte'
 
   let session: Session = null
@@ -55,6 +56,7 @@
 
 <div data-theme={$theme} class="min-h-screen">
   <Header />
+  <Notifications />
 
   {#if session.error}
     <Toast

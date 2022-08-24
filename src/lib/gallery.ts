@@ -2,6 +2,7 @@ import { get as getStore } from 'svelte/store'
 import * as wn from 'webnative'
 import { filesystemStore, galleryStore } from '../stores'
 import { convertUint8ToString } from '$lib/common/utils'
+import { addNotification } from '$lib/notifications'
 
 export enum AREAS {
   PUBLIC = 'Public',
@@ -53,7 +54,7 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
         const file = await fs.get(
           wn.path.file(...GALLERY_DIRS[selectedArea], `${name}`)
         )
-        console.log('file', file)
+
         // The CID for private files is currently located in `file.header.content`,
         // whereas the CID for public files is located at `file.cid`
         const cid = isPrivate ? file.header.content.toString() : file.cid.toString()
@@ -77,8 +78,6 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
     // Sort images by ctime(created at date)
     // NOTE: this will eventually be controlled via the UI
     images.sort((a, b) => b.ctime - a.ctime)
-
-    console.log('images', images)
 
     // Push images to the galleryStore
     galleryStore.update((store) => ({
@@ -109,7 +108,7 @@ export const uploadImageToWNFS: (
   try {
     const { selectedArea } = getStore(galleryStore)
     const fs = getStore(filesystemStore)
-    console.log('image', image)
+
     // Reject files over 5MB
     const imageSizeInMB = image.size / (1024 * 1024)
     if (imageSizeInMB > FILE_SIZE_LIMIT) {
@@ -131,12 +130,13 @@ export const uploadImageToWNFS: (
       // Announce the changes to the server
       await fs.publish()
 
-      // TODO: replace with Toast notification once they've been added to the app
       console.log(`${image.name} image has been published`)
+      addNotification(`${image.name} image has been published`, 'success')
     } else {
-      throw new Error(`${image.name} image alread exists`)
+      throw new Error(`${image.name} image already exists`)
     }
   } catch (error) {
+    addNotification(error.message, 'error')
     console.log(error)
   }
 }
@@ -161,16 +161,16 @@ export const deleteImageFromWNFS: (name: string) => Promise<void> = async (name)
       // Announce the changes to the server
       await fs.publish()
 
-      // TODO: replace with Toast notification once they've been added to the app
       console.log(`${name} image has been deleted`)
+      addNotification(`${name} image has been deleted`, 'success')
 
       // Refetch images and update galleryStore
       await getImagesFromWNFS()
     } else {
       throw new Error(`${name} image has already been deleted`)
-      // TODO: add Toast notification once they've been added to the app
     }
   } catch (error) {
+    addNotification(error.message, 'error')
     console.error(error)
   }
 }

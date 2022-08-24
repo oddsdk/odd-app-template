@@ -6,6 +6,7 @@ import { loadTheme } from '$lib/theme'
 import type { Device } from '$lib/device'
 import { AREAS } from '$lib/gallery'
 import type { Gallery } from '$lib/gallery'
+import type { Notification } from '$lib/notifications'
 import type { Session } from '$lib/session'
 import type { Theme } from '$lib/theme'
 
@@ -27,3 +28,5 @@ export const galleryStore: Writable<Gallery> = writable({
   privateImages: [],
   selectedArea: AREAS.PUBLIC,
 })
+
+export const notificationStore: Writable<Notification[]> = writable([])
