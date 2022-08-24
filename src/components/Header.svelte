@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
   import { sessionStore, theme } from '../stores'
-  import { Theme, storeTheme } from '$lib/theme/index'
+  import { storeTheme, type Theme } from '$lib/theme/index'
 
   import Shield from '$components/icons/Shield.svelte'
   import LightMode from '$components/icons/LightMode.svelte'
