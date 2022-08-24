@@ -83,7 +83,7 @@
     class="modal cursor-pointer z-50"
     on:click|self={handleCloseModal}
   >
-    <div class="modal-box relative text-center">
+    <div class="modal-box relative text-center text-base-content">
       <label
         for={`image-modal-${image.cid}`}
         class="btn btn-xs btn-circle absolute right-2 top-2"
