@@ -46,9 +46,7 @@
             {displayPin}
           </span>
         {/if}
-        <span class="text-md">
-          Open {appName} on your already connected device and enter this code.
-        </span>
+        <span class="text-md">Enter this code on your connected device.</span>
         <div
           class="grid grid-flow-col auto-cols-max gap-4 justify-center items-center text-slate-500"
         >
