@@ -22,6 +22,7 @@
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-svelte3": "^3.2.1",
+    "events": "^3.3.0",
     "one-webcrypto": "^1.0.1",
     "prettier": "~2.2.1",
     "prettier-plugin-svelte": "^2.2.0",
@@ -52,6 +53,6 @@
   "dependencies": {
     "clipboard-copy": "^4.0.1",
     "qrcode-svg": "^1.1.0",
-    "webnative": "0.33.0-alpha-4"
+    "webnative": "0.34.0"
   }
 }
