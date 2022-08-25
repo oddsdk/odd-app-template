@@ -115,26 +115,26 @@ export const uploadImageToWNFS: (
       throw new Error('Image can be no larger than 5MB')
     }
 
-    // Check if image already exists in the gallery dir
+    // Reject the upload if the image already exists in the directory
     const imageExists = await fs.exists(
       wn.path.file(...GALLERY_DIRS[selectedArea], image.name)
     )
-
-    if (!imageExists) {
-      // Create a sub directory and add some content
-      await fs.write(
-        wn.path.file(...GALLERY_DIRS[selectedArea], image.name),
-        image
-      )
-
-      // Announce the changes to the server
-      await fs.publish()
-
-      console.log(`${image.name} image has been published`)
-      addNotification(`${image.name} image has been published`, 'success')
-    } else {
+    if (imageExists) {
       throw new Error(`${image.name} image already exists`)
     }
+
+    // Create a sub directory and add some content
+    await fs.write(
+      wn.path.file(...GALLERY_DIRS[selectedArea], image.name),
+      image
+    )
+
+    // Announce the changes to the server
+    await fs.publish()
+
+    console.log(`${image.name} image has been published`)
+    addNotification(`${image.name} image has been published`, 'success')
+
   } catch (error) {
     addNotification(error.message, 'error')
     console.log(error)

@@ -17,7 +17,8 @@
   const unsubcribe = galleryStore.subscribe(newState => (gallery = newState))
 
   /**
-   * Close the modal and clear the `image` and set `isModalOpen to false
+   * Close the modal, clear the image state vars, set `isModalOpen` to false
+   * and dispatch the close event to clear the image from the parent's state
    */
   const handleCloseModal: () => void = () => {
     image = null
@@ -63,7 +64,8 @@
   }
 
   /**
-   * Detect key presses to either close the modal on `Escape` press or navigate the carousel on `ArrowRight`/`ArrowLeft`
+   * Detect `Escape` key presses to close the modal or `ArrowRight`/`ArrowLeft`
+   * presses to navigate the carousel
    * @param event
    */
   const handleKeyDown: (event: KeyboardEvent) => void = event => {
