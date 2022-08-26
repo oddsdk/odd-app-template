@@ -3,13 +3,23 @@
   import QRCode from 'qrcode-svg'
   import { goto } from '$app/navigation'
   import { onMount } from 'svelte'
+  import { page } from '$app/stores'
 
   import { createAccountLinkingProducer } from '$lib/auth/linking'
   import { filesystemStore, sessionStore, theme } from '../../../stores'
   import { setBackupStatus } from '$lib/auth/backup'
   import ClipboardIcon from '$components/icons/ClipboardIcon.svelte'
 
-  let view: 'backup-device' | 'delegate-account' = 'backup-device'
+  let url = $page.url
+  let usernameParam = url.searchParams.get('username')
+
+  // clear the params
+  url.searchParams.delete('username')
+  history.replaceState(null, document.title, url.toString())
+
+  let view: 'backup-device' | 'delegate-account' = usernameParam
+    ? `delegate-account`
+    : 'backup-device'
 
   let connectionLink = null
   let qrcode = null
@@ -24,7 +34,17 @@
     sessionStore.subscribe(val => {
       const username = val.username
 
-      if (username) {
+      if (username && usernameParam) {
+        view = 'delegate-account'
+
+        if (username !== usernameParam) {
+          console.error(
+            `Requested connection for ${usernameParam} does not match your username`
+          )
+        }
+
+        initAccountLinkingProducer(username)
+      } else if (username) {
         const origin = window.location.origin
 
         connectionLink = `${origin}/link-device?username=${username}`

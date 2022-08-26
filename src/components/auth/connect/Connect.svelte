@@ -13,7 +13,7 @@
         <a class="btn btn-primary mb-5 w-full" href="/register">
           Create a new account
         </a>
-        <a class="btn btn-primary btn-outline w-full" href="/">
+        <a class="btn btn-primary btn-outline w-full" href="/link-device">
           I have an existing account
         </a>
       </div>
