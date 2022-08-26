@@ -22,7 +22,7 @@
     <div class="card card-bordered w-96">
       <div class="card-body items-center text-center">
         <h2 class="card-title">Account</h2>
-        <p>👋 Your username is {session?.username}</p>
+        <p>👋 Your username is {session.username}</p>
         {#if session.backupCreated}
           <p>✅ You have connected your account on another device</p>
         {:else}
