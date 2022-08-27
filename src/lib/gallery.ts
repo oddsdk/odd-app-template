@@ -56,7 +56,7 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
         )
 
         // The CID for private files is currently located in `file.header.content`,
-        // whereas the CID for public files is located at `file.cid`
+        // whereas the CID for public files is located in `file.cid`
         const cid = isPrivate ? file.header.content.toString() : file.cid.toString()
 
         // Create a base64 string to use as the image `src`
