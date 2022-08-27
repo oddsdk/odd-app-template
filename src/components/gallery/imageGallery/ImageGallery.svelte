@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
-  import { get as getStore } from 'svelte/store'
   import { galleryStore } from '../../../stores'
   import { AREAS, getImagesFromWNFS } from '$lib/gallery'
   import type { Image } from '$lib/gallery'
@@ -21,11 +20,14 @@
 
   const clearSelectedImage = () => (selectedImage = null)
 
-  // Get initial selectedArea
-  let selectedArea = getStore(galleryStore).selectedArea
-
   // If galleryStore.selectedArea changes from private to public, re-run getImagesFromWNFS
+  let selectedArea = null
   const unsubscribe = galleryStore.subscribe(async updatedStore => {
+    // Get initial selectedArea
+    if (!selectedArea) {
+      selectedArea = updatedStore.selectedArea
+    }
+
     if (selectedArea !== updatedStore.selectedArea) {
       selectedArea = updatedStore.selectedArea
       await getImagesFromWNFS()
