@@ -137,7 +137,7 @@
         </div>
         <div class="flex flex-col items-center justify-center">
           <a
-            href={`https://ipfs.io/ipfs/${image.cid}/userland`}
+            href={`https://ipfs.runfission.net/ipfs/${image.cid}/userland`}
             target="_blank"
             class="underline mb-4"
           >
