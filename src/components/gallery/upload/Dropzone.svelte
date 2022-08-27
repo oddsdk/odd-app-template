@@ -1,5 +1,6 @@
 <script lang="ts">
   import { getImagesFromWNFS, uploadImageToWNFS } from '$lib/gallery'
+  import { addNotification } from '$lib/notifications'
 
   /**
    * Detect when a user drags a file in or out of the dropzone to change the styles
@@ -28,6 +29,7 @@
 
           // If the dropped files aren't images, we don't want them!
           if (!file.type.match('image/*')) {
+            addNotification('Please upload images only', 'error')
             console.error('Please upload images only')
           } else {
             console.log(`file[${index + 1}].name = ${file.name}`)
