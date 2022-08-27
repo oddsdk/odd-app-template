@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte'
+  import { goto } from '$app/navigation'
   import { galleryStore, sessionStore, theme as themeStore } from '../stores'
   import Dropzone from '$components/gallery/upload/Dropzone.svelte'
   import ImageGallery from '$components/gallery/imageGallery/ImageGallery.svelte'
@@ -13,6 +15,15 @@
       ...store,
       selectedArea: area
     }))
+
+  // If the user is not authed redirect them to the home page
+  const unsubscribe = sessionStore.subscribe(newState => {
+    if (!newState.loading && !newState.authed) {
+      goto('/')
+    }
+  })
+
+  onDestroy(unsubscribe)
 </script>
 
 <div class="p-2 text-center">
