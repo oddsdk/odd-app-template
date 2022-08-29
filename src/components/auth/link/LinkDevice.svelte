@@ -57,7 +57,7 @@
       <div class="grid grid-flow-row auto-rows-max gap-4 justify-items-center">
         {#if displayPin}
           <span
-            class="btn btn-info btn-lg rounded-full text-2xl tracking-widest w-3/4 cursor-default"
+            class="btn btn-info btn-lg rounded-full text-2xl font-light tracking-widest w-3/4 cursor-default"
           >
             {displayPin}
           </span>
