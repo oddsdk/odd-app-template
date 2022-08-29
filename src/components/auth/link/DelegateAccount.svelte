@@ -63,9 +63,15 @@
 
         addNotification("You've connected a backup device!", 'success')
         goto('/')
-        // Send up a toast on '/'
       }
     })
+  }
+
+  const cancelConnection = () => {
+    rejectPin()
+
+    addNotification('The connection attempt was cancelled', 'info')
+    goto('/')
   }
 
   const copyLink = async () => {
@@ -78,12 +84,6 @@
     } else {
       pinError = true
     }
-  }
-
-  const refuseConnection = () => {
-    rejectPin()
-
-    view = 'backup-device'
   }
 </script>
 
@@ -154,10 +154,10 @@
             Approve the connection
           </button>
           <button
-            class="btn btn-error btn-outline w-full"
-            on:click={refuseConnection}
+            class="btn btn-primary btn-outline w-full"
+            on:click={cancelConnection}
           >
-            Refuse the connection
+            Cancel Request
           </button>
         </div>
       </div>

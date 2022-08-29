@@ -1,10 +1,13 @@
 <script lang="ts">
+  import type { account } from 'webnative'
   import { goto } from '$app/navigation'
   import { page } from '$app/stores'
 
   import { addNotification } from '$lib/notifications'
   import { createAccountLinkingConsumer } from '$lib/auth/linking'
   import { loadAccount } from '$lib/common/webnative'
+
+  let accountLinkingConsumer: account.AccountLinkingConsumer
 
   let displayPin: string = ''
   let url = $page.url
@@ -15,7 +18,7 @@
   history.replaceState(null, document.title, url.toString())
 
   const initAccountLinkingConsumer = async () => {
-    const accountLinkingConsumer = await createAccountLinkingConsumer(username)
+    accountLinkingConsumer = await createAccountLinkingConsumer(username)
 
     accountLinkingConsumer.on('challenge', ({ pin }) => {
       displayPin = pin.join(' ')
@@ -27,9 +30,18 @@
 
         addNotification("You're now connected!", 'success')
         goto('/')
-        // Send up a toast on '/'
+      } else {
+        addNotification('The connection attempt was cancelled', 'info')
+        goto('/')
       }
     })
+  }
+
+  const cancelConnection = async () => {
+    addNotification('The connection attempt was cancelled', 'info')
+
+    await accountLinkingConsumer?.cancel()
+    goto('/')
   }
 
   initAccountLinkingConsumer()
@@ -61,7 +73,10 @@
         </div>
       </div>
       <div>
-        <button class="btn btn-primary btn-outline text-base font-normal mt-4">
+        <button
+          class="btn btn-primary btn-outline text-base font-normal mt-4"
+          on:click={cancelConnection}
+        >
           Cancel Request
         </button>
       </div>
