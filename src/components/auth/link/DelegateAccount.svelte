@@ -2,12 +2,12 @@
   import clipboardCopy from 'clipboard-copy'
   import QRCode from 'qrcode-svg'
   import { goto } from '$app/navigation'
-  import { onMount } from 'svelte'
+  import { onDestroy, onMount } from 'svelte'
 
   import { addNotification } from '$lib/notifications'
   import { createAccountLinkingProducer } from '$lib/auth/linking'
   import { filesystemStore, sessionStore, theme } from '../../../stores'
-  import { setBackupStatus } from '$lib/auth/backup'
+  import { getBackupStatus, setBackupStatus } from '$lib/auth/backup'
   import ClipboardIcon from '$components/icons/ClipboardIcon.svelte'
 
   let view: 'backup-device' | 'delegate-account' = 'backup-device'
@@ -15,14 +15,29 @@
   let connectionLink = null
   let qrcode = null
 
+  let fs = null
+  let backupCreated = true
+
   let pin: number[]
   let pinInput = ''
   let pinError = false
   let confirmPin = () => {}
   let rejectPin = () => {}
 
+  let unsubscribeFilesystemStore = () => {}
+  let unsubscribeSessionStore = () => {}
+
   onMount(() => {
-    sessionStore.subscribe(val => {
+    unsubscribeFilesystemStore = filesystemStore.subscribe(async val => {
+      fs = val
+
+      if (fs) {
+        const backupStatus = await getBackupStatus(fs)
+        backupCreated = backupStatus.created
+      }
+    })
+
+    unsubscribeSessionStore = sessionStore.subscribe(async val => {
       const username = val.username
 
       if (username) {
@@ -58,11 +73,17 @@
           backupCreated: true
         }))
 
-        const fs = $filesystemStore
-        await setBackupStatus(fs, { created: true })
+        if (fs) {
+          await setBackupStatus(fs, { created: true })
 
-        addNotification("You've connected a backup device!", 'success')
-        goto('/')
+          addNotification("You've connected a backup device!", 'success')
+          goto('/')
+        } else {
+          addNotification(
+            'Missing filesystem. Unable to create a backup device.',
+            'error'
+          )
+        }
       }
     })
   }
@@ -85,6 +106,11 @@
       pinError = true
     }
   }
+
+  onDestroy(() => {
+    unsubscribeFilesystemStore()
+    unsubscribeSessionStore()
+  })
 </script>
 
 {#if view === 'backup-device'}
@@ -108,12 +134,14 @@
           <ClipboardIcon />
           <span class="ml-2">Copy connection link</span>
         </button>
-        <button
-          class="btn btn-xs btn-link text-base text-error font-normal underline mt-4"
-          on:click={() => goto('/backup?view=are-you-sure')}
-        >
-          Skip for now
-        </button>
+        {#if !backupCreated}
+          <button
+            class="btn btn-xs btn-link text-base text-error font-normal underline mt-4"
+            on:click={() => goto('/backup?view=are-you-sure')}
+          >
+            Skip for now
+          </button>
+        {/if}
       </div>
     </div>
   </div>
