@@ -2,7 +2,7 @@
   import { goto } from '$app/navigation'
   import { page } from '$app/stores'
 
-  import { appName } from '$lib/app-name'
+  import { addNotification } from '$lib/notifications'
   import { createAccountLinkingConsumer } from '$lib/auth/linking'
   import { loadAccount } from '$lib/common/webnative'
 
@@ -24,6 +24,8 @@
     accountLinkingConsumer.on('link', async ({ approved, username }) => {
       if (approved) {
         await loadAccount(username)
+
+        addNotification("You're now connected!", 'success')
         goto('/')
         // Send up a toast on '/'
       }

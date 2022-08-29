@@ -4,6 +4,7 @@
   import { goto } from '$app/navigation'
   import { onMount } from 'svelte'
 
+  import { addNotification } from '$lib/notifications'
   import { createAccountLinkingProducer } from '$lib/auth/linking'
   import { filesystemStore, sessionStore, theme } from '../../../stores'
   import { setBackupStatus } from '$lib/auth/backup'
@@ -60,6 +61,7 @@
         const fs = $filesystemStore
         await setBackupStatus(fs, { created: true })
 
+        addNotification("You've connected a backup device!", 'success')
         goto('/')
         // Send up a toast on '/'
       }
