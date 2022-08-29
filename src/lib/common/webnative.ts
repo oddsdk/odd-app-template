@@ -106,6 +106,8 @@ export const register = async (username: string): Promise<boolean> => {
 }
 
 export const loadAccount = async (username: string): Promise<void> => {
+  await checkDataRoot(username)
+
   const fs = await webnative.loadRootFileSystem()
   filesystemStore.set(fs)
 
@@ -114,4 +116,29 @@ export const loadAccount = async (username: string): Promise<void> => {
     username,
     authed: true
   }))
+}
+
+const checkDataRoot = async (username: string): Promise<void> => {
+  let dataRoot = await webnative.dataRoot.lookup(username)
+
+  if (dataRoot) return
+
+  return new Promise((resolve) => {
+    const maxRetries = 20
+    let attempt = 0
+
+    const dataRootInterval = setInterval(async () => {
+      console.warn('Could not fetch filesystem data root. Retrying.')
+
+      dataRoot = await webnative.dataRoot.lookup(username)
+
+      if (!dataRoot && attempt < maxRetries) {
+        attempt++
+        return
+      }
+
+      clearInterval(dataRootInterval)
+      resolve()
+    }, 500)
+  })
 }
