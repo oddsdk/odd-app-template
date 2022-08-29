@@ -24,8 +24,8 @@
       </p>
 
       <p class="mt-8 mb-4">
-        We highly recommend backing up your account on at least one additional
-        device.
+        We highly recommend connecting your account on at least one more device,
+        so that you have a backup.
       </p>
 
       <button class="btn btn-primary" on:click={() => goto('delegate-account')}>

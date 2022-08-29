@@ -138,11 +138,11 @@
           <label for="pin" class="label">
             {#if !pinError}
               <span class="label-text-alt text-slate-500">
-                Enter the connection code to approve the connection
+                Enter the connection code to approve the connection.
               </span>
             {:else}
               <span class="label-text-alt text-error">
-                Entered pin does not match a pin from a known device
+                Entered pin does not match a pin from a known device.
               </span>
             {/if}
           </label>
