@@ -7,7 +7,7 @@
 
   let loadingFilesystem = false
 
-  let displayPin: string = '844204'
+  let displayPin: string = ''
   let url = $page.url
   const username = url.searchParams.get('username')
 
