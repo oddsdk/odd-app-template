@@ -111,10 +111,13 @@ export const loadAccount = async (username: string): Promise<void> => {
   const fs = await webnative.loadRootFileSystem()
   filesystemStore.set(fs)
 
+  const backupStatus = await getBackupStatus(fs)
+
   sessionStore.update(session => ({
     ...session,
     username,
-    authed: true
+    authed: true,
+    backupCreated: backupStatus.created
   }))
 }
 

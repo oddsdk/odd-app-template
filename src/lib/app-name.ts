@@ -1,1 +1,1 @@
-export const appName = 'Awesome WebNative App'
+export const appName = 'Awesome Webnative App'
