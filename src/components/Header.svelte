@@ -16,12 +16,30 @@
 </script>
 
 <header class="navbar bg-base-100 pt-0">
-  <div class="flex-1" on:click={() => goto('/')}>
+  <div class="flex-1 cursor-pointer hover:underline" on:click={() => goto('/')}>
     <Brand />
     <span class="text-xl ml-2">{appName}</span>
   </div>
 
-  <span class="mr-2">
+  {#if !$sessionStore.loading && !$sessionStore.authed}
+    <div class="flex-none">
+      <a class="btn btn-sm h-10 btn-primary normal-case" href="/connect">
+        Connect
+      </a>
+    </div>
+  {/if}
+
+  {#if !$sessionStore.loading && $sessionStore.backupCreated === false}
+    <span
+      on:click={() => goto('delegate-account')}
+      class="btn btn-sm h-10 btn-warning rounded-full font-normal transition-colors ease-in hover:bg-orange-500 hover:border-orange-500"
+    >
+      <Shield />
+      <span class="ml-2 hidden md:block">Backup recommended</span>
+    </span>
+  {/if}
+
+  <span class="ml-2">
     {#if $theme === 'light'}
       <span on:click={() => setTheme('dark')}>
         <LightMode />
@@ -32,22 +50,4 @@
       </span>
     {/if}
   </span>
-
-  {#if !$sessionStore.loading}
-    {#if !$sessionStore.authed}
-      <div class="flex-none">
-        <a class="btn btn-sm h-10 btn-primary normal-case" href="/connect">
-          Connect
-        </a>
-      </div>
-    {:else if $sessionStore.backupCreated === false}
-      <span
-        on:click={() => goto('delegate-account')}
-        class="btn btn-sm btn-warning rounded-full font-extralight"
-      >
-        <Shield />
-        <span class="ml-2">Backup required</span>
-      </span>
-    {/if}
-  {/if}
 </header>
