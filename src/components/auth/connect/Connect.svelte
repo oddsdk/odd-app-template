@@ -1,8 +1,17 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte'
+
   import { appName } from '$lib/app-name'
+  import type { ConnectView } from '$lib/views'
+
+  const dispatch = createEventDispatcher()
+
+  const navigate = (view: ConnectView) => {
+    dispatch('navigate', { view })
+  }
 </script>
 
-<input type="checkbox" id="my-modal-5" checked class="modal-toggle" />
+<input type="checkbox" id="connect-modal" checked class="modal-toggle" />
 <div class="modal">
   <div
     class="modal-box w-80 relative text-center dark:border-slate-600 dark:border"
@@ -20,9 +29,12 @@
         <a class="btn btn-primary mb-5 w-full" href="/register">
           Create a new account
         </a>
-        <a class="btn btn-primary btn-outline w-full" href="/">
+        <button
+          class="btn btn-primary btn-outline w-full"
+          on:click={() => navigate('open-connected-device')}
+        >
           I have an existing account
-        </a>
+        </button>
       </div>
     </div>
   </div>
