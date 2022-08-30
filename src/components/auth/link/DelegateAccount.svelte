@@ -76,7 +76,7 @@
         if (fs) {
           await setBackupStatus(fs, { created: true })
 
-          addNotification('You've connected a backup device!', 'success')
+          addNotification("You've connected a backup device!", 'success')
           goto('/')
         } else {
           addNotification(
