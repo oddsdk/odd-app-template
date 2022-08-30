@@ -134,7 +134,7 @@
           <input
             id="pin"
             type="text"
-            class="input input-bordered w-full max-w-xs mb-2"
+            class="input input-bordered w-full max-w-xs mb-2 font-mono text-3xl text-center tracking-[0.18em] font-light"
             bind:value={pinInput}
           />
           <label for="pin" class="label">
