@@ -1,13 +1,10 @@
 <script lang="ts">
   import { fade, fly } from 'svelte/transition'
+
   import CheckThinIcon from '$components/icons/CheckThinIcon.svelte'
   import XThinIcon from '$components/icons/XThinIcon.svelte'
   import { theme as themeStore } from '../../stores'
-
-  interface Notification {
-    msg?: string
-    type?: string
-  }
+  import type { Notification } from '$lib/notifications'
 
   export let notification: Notification
 </script>
@@ -19,11 +16,7 @@
   aria-live="assertive"
   aria-atomic="true"
 >
-  <div
-    class="alert {notification.type === 'success'
-      ? 'alert-success'
-      : 'alert-error'} text-sm mb-3"
-  >
+  <div class="alert alert-{notification.type} text-sm mb-3 peer-last:mb-0">
     <div>
       {#if notification.type === 'success'}
         <CheckThinIcon

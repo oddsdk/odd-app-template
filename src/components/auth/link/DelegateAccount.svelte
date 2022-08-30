@@ -2,11 +2,12 @@
   import clipboardCopy from 'clipboard-copy'
   import QRCode from 'qrcode-svg'
   import { goto } from '$app/navigation'
-  import { onMount } from 'svelte'
+  import { onDestroy, onMount } from 'svelte'
 
+  import { addNotification } from '$lib/notifications'
   import { createAccountLinkingProducer } from '$lib/auth/linking'
   import { filesystemStore, sessionStore, theme } from '../../../stores'
-  import { setBackupStatus } from '$lib/auth/backup'
+  import { getBackupStatus, setBackupStatus } from '$lib/auth/backup'
   import ClipboardIcon from '$components/icons/ClipboardIcon.svelte'
 
   let view: 'backup-device' | 'delegate-account' = 'backup-device'
@@ -14,14 +15,29 @@
   let connectionLink = null
   let qrcode = null
 
+  let fs = null
+  let backupCreated = true
+
   let pin: number[]
   let pinInput = ''
   let pinError = false
   let confirmPin = () => {}
   let rejectPin = () => {}
 
+  let unsubscribeFilesystemStore = () => {}
+  let unsubscribeSessionStore = () => {}
+
   onMount(() => {
-    sessionStore.subscribe(val => {
+    unsubscribeFilesystemStore = filesystemStore.subscribe(async val => {
+      fs = val
+
+      if (fs) {
+        const backupStatus = await getBackupStatus(fs)
+        backupCreated = backupStatus.created
+      }
+    })
+
+    unsubscribeSessionStore = sessionStore.subscribe(async val => {
       const username = val.username
 
       if (username) {
@@ -57,13 +73,26 @@
           backupCreated: true
         }))
 
-        const fs = $filesystemStore
-        await setBackupStatus(fs, { created: true })
+        if (fs) {
+          await setBackupStatus(fs, { created: true })
 
-        goto('/')
-        // Send up a toast on '/'
+          addNotification("You've connected a backup device!", 'success')
+          goto('/')
+        } else {
+          addNotification(
+            'Missing filesystem. Unable to create a backup device.',
+            'error'
+          )
+        }
       }
     })
+  }
+
+  const cancelConnection = () => {
+    rejectPin()
+
+    addNotification('The connection attempt was cancelled', 'info')
+    goto('/')
   }
 
   const copyLink = async () => {
@@ -78,11 +107,10 @@
     }
   }
 
-  const refuseConnection = () => {
-    rejectPin()
-
-    view = 'backup-device'
-  }
+  onDestroy(() => {
+    unsubscribeFilesystemStore()
+    unsubscribeSessionStore()
+  })
 </script>
 
 {#if view === 'backup-device'}
@@ -106,12 +134,14 @@
           <ClipboardIcon />
           <span class="ml-2">Copy connection link</span>
         </button>
-        <button
-          class="btn btn-xs btn-link text-base text-error font-normal underline mt-4"
-          on:click={() => goto('/backup?view=are-you-sure')}
-        >
-          Skip for now
-        </button>
+        {#if !backupCreated}
+          <button
+            class="btn btn-xs btn-link text-base text-error font-normal underline mt-4"
+            on:click={() => goto('/backup?view=are-you-sure')}
+          >
+            Skip for now
+          </button>
+        {/if}
       </div>
     </div>
   </div>
@@ -134,17 +164,17 @@
           <input
             id="pin"
             type="text"
-            class="input input-bordered w-full max-w-xs mb-2 font-mono text-3xl text-center tracking-[0.18em] font-light"
+            class="input input-bordered w-full max-w-xs mb-2 rounded-full h-16 font-mono text-3xl text-center tracking-[0.18em] font-light dark:border-slate-300"
             bind:value={pinInput}
           />
           <label for="pin" class="label">
             {#if !pinError}
               <span class="label-text-alt text-slate-500">
-                Enter the connection code to approve the connection
+                Enter the connection code to approve the connection.
               </span>
             {:else}
               <span class="label-text-alt text-error">
-                Entered pin does not match a pin from a known device
+                Entered pin does not match a pin from a known device.
               </span>
             {/if}
           </label>
@@ -154,10 +184,10 @@
             Approve the connection
           </button>
           <button
-            class="btn btn-error btn-outline w-full"
-            on:click={refuseConnection}
+            class="btn btn-primary btn-outline w-full"
+            on:click={cancelConnection}
           >
-            Refuse the connection
+            Cancel Request
           </button>
         </div>
       </div>

@@ -1,9 +1,13 @@
 <script lang="ts">
+  import type { account } from 'webnative'
   import { goto } from '$app/navigation'
   import { page } from '$app/stores'
 
+  import { addNotification } from '$lib/notifications'
   import { createAccountLinkingConsumer } from '$lib/auth/linking'
   import { loadAccount } from '$lib/common/webnative'
+
+  let accountLinkingConsumer: account.AccountLinkingConsumer
 
   let loadingFilesystem = false
 
@@ -16,7 +20,7 @@
   history.replaceState(null, document.title, url.toString())
 
   const initAccountLinkingConsumer = async () => {
-    const accountLinkingConsumer = await createAccountLinkingConsumer(username)
+    accountLinkingConsumer = await createAccountLinkingConsumer(username)
 
     accountLinkingConsumer.on('challenge', ({ pin }) => {
       displayPin = pin.join('')
@@ -27,10 +31,21 @@
         loadingFilesystem = true
 
         await loadAccount(username)
+
+        addNotification("You're now connected!", 'success')
         goto('/')
-        // Send up a toast on '/'
+      } else {
+        addNotification('The connection attempt was cancelled', 'info')
+        goto('/')
       }
     })
+  }
+
+  const cancelConnection = async () => {
+    addNotification('The connection attempt was cancelled', 'info')
+
+    await accountLinkingConsumer?.cancel()
+    goto('/')
   }
 
   initAccountLinkingConsumer()
@@ -62,7 +77,7 @@
         >
           {#if displayPin}
             <span
-              class="btn bg-blue-900 btn-lg rounded-full text-3xl tracking-[.18em] font-normal w-3/4 cursor-default font-mono font-light"
+              class="btn bg-blue-100 dark:bg-blue-900 hover:bg-blue-100 dark:hover:bg-blue-900 border-0 btn-lg rounded-full text-3xl tracking-[.18em] w-3/4 cursor-default font-mono font-light"
             >
               {displayPin}
             </span>
@@ -78,7 +93,10 @@
           </div>
         </div>
         <div>
-          <button class="btn btn-primary btn-outline text-base font-normal">
+          <button
+            class="btn btn-primary btn-outline text-base font-normal mt-4"
+            on:click={cancelConnection}
+          >
             Cancel Request
           </button>
         </div>

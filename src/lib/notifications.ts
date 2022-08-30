@@ -4,9 +4,11 @@ import { uuid } from '$lib/common/utils'
 export type Notification = {
   id?: string
   msg?: string
-  type?: string
+  type?: NotificationType 
   timeout?: number
 }
+
+type NotificationType = 'success' | 'error' | 'info' | 'warning'
 
 export const removeNotification: (id: string) => void = id => {
   notificationStore.update(all =>
@@ -16,7 +18,7 @@ export const removeNotification: (id: string) => void = id => {
 
 export const addNotification: (
   msg: string,
-  type?: string,
+  type?: NotificationType,
   timeout?: number
 ) => void = (msg, type = 'info', timeout = 5000) => {
   // uuid for each notification
