@@ -2,6 +2,7 @@ module.exports = {
   mode: "jit",
   content: ["./src/**/*.{html,js,svelte,ts}"],
   plugins: [require("daisyui")],
+  darkMode: ['class', '[data-theme="dark"]'],
   daisyui: {
     styled: true,
     themes: [
