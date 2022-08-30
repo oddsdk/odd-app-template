@@ -77,7 +77,7 @@
         >
           {#if displayPin}
             <span
-              class="btn bg-blue-900 btn-lg rounded-full text-3xl tracking-[.18em] w-3/4 cursor-default font-mono font-light"
+              class="btn bg-blue-100 dark:bg-blue-900 hover:bg-blue-100 dark:hover:bg-blue-900 border-0 btn-lg rounded-full text-3xl tracking-[.18em] w-3/4 cursor-default font-mono font-light"
             >
               {displayPin}
             </span>

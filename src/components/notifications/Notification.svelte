@@ -16,7 +16,7 @@
   aria-live="assertive"
   aria-atomic="true"
 >
-  <div class="alert alert-{notification.type} text-sm mb-3">
+  <div class="alert alert-{notification.type} text-sm mb-3 peer-last:mb-0">
     <div>
       {#if notification.type === 'success'}
         <CheckThinIcon
