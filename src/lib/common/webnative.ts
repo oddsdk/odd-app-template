@@ -89,6 +89,8 @@ export const isUsernameAvailable = async (
 export const register = async (username: string): Promise<boolean> => {
   const { success } = await webnative.account.register({ username })
 
+  if (!success) return success
+
   const fs = await webnative.bootstrapRootFileSystem()
   filesystemStore.set(fs)
 
