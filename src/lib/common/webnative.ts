@@ -3,6 +3,7 @@ import { setup } from 'webnative'
 
 import { asyncDebounce } from '$lib/common/utils'
 import { filesystemStore, sessionStore } from '../../stores'
+import { AREAS, GALLERY_DIRS } from '$lib/gallery'
 import { getBackupStatus, type BackupStatus } from '$lib/auth/backup'
 
 // runfission.net = staging
@@ -91,6 +92,10 @@ export const register = async (username: string): Promise<boolean> => {
   const fs = await webnative.bootstrapRootFileSystem()
   filesystemStore.set(fs)
 
+  // Create public and private directories for the gallery
+  await fs.mkdir(webnative.path.directory(...GALLERY_DIRS[AREAS.PUBLIC]))
+  await fs.mkdir(webnative.path.directory(...GALLERY_DIRS[AREAS.PRIVATE]))
+
   sessionStore.update(session => ({
     ...session,
     username,
@@ -101,6 +106,8 @@ export const register = async (username: string): Promise<boolean> => {
 }
 
 export const loadAccount = async (username: string): Promise<void> => {
+  await checkDataRoot(username)
+
   const fs = await webnative.loadRootFileSystem()
   filesystemStore.set(fs)
 
@@ -109,4 +116,29 @@ export const loadAccount = async (username: string): Promise<void> => {
     username,
     authed: true
   }))
+}
+
+const checkDataRoot = async (username: string): Promise<void> => {
+  let dataRoot = await webnative.dataRoot.lookup(username)
+
+  if (dataRoot) return
+
+  return new Promise((resolve) => {
+    const maxRetries = 20
+    let attempt = 0
+
+    const dataRootInterval = setInterval(async () => {
+      console.warn('Could not fetch filesystem data root. Retrying.')
+
+      dataRoot = await webnative.dataRoot.lookup(username)
+
+      if (!dataRoot && attempt < maxRetries) {
+        attempt++
+        return
+      }
+
+      clearInterval(dataRootInterval)
+      resolve()
+    }, 500)
+  })
 }
