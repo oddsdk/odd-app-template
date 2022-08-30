@@ -7,7 +7,7 @@
 
   let loadingFilesystem = false
 
-  let displayPin: string = ''
+  let displayPin: string = '844204'
   let url = $page.url
   const username = url.searchParams.get('username')
 
@@ -19,7 +19,7 @@
     const accountLinkingConsumer = await createAccountLinkingConsumer(username)
 
     accountLinkingConsumer.on('challenge', ({ pin }) => {
-      displayPin = pin.join(' ')
+      displayPin = pin.join('')
     })
 
     accountLinkingConsumer.on('link', async ({ approved, username }) => {
@@ -62,7 +62,7 @@
         >
           {#if displayPin}
             <span
-              class="btn btn-info btn-lg rounded-full text-2xl tracking-widest w-3/4 cursor-default"
+              class="btn bg-blue-900 btn-lg rounded-full text-3xl tracking-[.18em] font-normal w-3/4 cursor-default font-mono font-light"
             >
               {displayPin}
             </span>
@@ -78,9 +78,7 @@
           </div>
         </div>
         <div>
-          <button
-            class="btn btn-primary btn-outline text-base font-normal mt-4"
-          >
+          <button class="btn btn-primary btn-outline text-base font-normal">
             Cancel Request
           </button>
         </div>

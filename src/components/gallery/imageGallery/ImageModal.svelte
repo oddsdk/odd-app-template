@@ -101,10 +101,12 @@
     class="modal cursor-pointer z-50"
     on:click|self={handleCloseModal}
   >
-    <div class="modal-box relative text-center text-base-content">
+    <div
+      class="modal-box relative text-center text-base-content border dark:border-slate-600"
+    >
       <label
         for={`image-modal-${image.cid}`}
-        class="btn btn-xs btn-circle absolute right-2 top-2"
+        class="btn btn-xs btn-circle absolute right-2 top-2 dark:bg-slate-600"
         on:click={handleCloseModal}
       >
         ✕
@@ -139,7 +141,7 @@
           <a
             href={`https://ipfs.runfission.net/ipfs/${image.cid}/userland`}
             target="_blank"
-            class="underline mb-4"
+            class="underline mb-4 hover:text-slate-500"
           >
             View on IPFS
           </a>
