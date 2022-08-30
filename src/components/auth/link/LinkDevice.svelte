@@ -9,6 +9,8 @@
 
   let accountLinkingConsumer: account.AccountLinkingConsumer
 
+  let loadingFilesystem = false
+
   let displayPin: string = ''
   let url = $page.url
   const username = url.searchParams.get('username')
@@ -21,11 +23,13 @@
     accountLinkingConsumer = await createAccountLinkingConsumer(username)
 
     accountLinkingConsumer.on('challenge', ({ pin }) => {
-      displayPin = pin.join(' ')
+      displayPin = pin.join('')
     })
 
     accountLinkingConsumer.on('link', async ({ approved, username }) => {
       if (approved) {
+        loadingFilesystem = true
+
         await loadAccount(username)
 
         addNotification("You're now connected!", 'success')
@@ -48,38 +52,55 @@
 </script>
 
 <input type="checkbox" id="my-modal-5" checked class="modal-toggle" />
-<div class="modal">
-  <div
-    class="modal-box w-80 relative text-center dark:border-slate-600 dark:border"
-  >
-    <div class="grid grid-flow-row auto-rows-max gap-7">
-      <h3 class="text-xl font-serif">Connection Requested</h3>
-      <div class="grid grid-flow-row auto-rows-max gap-4 justify-items-center">
-        {#if displayPin}
-          <span
-            class="btn btn-info btn-lg rounded-full text-2xl tracking-widest w-3/4 cursor-default"
-          >
-            {displayPin}
-          </span>
-        {/if}
-        <span class="text-md">Enter this code on your connected device.</span>
+{#if loadingFilesystem}
+  <div class="modal">
+    <div
+      class="modal-box rounded-lg shadow-sm bg-slate-100 w-80 relative text-center dark:bg-slate-900 dark:border-slate-600 dark:border "
+    >
+      <p class="text-slate-500 dark:text-slate-50">
+        <span
+          class="rounded-lg border-t-2 border-l-2 border-slate-500 dark:border-slate-50 w-4 h-4 inline-block animate-spin mr-1"
+        />
+        Loading file system...
+      </p>
+    </div>
+  </div>
+{:else}
+  <div class="modal">
+    <div
+      class="modal-box w-80 relative text-center dark:border-slate-600 dark:border"
+    >
+      <div class="grid grid-flow-row auto-rows-max gap-7">
+        <h3 class="text-xl font-serif">Connection Requested</h3>
         <div
-          class="grid grid-flow-col auto-cols-max gap-4 justify-center items-center text-slate-500"
+          class="grid grid-flow-row auto-rows-max gap-4 justify-items-center"
         >
-          <span
-            class="rounded-lg border-t-2 border-l-2 border-slate-600 dark:border-slate-50 w-4 h-4 block animate-spin"
-          />
-          Waiting for a response...
+          {#if displayPin}
+            <span
+              class="btn bg-blue-900 btn-lg rounded-full text-3xl tracking-[.18em] w-3/4 cursor-default font-mono font-light"
+            >
+              {displayPin}
+            </span>
+          {/if}
+          <span class="text-md">Enter this code on your connected device.</span>
+          <div
+            class="grid grid-flow-col auto-cols-max gap-4 justify-center items-center text-slate-500"
+          >
+            <span
+              class="rounded-lg border-t-2 border-l-2 border-slate-600 dark:border-slate-50 w-4 h-4 block animate-spin"
+            />
+            Waiting for a response...
+          </div>
         </div>
-      </div>
-      <div>
-        <button
-          class="btn btn-primary btn-outline text-base font-normal mt-4"
-          on:click={cancelConnection}
-        >
-          Cancel Request
-        </button>
+        <div>
+          <button
+            class="btn btn-primary btn-outline text-base font-normal mt-4"
+            on:click={cancelConnection}
+          >
+            Cancel Request
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+{/if}

@@ -153,7 +153,9 @@
     class="modal-toggle"
   />
   <div class="modal">
-    <div class="modal-box w-80 relative text-center">
+    <div
+      class="modal-box w-80 relative text-center dark:border-slate-600 dark:border"
+    >
       <div>
         <h3 class="mb-7 text-xl font-serif">
           A new device would like to connect to your account
@@ -162,7 +164,7 @@
           <input
             id="pin"
             type="text"
-            class="input input-bordered w-full max-w-xs mb-2"
+            class="input input-bordered w-full max-w-xs mb-2 font-mono text-3xl text-center tracking-[0.18em] font-light"
             bind:value={pinInput}
           />
           <label for="pin" class="label">

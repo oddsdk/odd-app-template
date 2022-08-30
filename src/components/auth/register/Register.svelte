@@ -33,6 +33,8 @@
     authInProcess = true
 
     registrationSuccess = await register(username)
+
+    if (!registrationSuccess) authInProcess = false
   }
 </script>
 
