@@ -32,26 +32,13 @@ The build outputs the static site to the `build` directory.
 
 ## Publish
 
-The built site publishes with the [Fission CLI](https://guide.fission.codes/developers/cli) and the [Fission GH publish action](https://github.com/fission-suite/publish-action). Publishing from the command line is configured in [fission.yaml](fission.yaml), and the GitHub publish action is configured in [publish.yml](.github/workflows/publish.yml).
+NOTE: SvelteKit Single-Page Applications require redirects in order to support routing. This is not currently supported by IPFS, so the [Fission Publish GitHub action](https://github.com/fission-codes/publish-action) is not currently supported.
 
-To configure your own CLI publishing:
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7b7418ef-86eb-43c4-a668-0118568c7f46/deploy-status)](https://app.netlify.com/sites/webnative/deploys)
 
-1. [Install the Fission CLI](https://guide.fission.codes/developers/installation)
-2. Run `fission setup` to make a Fission account
-3. Run `npm run build` to build the app
-4. Delete `fission.yaml`
-5. Run `fission app register` to register a new Fission app (accept the `./build` directory suggestion for your build directory)
-6. Run `fission app publish` to publish your app to the web
+The Webnative Template App is currently hosted on Netlify and configured for it by default, but it should be supported on any static hosting platform (Vercel, Cloudflare Pages, etc).
 
-After publishing, your app will be available online at the domain assigned by the register command.
-
-To set up the GitHub publish action:
-
-1. Export your machine key with `base64 ~/.config/fission/key/machine_id.ed25519`
-2. Add your machine key as a GH Repository secret named `FISSION_MACHINE_KEY`
-3. Update the `publish.yml` with the name of your registered app
-
-See the [Fission Guide](https://guide.fission.codes/developers/installation) and the publish action README for more details.
+In order to deploy your application on Netlify, simply create a new Netlify site connected to your repository and Netlify will take care of the rest.
 
 ## Customize
 
