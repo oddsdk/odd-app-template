@@ -1,6 +1,6 @@
 # webnative-app-template
 
-A web app template for Webnative. Simple change!
+A web app template for Webnative.
 
 ## Setup
 
