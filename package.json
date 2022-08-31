@@ -1,5 +1,5 @@
 {
-  "name": "svelte-elemetary-template",
+  "name": "webnative-app-template",
   "version": "0.1.0",
   "scripts": {
     "dev": "vite dev",
@@ -12,7 +12,6 @@
     "format": "prettier --write --plugin-search-dir=. ."
   },
   "devDependencies": {
-    "@sveltejs/adapter-netlify": "^1.0.0-next.75",
     "@sveltejs/adapter-static": "1.0.0-next.36",
     "@sveltejs/kit": "1.0.0-next.373",
     "@tailwindcss/typography": "^0.5.2",
