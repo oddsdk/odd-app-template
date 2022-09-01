@@ -3,7 +3,7 @@
   import { sessionStore, theme } from '../stores'
   import { storeTheme, type Theme } from '$lib/theme/index'
 
-  import { appName } from '$lib/app-name'
+  import { appName } from '$lib/app-info'
   import Brand from '$components/icons/Brand.svelte'
   import Shield from '$components/icons/Shield.svelte'
   import LightMode from '$components/icons/LightMode.svelte'

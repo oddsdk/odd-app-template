@@ -1,7 +1,7 @@
 <script lang="ts">
   import { sessionStore } from '../../../stores'
   import WelcomeCheckIcon from '$components/icons/WelcomeCheckIcon.svelte'
-  import { appName } from '$lib/app-name'
+  import { appName } from '$lib/app-info'
 </script>
 
 <input type="checkbox" id="link-device-modal" checked class="modal-toggle" />

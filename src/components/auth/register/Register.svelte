@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { appName } from '$lib/app-name'
+  import { appName } from '$lib/app-info'
   import {
     isUsernameValid,
     isUsernameAvailable,
@@ -117,7 +117,6 @@
           <label for="registration" class="label mt-1">
             <span class="label-text-alt text-error text-left">
               There was an issue registering your account. Please try again.
-              <a href="#" class="underline">More info</a>
             </span>
           </label>
         {/if}

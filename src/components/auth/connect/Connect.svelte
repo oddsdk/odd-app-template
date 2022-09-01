@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
 
-  import { appName } from '$lib/app-name'
+  import { appName } from '$lib/app-info'
   import type { ConnectView } from '$lib/views'
 
   const dispatch = createEventDispatcher()
