@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte'
   import { goto } from '$app/navigation'
 
-  import { appName } from '$lib/app-name'
+  import { appName } from '$lib/app-info'
   import type { BackupView } from '$lib/views'
 
   const dispatch = createEventDispatcher()

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { appName } from '$lib/app-name'
+  import { appName } from '$lib/app-info'
   import {
     isUsernameValid,
     isUsernameAvailable,

@@ -3,7 +3,7 @@
   import { onDestroy } from 'svelte'
 
   import { sessionStore } from '../stores'
-  import { appName } from '$lib/app-name'
+  import { appName } from '$lib/app-info'
   import type { Session } from '$lib/session'
   import Shield from '$components/icons/Shield.svelte'
 

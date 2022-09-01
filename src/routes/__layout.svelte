@@ -2,7 +2,7 @@
   import { onMount } from 'svelte'
 
   import '../global.css'
-  import { appName } from '$lib/app-name'
+  import { appDescription, appName, appURL } from '$lib/app-info'
   import { initialize } from '$lib/common/webnative'
   import { deviceStore, sessionStore, theme } from '../stores'
   import { errorToMessage, type Session } from '$lib/session'
@@ -42,6 +42,30 @@
 
 <svelte:head>
   <title>{appName}</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index,follow" />
+  <meta name="googlebot" content="index,follow" />
+  <meta name="description" content={appDescription} />
+  <meta property="og:title" content={appName} />
+  <meta property="og:description" content={appDescription} />
+  <meta property="og:url" content={appURL} />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="TODO" />
+  <meta property="og:image:alt" content="WebNative Template" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={appName} />
+  <meta name="twitter:description" content={appDescription} />
+  <meta name="twitter:image" content="TODO" />
+  <meta name="twitter:image:alt" content={appName} />
+
+  <!-- See https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs for description. -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.webmanifest" />
 </svelte:head>
 
 <svelte:window on:resize={setDevice} />
