@@ -6,13 +6,6 @@ import { filesystemStore, sessionStore } from '../../stores'
 import { AREAS, GALLERY_DIRS } from '$lib/gallery'
 import { getBackupStatus, type BackupStatus } from '$lib/auth/backup'
 
-// runfission.net = staging
-setup.endpoints({
-  api: 'https://runfission.net',
-  lobby: 'https://auth.runfission.net',
-  user: 'fissionuser.net'
-})
-
 let state: webnative.AppState
 
 // TODO: Add a flag or script to turn debugging on/off
