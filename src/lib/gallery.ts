@@ -1,8 +1,9 @@
 import { get as getStore } from 'svelte/store'
+
 import * as wn from 'webnative'
-import { filesystemStore, galleryStore } from '../stores'
-import { convertUint8ToString } from '$lib/utils'
 import { addNotification } from '$lib/notifications'
+import { convertUint8ToString } from '$lib/utils'
+import { filesystemStore, galleryStore } from '../stores'
 
 export enum AREAS {
   PUBLIC = 'Public',

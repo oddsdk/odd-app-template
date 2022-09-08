@@ -1,10 +1,11 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte'
   import { goto } from '$app/navigation'
+  import { onDestroy } from 'svelte'
+
   import { galleryStore, sessionStore, theme as themeStore } from '../stores'
+  import { AREAS } from '$lib/gallery'
   import Dropzone from '$components/gallery/upload/Dropzone.svelte'
   import ImageGallery from '$components/gallery/imageGallery/ImageGallery.svelte'
-  import { AREAS } from '$lib/gallery'
 
   /**
    * Tab between the public/private areas and load associated images

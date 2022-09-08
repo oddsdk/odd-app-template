@@ -5,7 +5,6 @@ import { filesystemStore, sessionStore } from '../../stores'
 import { getBackupStatus } from '$lib/auth/backup'
 import { AREAS, GALLERY_DIRS } from '$lib/gallery'
 
-
 export const isUsernameValid = async (username: string): Promise<boolean> => {
   return webnative.account.isUsernameValid(username)
 }

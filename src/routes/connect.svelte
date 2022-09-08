@@ -1,7 +1,7 @@
 <script lang="ts">
+  import type { ConnectView } from '$lib/views'
   import Connect from '$components/auth/connect/Connect.svelte'
   import OpenConnectedDevice from '$components/auth/connect/OpenConnectedDevice.svelte'
-  import type { ConnectView } from '$lib/views'
 
   let view: ConnectView = 'connect'
 

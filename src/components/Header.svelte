@@ -1,13 +1,13 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
+  
+  import { appName } from '$lib/app-info'
   import { sessionStore, theme } from '../stores'
   import { storeTheme, type Theme } from '$lib/theme'
-
-  import { appName } from '$lib/app-info'
   import Brand from '$components/icons/Brand.svelte'
-  import Shield from '$components/icons/Shield.svelte'
-  import LightMode from '$components/icons/LightMode.svelte'
   import DarkMode from '$components/icons/DarkMode.svelte'
+  import LightMode from '$components/icons/LightMode.svelte'
+  import Shield from '$components/icons/Shield.svelte'
 
   const setTheme = (newTheme: Theme) => {
     theme.set(newTheme)

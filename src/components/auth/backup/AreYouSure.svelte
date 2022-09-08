@@ -1,10 +1,10 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import { goto } from '$app/navigation'
 
   import { filesystemStore, sessionStore } from '../../../stores'
   import { setBackupStatus } from '$lib/auth/backup'
   import type { BackupView } from '$lib/views'
-  import { goto } from '$app/navigation'
 
   const dispatch = createEventDispatcher()
 

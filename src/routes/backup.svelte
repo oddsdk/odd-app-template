@@ -1,8 +1,9 @@
 <script lang="ts">
   import { page } from '$app/stores'
+
   import type { BackupView } from '$lib/views'
-  import Backup from '$components/auth/backup/Backup.svelte'
   import AreYouSure from '$components/auth/backup/AreYouSure.svelte'
+  import Backup from '$components/auth/backup/Backup.svelte'
 
   let url = $page.url
   let view = url.searchParams.get('view') ?? 'backup'

@@ -3,12 +3,12 @@
 
   import '../global.css'
   import { appDescription, appName, appURL } from '$lib/app-info'
-  import { initialize } from '$lib/init'
   import { deviceStore, sessionStore, theme } from '../stores'
   import { errorToMessage, type Session } from '$lib/session'
-  import Toast from '$components/notifications/Toast.svelte'
-  import Notifications from '$components/notifications/Notifications.svelte'
+  import { initialize } from '$lib/init'
   import Header from '$components/Header.svelte'
+  import Notifications from '$components/notifications/Notifications.svelte'
+  import Toast from '$components/notifications/Toast.svelte'
 
   let session: Session = null
 

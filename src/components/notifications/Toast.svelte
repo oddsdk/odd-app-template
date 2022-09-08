@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { quintOut } from 'svelte/easing'
   import { fade } from 'svelte/transition'
+  import { quintOut } from 'svelte/easing'
 
   import { theme } from '../../stores'
   import CheckThinIcon from '$components/icons/CheckThinIcon.svelte'

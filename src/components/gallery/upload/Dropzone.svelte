@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { getImagesFromWNFS, uploadImageToWNFS } from '$lib/gallery'
   import { addNotification } from '$lib/notifications'
+  import { getImagesFromWNFS, uploadImageToWNFS } from '$lib/gallery'
 
   /**
    * Detect when a user drags a file in or out of the dropzone to change the styles

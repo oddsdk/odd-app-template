@@ -1,8 +1,8 @@
 <script lang="ts">
-  import clipboardCopy from 'clipboard-copy'
-  import QRCode from 'qrcode-svg'
   import { goto } from '$app/navigation'
   import { onDestroy, onMount } from 'svelte'
+  import clipboardCopy from 'clipboard-copy'
+  import QRCode from 'qrcode-svg'
 
   import { addNotification } from '$lib/notifications'
   import { createAccountLinkingProducer } from '$lib/auth/linking'
