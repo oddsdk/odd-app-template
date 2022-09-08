@@ -3,7 +3,7 @@
 
   import '../global.css'
   import { appDescription, appName, appURL } from '$lib/app-info'
-  import { initialize } from '$lib/common/webnative'
+  import { initialize } from '$lib/init'
   import { deviceStore, sessionStore, theme } from '../stores'
   import { errorToMessage, type Session } from '$lib/session'
   import Toast from '$components/notifications/Toast.svelte'

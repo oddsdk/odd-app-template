@@ -4,7 +4,7 @@
     isUsernameValid,
     isUsernameAvailable,
     register
-  } from '$lib/common/webnative'
+  } from '$lib/auth/account'
   import CheckIcon from '$components/icons/CheckIcon.svelte'
   import XIcon from '$components/icons/XIcon.svelte'
 

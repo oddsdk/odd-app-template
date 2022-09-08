@@ -5,7 +5,7 @@
 
   import { addNotification } from '$lib/notifications'
   import { createAccountLinkingConsumer } from '$lib/auth/linking'
-  import { loadAccount } from '$lib/common/webnative'
+  import { loadAccount } from '$lib/auth/account'
 
   let accountLinkingConsumer: account.AccountLinkingConsumer
 
