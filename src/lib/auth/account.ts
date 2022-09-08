@@ -1,6 +1,6 @@
 import * as webnative from 'webnative'
 
-import { asyncDebounce } from '$lib/common/utils'
+import { asyncDebounce } from '$lib/utils'
 import { filesystemStore, sessionStore } from '../../stores'
 import { getBackupStatus } from '$lib/auth/backup'
 import { AREAS, GALLERY_DIRS } from '$lib/gallery'

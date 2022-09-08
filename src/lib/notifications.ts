@@ -1,5 +1,5 @@
 import { notificationStore } from '../stores'
-import { uuid } from '$lib/common/utils'
+import { uuid } from '$lib/utils'
 
 export type Notification = {
   id?: string
