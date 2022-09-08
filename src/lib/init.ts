@@ -4,8 +4,6 @@ import { setup } from 'webnative'
 import { filesystemStore, sessionStore } from '../stores'
 import { getBackupStatus, type BackupStatus } from '$lib/auth/backup'
 
-let state: webnative.AppState
-
 // TODO: Add a flag or script to turn debugging on/off
 setup.debug({ enabled: false })
 
@@ -13,7 +11,7 @@ export const initialize = async (): Promise<void> => {
   try {
     let backupStatus: BackupStatus = null
 
-    state = await webnative.app({ useWnfs: true })
+    const state: webnative.AppState = await webnative.app({ useWnfs: true })
 
     switch (state.scenario) {
       case webnative.AppScenario.NotAuthed:
