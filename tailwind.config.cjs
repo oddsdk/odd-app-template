@@ -49,4 +49,9 @@ module.exports = {
     rtl: false,
     darkTheme: "dark",
   },
+  purge: {
+    options: {
+      safelist: ['alert-success', 'alert-error', 'alert-info', 'alert-warning']
+    }
+  }
 };

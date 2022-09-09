@@ -2,21 +2,24 @@
   import { onMount } from 'svelte'
 
   import '../global.css'
+  import { addNotification } from '$lib/notifications'
   import { appDescription, appName, appURL } from '$lib/app-info'
   import { deviceStore, sessionStore, theme } from '../stores'
-  import { errorToMessage, type Session } from '$lib/session'
+  import { errorToMessage } from '$lib/session'
   import { initialize } from '$lib/init'
   import Header from '$components/Header.svelte'
   import Notifications from '$components/notifications/Notifications.svelte'
-  import Toast from '$components/notifications/Toast.svelte'
 
-  let session: Session = null
-
-  sessionStore.subscribe(val => {
-    session = val
+  sessionStore.subscribe(session => {
+    if (session.error) {
+      const message = errorToMessage(session.error)
+      addNotification(message, 'error')
+    }
   })
 
-  onMount(() => { setDevice() })
+  onMount(() => {
+    setDevice()
+  })
 
   const setDevice = () => {
     if (window.innerWidth <= 768) {
@@ -28,13 +31,6 @@
 
   const init = async () => {
     await initialize()
-  }
-
-  const clearNotification = () => {
-    sessionStore.update(session => ({
-      ...session,
-      error: null
-    }))
   }
 
   init()
@@ -73,14 +69,5 @@
 <div data-theme={$theme} class="min-h-screen">
   <Header />
   <Notifications />
-
-  {#if session.error}
-    <Toast
-      kind="error"
-      message={errorToMessage(session.error)}
-      on:clear={clearNotification}
-    />
-  {/if}
-
   <slot />
 </div>
