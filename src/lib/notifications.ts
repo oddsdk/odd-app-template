@@ -1,5 +1,4 @@
 import { notificationStore } from '../stores'
-import { uuid } from '$lib/utils'
 
 export type Notification = {
   id?: string
@@ -22,7 +21,7 @@ export const addNotification: (
   timeout?: number
 ) => void = (msg, type = 'info', timeout = 5000) => {
   // uuid for each notification
-  const id = uuid()
+  const id = crypto.randomUUID()
 
   // adding new notifications to the bottom of the list so they stack from bottom to top
   notificationStore.update(rest => [
