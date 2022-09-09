@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fade, fly } from 'svelte/transition'
 
-  import { theme as themeStore } from '../../stores'
+  import { themeStore } from '../../stores'
   import type { Notification } from '$lib/notifications'
   import CheckThinIcon from '$components/icons/CheckThinIcon.svelte'
   import XThinIcon from '$components/icons/XThinIcon.svelte'

@@ -6,7 +6,7 @@
 
   import { addNotification } from '$lib/notifications'
   import { createAccountLinkingProducer } from '$lib/auth/linking'
-  import { filesystemStore, sessionStore, theme } from '../../../stores'
+  import { filesystemStore, sessionStore, themeStore } from '../../../stores'
   import { getBackupStatus, setBackupStatus } from '$lib/auth/backup'
   import ClipboardIcon from '$components/icons/ClipboardIcon.svelte'
 
@@ -46,7 +46,7 @@
         connectionLink = `${origin}/link-device?username=${username}`
         qrcode = new QRCode({
           content: connectionLink,
-          color: $theme === 'light' ? '#334155' : '#E2E8F0',
+          color: $themeStore === 'light' ? '#334155' : '#E2E8F0',
           background: '#ffffff00'
         }).svg()
 

@@ -4,7 +4,7 @@
   import '../global.css'
   import { addNotification } from '$lib/notifications'
   import { appDescription, appName, appURL } from '$lib/app-info'
-  import { deviceStore, sessionStore, theme } from '../stores'
+  import { deviceStore, sessionStore, themeStore } from '../stores'
   import { errorToMessage } from '$lib/session'
   import { initialize } from '$lib/init'
   import Header from '$components/Header.svelte'
@@ -66,7 +66,7 @@
 
 <svelte:window on:resize={setDevice} />
 
-<div data-theme={$theme} class="min-h-screen">
+<div data-theme={$themeStore} class="min-h-screen">
   <Header />
   <Notifications />
   <slot />

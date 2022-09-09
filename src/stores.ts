@@ -10,7 +10,7 @@ import type { Notification } from '$lib/notifications'
 import type { Session } from '$lib/session'
 import type { Theme } from '$lib/theme'
 
-export const theme: Writable<Theme> = writable(loadTheme())
+export const themeStore: Writable<Theme> = writable(loadTheme())
 
 export const sessionStore: Writable<Session> = writable({
   username: null,
