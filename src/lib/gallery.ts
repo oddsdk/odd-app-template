@@ -91,7 +91,6 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
       loading: false,
     }))
   } catch (error) {
-    console.error(error)
     galleryStore.update(store => ({
       ...store,
       loading: false,
@@ -133,12 +132,10 @@ export const uploadImageToWNFS: (
     // Announce the changes to the server
     await fs.publish()
 
-    console.log(`${image.name} image has been published`)
     addNotification(`${image.name} image has been published`, 'success')
 
   } catch (error) {
     addNotification(error.message, 'error')
-    console.log(error)
   }
 }
 
@@ -162,7 +159,6 @@ export const deleteImageFromWNFS: (name: string) => Promise<void> = async (name)
       // Announce the changes to the server
       await fs.publish()
 
-      console.log(`${name} image has been deleted`)
       addNotification(`${name} image has been deleted`, 'success')
 
       // Refetch images and update galleryStore
@@ -172,7 +168,6 @@ export const deleteImageFromWNFS: (name: string) => Promise<void> = async (name)
     }
   } catch (error) {
     addNotification(error.message, 'error')
-    console.error(error)
   }
 }
 

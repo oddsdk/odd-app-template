@@ -30,9 +30,7 @@
           // If the dropped files aren't images, we don't want them!
           if (!file.type.match('image/*')) {
             addNotification('Please upload images only', 'error')
-            console.error('Please upload images only')
           } else {
-            console.log(`file[${index + 1}].name = ${file.name}`)
             await uploadImageToWNFS(file)
           }
         }

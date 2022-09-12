@@ -6,7 +6,6 @@
   let view: ConnectView = 'connect'
 
   const navigate = (event: CustomEvent<{ view: ConnectView }>) => {
-    console.log(event.detail.view)
     view = event.detail.view
   }
 </script>
