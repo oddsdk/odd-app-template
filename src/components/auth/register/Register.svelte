@@ -7,12 +7,15 @@
   } from '$lib/auth/account'
   import CheckIcon from '$components/icons/CheckIcon.svelte'
   import XIcon from '$components/icons/XIcon.svelte'
+  import FilesystemActivity from '$components/common/FilesystemActivity.svelte'
 
   let username: string = ''
   let usernameValid = true
   let usernameAvailable = true
   let registrationSuccess = true
   let checkingUsername = false
+
+  let initializingFilesystem = false
 
   const checkUsername = async (event: Event) => {
     const { value } = event.target as HTMLInputElement
@@ -28,30 +31,17 @@
     checkingUsername = false
   }
 
-  let authInProcess = false
   const registerUser = async () => {
-    authInProcess = true
+    initializingFilesystem = true
 
     registrationSuccess = await register(username)
 
-    if (!registrationSuccess) authInProcess = false
+    if (!registrationSuccess) initializingFilesystem = false
   }
 </script>
 
-{#if authInProcess}
-  <input type="checkbox" id="initializing" checked class="modal-toggle" />
-  <div class="modal">
-    <div
-      class="modal-box rounded-lg shadow-sm bg-slate-100 w-80 relative text-center dark:bg-slate-900 dark:border-slate-600 dark:border "
-    >
-      <p class="text-slate-500 dark:text-slate-50">
-        <span
-          class="rounded-lg border-t-2 border-l-2 border-slate-500 dark:border-slate-50 w-4 h-4 inline-block animate-spin mr-1"
-        />
-        Initializing file system...
-      </p>
-    </div>
-  </div>
+{#if initializingFilesystem}
+  <FilesystemActivity activity="Initializing" />
 {:else}
   <input type="checkbox" id="register-modal" checked class="modal-toggle" />
   <div class="modal">
