@@ -37,3 +37,13 @@ export const convertUint8ToString: (u8array: Uint8Array) => string = u8array => 
   }
   return c.join('')
 }
+
+export const extractSearchParam = (url: URL, param: string): string | null => {
+  const val = url.searchParams.get(param)
+
+  // clear the param from the URL
+  url.searchParams.delete(param)
+  history.replaceState(null, document.title, url.toString())
+
+  return val
+}

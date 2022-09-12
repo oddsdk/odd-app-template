@@ -10,17 +10,14 @@
   import FilesystemActivity from '$components/common/FilesystemActivity.svelte'
   import LinkDevice from '$components/auth/link-device/LinkDevice.svelte'
 
+  import { extractSearchParam } from '$lib/utils'
+
   let view: LinkDeviceView = 'link-device'
 
   let accountLinkingConsumer: account.AccountLinkingConsumer
   let displayPin: string = ''
 
-  let url = $page.url
-  const username = url.searchParams.get('username')
-
-  // clear the params
-  url.searchParams.delete('username')
-  history.replaceState(null, document.title, url.toString())
+  const username = extractSearchParam($page.url, 'username')
 
   const initAccountLinkingConsumer = async () => {
     accountLinkingConsumer = await createAccountLinkingConsumer(username)
