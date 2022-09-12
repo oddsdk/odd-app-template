@@ -54,5 +54,8 @@
     "clipboard-copy": "^4.0.1",
     "qrcode-svg": "^1.1.0",
     "webnative": "0.34.1"
+  },
+  "engines": {
+    "node": ">=16.9"
   }
 }
