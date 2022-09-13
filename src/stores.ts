@@ -21,8 +21,6 @@ export const sessionStore: Writable<Session> = writable({
 
 export const filesystemStore: Writable<FileSystem | null> = writable(null)
 
-export const deviceStore: Writable<Device> = writable({ isMobile: true })
-
 export const galleryStore: Writable<Gallery> = writable({
   loading: true,
   publicImages: [],

@@ -1,10 +1,8 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-
   import '../global.css'
   import { addNotification } from '$lib/notifications'
   import { appDescription, appName, appURL } from '$lib/app-info'
-  import { deviceStore, sessionStore, themeStore } from '../stores'
+  import { sessionStore, themeStore } from '../stores'
   import { errorToMessage } from '$lib/session'
   import { initialize } from '$lib/init'
   import Header from '$components/Header.svelte'
@@ -16,18 +14,6 @@
       addNotification(message, 'error')
     }
   })
-
-  onMount(() => {
-    setDevice()
-  })
-
-  const setDevice = () => {
-    if (window.innerWidth <= 768) {
-      deviceStore.set({ isMobile: true })
-    } else {
-      deviceStore.set({ isMobile: false })
-    }
-  }
 
   const init = async () => {
     await initialize()
@@ -63,8 +49,6 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.webmanifest" />
 </svelte:head>
-
-<svelte:window on:resize={setDevice} />
 
 <div data-theme={$themeStore} class="min-h-screen">
   <Header />
