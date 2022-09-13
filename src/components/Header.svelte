@@ -18,7 +18,7 @@
 <header class="navbar bg-base-100 pt-0">
   <div class="flex-1 cursor-pointer hover:underline" on:click={() => goto('/')}>
     <Brand />
-    <span class="text-xl ml-2">{appName}</span>
+    <span class="text-xl ml-2 hidden md:inline">{appName}</span>
   </div>
 
   {#if !$sessionStore.loading && !$sessionStore.authed}
