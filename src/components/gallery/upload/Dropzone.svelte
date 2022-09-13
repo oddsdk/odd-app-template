@@ -19,8 +19,6 @@
 
     const files = Array.from(event.dataTransfer.items)
 
-    console.log(`${files.length} file${files.length > 1 ? 's' : ''} dropped`)
-
     // Iterate over the dropped files and upload them to WNFS
     await Promise.all(
       files.map(async (item, index) => {
