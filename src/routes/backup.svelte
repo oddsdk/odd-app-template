@@ -16,5 +16,5 @@
 {#if view === 'backup'}
   <Backup on:navigate={navigate} />
 {:else if view === 'are-you-sure'}
-  <AreYouSure on:navigate={navigate} />
+  <AreYouSure />
 {/if}
