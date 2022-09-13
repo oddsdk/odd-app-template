@@ -3,7 +3,6 @@ import type { Writable } from 'svelte/store'
 import type FileSystem from 'webnative/fs/index'
 
 import { loadTheme } from '$lib/theme'
-import type { Device } from '$lib/device'
 import { AREAS } from '$lib/gallery'
 import type { Gallery } from '$lib/gallery'
 import type { Notification } from '$lib/notifications'
