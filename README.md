@@ -30,9 +30,9 @@ The app template is built with modern web technologies:
 -   Tailwind
 -   DaisyUI
 
-### 🌶 A simple Webnative demo
+### 👩‍🏫 A simple Webnative demo to learn from
 
-The app template includes a functioning application: an image gallery
+The app template includes a functioning application: an image gallery. Reading the image gallery code will teach you how a simple Webnative application handles things like file uploads, directories, etc.
 
 ## 🚀 Getting Started
 
