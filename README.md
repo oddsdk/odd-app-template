@@ -2,48 +2,129 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/7b7418ef-86eb-43c4-a668-0118568c7f46/deploy-status)](https://app.netlify.com/sites/webnative/deploys)
 
-The Webnative App Template is a clone-and-go template for building a web application using Webnative, fast. Clone it, modify it, and deploy it to have a running application in mere minutes.
+The Webnative App Template is a clone-and-go template for building a web application using Webnative, fast. Clone, customize, and deploy to have a running distributed app in mere minutes.
 
-The Webnative App Template provides a silky-smooth user experience. The end-user experience of creating an account and linking a second device feels familiar, comfortable, and obvious. Webnative authentication is key-based rather than password-based, so we've focused heavily on the authentication flows, borrowing language and screens from two-factor auth flows. Our hope is that the authentication patterns in the Webnative App Template will provide a model for friendly UX for other applications that leverage key-based authentication.
-
-## What's Webnative?
+## 🤔 What's Webnative?
 
 [The Webnative SDK](https://github.com/fission-codes/webnative) empowers developers to build fully distributed web applications without needing a complex back-end. The SDK provides:
 
-- user accounts (via [the browser's Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)),
-- authorization (using [UCAN](https://ucan.xyz))
-- encrypted file storage (via the [Webnative File System](https://guide.fission.codes/developers/webnative/file-system-wnfs), backed by the [InterPlanetary File System](https://ipfs.io/), or IPFS)
-- and key management (via websockets and a two-factor auth-like flow).
+-   user accounts (via [the browser's Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)),
+-   authorization (using [UCAN](https://ucan.xyz))
+-   encrypted file storage (via the [Webnative File System](https://guide.fission.codes/developers/webnative/file-system-wnfs), backed by the [InterPlanetary File System](https://ipfs.io/), or IPFS)
+-   and key management (via websockets and a two-factor auth-like flow).
 
 Webnative applications work offline and store data encrypted for the user by leveraging the power of the web platform. You can read more about Webnative in Fission's [Webnative Guide](https://guide.fission.codes/developers/webnative).
 
-## Getting Started
+## 📦 What does this template give me?
+
+### 🥰 Silky-smooth end-user flows
+
+The Webnative App Template provides a _silky-smooth user experience_ out of the box. Creating an account and linking a second device feels familiar, comfortable, and obvious. Webnative authentication is key-based rather than password-based, so we've focused heavily on the authentication flows, borrowing language and screens from two-factor auth flows.
+
+### 🧱 Built with a modern web stack
+
+The app template is built with modern web technologies:
+
+-   SvelteKit (powered by Vite under the hood)
+-   TypeScript
+-   Tailwind
+-   DaisyUI
+
+### 🌶 A simple Webnative demo
+
+The app template includes a functioning application: an image gallery
+
+## 🚀 Getting Started
 
 You can try out the template yourself [here](https://webnative.netlify.app/).
 
-Ready? LFG.
+Ready? Let's go:
 
 1. Clone the repository:
 
-   ```shell
-   git clone git@github.com:fission-codes/webnative.git
-   ```
+    ```shell
+    git clone git@github.com:fission-codes/webnative.git
+    ```
 
 2. Install the dependencies.
 
-   ```shell
-   npm install
-   ```
+    ```shell
+    npm install
+    ```
 
 3. Start the local development server.
 
-   ```shell
-   npm run dev
-   ```
+    ```shell
+    npm run dev
+    ```
 
 4. Navigate to `http://localhost:5173` in your web browser.
 
-## Build
+## 🛠 Customize your app
+
+The app template is designed to be easy for you to _make it your own._ Here's how:
+
+1. Rename your application.
+
+    In `/src/lib/app-info.ts`:
+
+    - Change `appName` to the name of your app.
+    - Change `appDescription` to a simple, 1-sentence description of your app.
+    - Once you [deploy](#deploy) your app, change `appURL` to the production URL.
+
+    In `package.json`, change `name` to your application's name.
+
+1. Customize your app's logo.
+
+    - App Logo SVG can be customized in `/src/components/icons/Brand.svelte`. Target an image that is 35 pixels high.
+    - Replace the favicon files in `/static` by following the instructions in [this blog post](https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs)
+    - Generate a Twitter/Social Media Embed image.
+        - In `/src/lib/app-info.ts`, change `appImageURL` to match the URL of your embed image.
+        - In `/src/routes/__layout.svelte`, update `og:image:width` and `og:image:height` to the size of your embed image.
+
+1. Customize the look and feel.
+
+    The app template is built using [Tailwind](https://tailwindcss.com/) and [DaisyUI](https://daisyui.com/). You can customize basic theme colors by editing `/tailwind.config.css`. Check out the [DaisyUI Theme Generator](https://daisyui.com/theme-generator/) to play around with theme colors or read the [customization guide](https://daisyui.com/docs/customize/) to customize the component appearance.
+
+1. Clear out the app's home page.
+
+    The home page content is in `/src/routes/index.svelte`. Delete everything in the file (but don't delete the file!) to start over with a blank home page.
+
+1. Remove the image gallery demo app code.
+
+    If you're not building an image gallery, you don't need the gallery demo code, except perhaps to learn from. To get rid of it, delete:
+
+    - `/src/lib/gallery.svelte`
+    - `/src/routes/gallery.svelte`
+    - `/src/components/gallery`
+    - the `galleryStore` in `/src/stores.ts`
+    - the `initializeFilesystem` function in `/src/lib/auth/account.ts` creates directories used by WNFS. Change those to what you need for your app or delete them if you're not using WNFS.
+
+👏 You're ready to start adding custom functionality! 🚀
+
+Check out the [Webnative Guide](https://guide.fission.codes/developers/webnative) for Webnative questions or [UCAN.xyz](https://ucan.xyz) for UCAN questions.
+
+## 🧨 Deploy
+
+The [Webnative App Template demo](https://webnative.netlify.app) is currently hosted on Netlify, but it should be supported on any static hosting platform (Vercel, Cloudflare Pages, etc).
+
+### Fission App Hosting
+
+Coming soon!
+
+_You can't currently deploy to Fission's app hosting infrastructure._ SvelteKit Single-Page Applications require redirects in order to support routing. Redirects are not currently supported by IPFS, so the [Fission Publish GitHub action](https://github.com/fission-codes/publish-action) is not yet supported.
+
+There is [work underway to extend IPFS http gateways to support redirects](https://github.com/ipfs/kubo/pull/8890). Once that is merged, deploying to Fission will work.
+
+### Netlify
+
+In order to deploy your Webnative application on Netlify:
+
+1. Create a new Netlify site and connect your app's git repository. (If you don't have your application stored in a git repository, you can upload the output of a [static build](#static-build).)
+2. Netlify takes care of the rest. No Netlify-specific configuration is needed.
+3. There is no step 3.
+
+### Static Build
 
 Export a static build.
 
@@ -52,17 +133,3 @@ npm run build
 ```
 
 The build outputs the static site to the `build` directory.
-
-## Deploy
-
-NOTE: You can't currently deploy to Fission. SvelteKit Single-Page Applications require redirects in order to support routing. This is not currently supported by IPFS, so the [Fission Publish GitHub action](https://github.com/fission-codes/publish-action) is not currently supported.
-
-The [Webnative Template App demo](https://webnative.netlify.app) is currently hosted on Netlify, but it should be supported on any static hosting platform (Vercel, Cloudflare Pages, etc).
-
-In order to deploy your own Webnative application on Netlify, simply create a new Netlify site connected to your app's repository and Netlify will take care of the rest. No Netlify-specific configuration is needed.
-
-## Customize
-
-- `app.html` - the SEO meta tags will need to be changed.
-- `lib/app-name.ts` - choose a better application name
-- To customize the application's Tailwind theme, change `tailwind.config.ts` - link to DaisyUI customization page.

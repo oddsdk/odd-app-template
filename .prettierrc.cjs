@@ -8,5 +8,13 @@ module.exports = {
   svelteStrictMode: false,
   svelteIndentScriptAndStyle: true,
   tabWidth: 2,
-  trailingComma: 'none'
+  trailingComma: 'none',
+  overrides: [
+    {
+      files: '*.md',
+      options: {
+        tabWidth: 4,
+      }
+    }
+  ]
 }
