@@ -1,12 +1,11 @@
 <script lang="ts">
+  import type { ConnectView } from '$lib/views'
   import Connect from '$components/auth/connect/Connect.svelte'
   import OpenConnectedDevice from '$components/auth/connect/OpenConnectedDevice.svelte'
-  import type { ConnectView } from '$lib/views'
 
   let view: ConnectView = 'connect'
 
   const navigate = (event: CustomEvent<{ view: ConnectView }>) => {
-    console.log(event.detail.view)
     view = event.detail.view
   }
 </script>

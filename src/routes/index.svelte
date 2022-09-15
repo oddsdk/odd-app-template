@@ -2,8 +2,8 @@
   import { goto } from '$app/navigation'
   import { onDestroy } from 'svelte'
 
-  import { sessionStore } from '../stores'
   import { appName } from '$lib/app-info'
+  import { sessionStore } from '../stores'
   import type { Session } from '$lib/session'
   import Shield from '$components/icons/Shield.svelte'
 

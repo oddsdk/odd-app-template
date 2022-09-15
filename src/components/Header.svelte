@@ -1,16 +1,16 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
-  import { sessionStore, theme } from '../stores'
-  import { storeTheme, type Theme } from '$lib/theme/index'
-
+  
   import { appName } from '$lib/app-info'
+  import { sessionStore, themeStore } from '../stores'
+  import { storeTheme, type Theme } from '$lib/theme'
   import Brand from '$components/icons/Brand.svelte'
-  import Shield from '$components/icons/Shield.svelte'
-  import LightMode from '$components/icons/LightMode.svelte'
   import DarkMode from '$components/icons/DarkMode.svelte'
+  import LightMode from '$components/icons/LightMode.svelte'
+  import Shield from '$components/icons/Shield.svelte'
 
   const setTheme = (newTheme: Theme) => {
-    theme.set(newTheme)
+    themeStore.set(newTheme)
     storeTheme(newTheme)
   }
 </script>
@@ -18,7 +18,7 @@
 <header class="navbar bg-base-100 pt-0">
   <div class="flex-1 cursor-pointer hover:underline" on:click={() => goto('/')}>
     <Brand />
-    <span class="text-xl ml-2">{appName}</span>
+    <span class="text-xl ml-2 hidden md:inline">{appName}</span>
   </div>
 
   {#if !$sessionStore.loading && !$sessionStore.authed}
@@ -40,7 +40,7 @@
   {/if}
 
   <span class="ml-2">
-    {#if $theme === 'light'}
+    {#if $themeStore === 'light'}
       <span on:click={() => setTheme('dark')}>
         <LightMode />
       </span>

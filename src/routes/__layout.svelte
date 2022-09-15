@@ -1,40 +1,22 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-
   import '../global.css'
-  import { appDescription, appName, appURL } from '$lib/app-info'
-  import { initialize } from '$lib/common/webnative'
-  import { deviceStore, sessionStore, theme } from '../stores'
-  import { errorToMessage, type Session } from '$lib/session'
-  import Toast from '$components/notifications/Toast.svelte'
-  import Notifications from '$components/notifications/Notifications.svelte'
+  import { addNotification } from '$lib/notifications'
+  import { appDescription, appImageURL, appName, appURL } from '$lib/app-info'
+  import { sessionStore, themeStore } from '../stores'
+  import { errorToMessage } from '$lib/session'
+  import { initialize } from '$lib/init'
   import Header from '$components/Header.svelte'
+  import Notifications from '$components/notifications/Notifications.svelte'
 
-  let session: Session = null
-
-  sessionStore.subscribe(val => {
-    session = val
-  })
-
-  onMount(() => { setDevice() })
-
-  const setDevice = () => {
-    if (window.innerWidth <= 768) {
-      deviceStore.set({ isMobile: true })
-    } else {
-      deviceStore.set({ isMobile: false })
+  sessionStore.subscribe(session => {
+    if (session.error) {
+      const message = errorToMessage(session.error)
+      addNotification(message, 'error')
     }
-  }
+  })
 
   const init = async () => {
     await initialize()
-  }
-
-  const clearNotification = () => {
-    sessionStore.update(session => ({
-      ...session,
-      error: null
-    }))
   }
 
   init()
@@ -51,14 +33,14 @@
   <meta property="og:description" content={appDescription} />
   <meta property="og:url" content={appURL} />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="TODO" />
+  <meta property="og:image" content={appImageURL} />
   <meta property="og:image:alt" content="WebNative Template" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
+  <meta property="og:image:width" content="1250" />
+  <meta property="og:image:height" content="358" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={appName} />
   <meta name="twitter:description" content={appDescription} />
-  <meta name="twitter:image" content="TODO" />
+  <meta name="twitter:image" content={appImageURL} />
   <meta name="twitter:image:alt" content={appName} />
 
   <!-- See https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs for description. -->
@@ -68,19 +50,8 @@
   <link rel="manifest" href="/manifest.webmanifest" />
 </svelte:head>
 
-<svelte:window on:resize={setDevice} />
-
-<div data-theme={$theme} class="min-h-screen">
+<div data-theme={$themeStore} class="min-h-screen">
   <Header />
   <Notifications />
-
-  {#if session.error}
-    <Toast
-      kind="error"
-      message={errorToMessage(session.error)}
-      on:clear={clearNotification}
-    />
-  {/if}
-
   <slot />
 </div>

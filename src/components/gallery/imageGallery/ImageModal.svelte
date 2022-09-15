@@ -1,8 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
+
+  import { deleteImageFromWNFS } from '$lib/gallery'
   import { galleryStore } from '../../../stores'
   import type { Gallery, Image } from '$lib/gallery'
-  import { deleteImageFromWNFS } from '$lib/gallery'
 
   export let image: Image
   export let isModalOpen: boolean = false
