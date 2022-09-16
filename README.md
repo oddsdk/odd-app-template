@@ -1,6 +1,8 @@
 # Webnative App Template
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/7b7418ef-86eb-43c4-a668-0118568c7f46/deploy-status)](https://app.netlify.com/sites/webnative/deploys)
+[![Built by FISSION](https://img.shields.io/badge/⌘-Built_by_FISSION-purple.svg)](https://fission.codes) [![Built by FISSION](https://img.shields.io/badge/webnative-v0.34.1-purple.svg)](https://github.com/fission-suite/webnative) [![Discord](https://img.shields.io/discord/478735028319158273.svg)](https://discord.gg/zAQBDEq) [![Discourse](https://img.shields.io/discourse/https/talk.fission.codes/topics)](https://talk.fission.codes) [![Netlify Status](https://api.netlify.com/api/v1/badges/7b7418ef-86eb-43c4-a668-0118568c7f46/deploy-status)](https://app.netlify.com/sites/webnative/deploys)
+
+![Webnative UI Screenshot](static/webnative-ui.png)
 
 The Webnative App Template is a clone-and-go template for building a web application using Webnative, fast. Clone, customize, and deploy to have a running distributed app in mere minutes.
 
@@ -31,6 +33,8 @@ The app template is built with modern web technologies:
 -   DaisyUI
 
 ### 👩‍🏫 A simple Webnative demo to learn from
+
+![WNFS Image Gallery Screenshot](static/wnfs-gallery-screenshot.png)
 
 The app template includes a functioning application: an image gallery. Reading the image gallery code will teach you how a simple Webnative application handles things like file uploads, directories, etc.
 
