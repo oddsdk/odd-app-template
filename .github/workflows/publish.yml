@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - trailing-and-leading-slashes
 jobs:
   publish_job:
     name: '🚀 Publish'
