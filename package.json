@@ -12,8 +12,8 @@
     "format": "prettier --write --plugin-search-dir=. ."
   },
   "devDependencies": {
-    "@sveltejs/adapter-static": "1.0.0-next.36",
-    "@sveltejs/kit": "1.0.0-next.373",
+    "@sveltejs/adapter-static": "1.0.0-next.43",
+    "@sveltejs/kit": "1.0.0-next.489",
     "@tailwindcss/typography": "^0.5.2",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -57,6 +57,6 @@
     "webnative": "^0.34.1"
   },
   "engines": {
-    "node": ">=16.9"
+    "node": ">=16.14"
   }
 }

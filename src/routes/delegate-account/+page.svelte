@@ -5,7 +5,7 @@
 
   import { addNotification } from '$lib/notifications'
   import { createAccountLinkingProducer } from '$lib/auth/linking'
-  import { filesystemStore, sessionStore, themeStore } from '../stores'
+  import { filesystemStore, sessionStore, themeStore } from '../../stores'
   import { getBackupStatus, setBackupStatus } from '$lib/auth/backup'
   import ConnectBackupDevice from '$components/auth/delegate-account/ConnectBackupDevice.svelte'
   import DelegateAccount from '$components/auth/delegate-account/DelegateAccount.svelte'
