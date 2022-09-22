@@ -31,7 +31,7 @@
 
   {#if !$sessionStore.loading && $sessionStore.backupCreated === false}
     <span
-      on:click={() => goto('delegate-account')}
+      on:click={() => goto('/delegate-account')}
       class="btn btn-sm h-10 btn-warning rounded-full font-normal transition-colors ease-in hover:bg-orange-500 hover:border-orange-500"
     >
       <Shield />

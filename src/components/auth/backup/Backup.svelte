@@ -28,7 +28,10 @@
         so that you have a backup.
       </p>
 
-      <button class="btn btn-primary" on:click={() => goto('delegate-account')}>
+      <button
+        class="btn btn-primary"
+        on:click={() => goto('/delegate-account')}
+      >
         Connect a backup device
       </button>
       <button

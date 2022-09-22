@@ -110,15 +110,8 @@ Check out the [Webnative Guide](https://guide.fission.codes/developers/webnative
 
 ## 🧨 Deploy
 
-The [Webnative App Template demo](https://webnative.netlify.app) is currently hosted on Netlify, but it should be supported on any static hosting platform (Vercel, Cloudflare Pages, etc).
 
-### Fission App Hosting
-
-Coming soon!
-
-_You can't currently deploy to Fission's app hosting infrastructure._ SvelteKit Single-Page Applications require redirects in order to support routing. Redirects are not currently supported by IPFS, so the [Fission Publish GitHub action](https://github.com/fission-codes/publish-action) is not yet supported.
-
-There is [work underway to extend IPFS http gateways to support redirects](https://github.com/ipfs/kubo/pull/8890). Once that is merged, deploying to Fission will work.
+The Webnative App Template is currently deployed as a [Netlify app](https://webnative.netlify.app) and a [Fission app](https://webnative-template.fission.app), but it should be supported on any static hosting platform (Vercel, Cloudflare Pages, etc).
 
 ### Netlify
 
@@ -127,6 +120,29 @@ In order to deploy your Webnative application on Netlify:
 1. Create a new Netlify site and connect your app's git repository. (If you don't have your application stored in a git repository, you can upload the output of a [static build](#static-build).)
 2. Netlify takes care of the rest. No Netlify-specific configuration is needed.
 3. There is no step 3.
+### Fission App Hosting
+
+A Webnative application can be published to IPFS with the [Fission CLI](https://guide.fission.codes/developers/cli) or the [Fission GitHub publish action](https://github.com/fission-suite/publish-action). 
+
+To publish with the Fission CLI:
+
+1. [Install the CLI](https://guide.fission.codes/developers/installation)
+2. Run `fission setup` to make a Fission account
+3. Run `npm run build` to build the app
+4. Delete `fission.yaml`
+5. Run `fission app register` to register a new Fission app (accept the `./build` directory suggestion for your build directory)
+6. Run `fission app publish` to publish your app to the web
+
+Your app will be available online at the domain assigned by the register command.
+
+To set up the GitHub publish action:
+
+1. Register the app with the CLI
+2. Export your machine key with `base64 ~/.config/fission/key/machine_id.ed25519`
+3. Add your machine key as a GH Repository secret named `FISSION_MACHINE_KEY`
+4. Update the `publish.yml` with the name of your registered app
+
+See the [Fission Guide](https://guide.fission.codes/developers/installation) and the publish action README for more details.
 
 ### Static Build
 
