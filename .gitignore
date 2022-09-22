@@ -6,4 +6,4 @@ node_modules/
 build/
 
 # macOS
-.DS_Store5
+.DS_Store
