@@ -4,6 +4,7 @@
   import { deleteImageFromWNFS } from '$lib/gallery'
   import { galleryStore } from '../../../stores'
   import type { Gallery, Image } from '$lib/gallery'
+  import { fissionServerUrl } from '$lib/app-info'
 
   export let image: Image
   export let isModalOpen: boolean = false
@@ -125,7 +126,7 @@
             </button>
           {/if}
           <img
-            class="block object-cover object-center w-full h-full mb-4"
+            class="block object-cover object-center w-full h-full mb-4 rounded-[1rem]"
             alt={`Image: ${image.name}`}
             src={image.src}
           />
@@ -140,7 +141,7 @@
         </div>
         <div class="flex flex-col items-center justify-center">
           <a
-            href={`https://ipfs.runfission.net/ipfs/${image.cid}/userland`}
+            href={`https://ipfs.${fissionServerUrl}/ipfs/${image.cid}/userland`}
             target="_blank"
             class="underline mb-4 hover:text-slate-500"
           >
