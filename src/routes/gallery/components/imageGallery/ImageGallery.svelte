@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
+
   import { galleryStore } from '../../stores'
   import { filesystemStore, sessionStore } from '../../../../stores'
   import { AREAS, getImagesFromWNFS, type Image } from '../../lib/gallery'

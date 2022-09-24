@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
+
   import { fissionServerUrl } from '$lib/app-info';
   import { galleryStore } from '../../stores'
   import { deleteImageFromWNFS, type Gallery, type Image } from '../../lib/gallery'
