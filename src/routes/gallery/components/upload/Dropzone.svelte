@@ -1,6 +1,6 @@
 <script lang="ts">
+  import { getImagesFromWNFS, uploadImageToWNFS } from '../../lib/gallery'
   import { addNotification } from '$lib/notifications'
-  import { getImagesFromWNFS, uploadImageToWNFS } from '$lib/gallery'
 
   /**
    * Detect when a user drags a file in or out of the dropzone to change the styles
@@ -19,6 +19,8 @@
 
     const files = Array.from(event.dataTransfer.items)
 
+    console.log(`${files.length} file${files.length > 1 ? 's' : ''} dropped`)
+
     // Iterate over the dropped files and upload them to WNFS
     await Promise.all(
       files.map(async (item, index) => {
@@ -28,7 +30,9 @@
           // If the dropped files aren't images, we don't want them!
           if (!file.type.match('image/*')) {
             addNotification('Please upload images only', 'error')
+            console.error('Please upload images only')
           } else {
+            console.log(`file[${index + 1}].name = ${file.name}`)
             await uploadImageToWNFS(file)
           }
         }

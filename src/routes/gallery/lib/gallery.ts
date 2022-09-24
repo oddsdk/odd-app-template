@@ -1,13 +1,14 @@
-import * as uint8arrays from 'uint8arrays'
 import { get as getStore } from 'svelte/store'
-
 import * as wn from 'webnative'
+import * as uint8arrays from 'uint8arrays'
+
+import { filesystemStore } from '../../../stores'
+import { galleryStore } from '../stores'
 import { addNotification } from '$lib/notifications'
-import { filesystemStore, galleryStore } from '../stores'
 
 export enum AREAS {
   PUBLIC = 'Public',
-  PRIVATE = 'Private',
+  PRIVATE = 'Private'
 }
 
 export type Image = {
@@ -28,7 +29,7 @@ export type Gallery = {
 
 export const GALLERY_DIRS = {
   [AREAS.PUBLIC]: ['public', 'gallery'],
-  [AREAS.PRIVATE]: ['private', 'gallery'],
+  [AREAS.PRIVATE]: ['private', 'gallery']
 }
 const FILE_SIZE_LIMIT = 5
 
@@ -38,7 +39,7 @@ const FILE_SIZE_LIMIT = 5
 export const getImagesFromWNFS: () => Promise<void> = async () => {
   try {
     // Set loading: true on the galleryStore
-    galleryStore.update((store) => ({ ...store, loading: true }))
+    galleryStore.update(store => ({ ...store, loading: true }))
 
     const { selectedArea } = getStore(galleryStore)
     const isPrivate = selectedArea === AREAS.PRIVATE
@@ -58,18 +59,23 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
 
         // The CID for private files is currently located in `file.header.content`,
         // whereas the CID for public files is located in `file.cid`
-        const cid = isPrivate ? file.header.content.toString() : file.cid.toString()
+        const cid = isPrivate
+          ? (file as any).header.content.toString()
+          : (file as any).cid.toString()
 
         // Create a base64 string to use as the image `src`
-        const src = `data:image/jpeg;base64, ${uint8arrays.toString(file.content, 'base64')}`
+        const src = `data:image/jpeg;base64, ${uint8arrays.toString(
+          (file as any).content,
+          'base64'
+        )}`
 
         return {
           cid,
-          ctime: file.header.metadata.unixMeta.ctime,
+          ctime: (file as any).header.metadata.unixMeta.ctime,
           name,
           private: isPrivate,
-          size: links[name].size,
-          src,
+          size: (links[name] as any).size,
+          src
         }
       })
     )
@@ -79,19 +85,22 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
     images.sort((a, b) => b.ctime - a.ctime)
 
     // Push images to the galleryStore
-    galleryStore.update((store) => ({
-      ...store,
-      ...(isPrivate ? {
-        privateImages: images,
-      } : {
-        publicImages: images,
-      }),
-      loading: false,
-    }))
-  } catch (error) {
     galleryStore.update(store => ({
       ...store,
-      loading: false,
+      ...(isPrivate
+        ? {
+            privateImages: images
+          }
+        : {
+            publicImages: images
+          }),
+      loading: false
+    }))
+  } catch (error) {
+    console.error(error)
+    galleryStore.update(store => ({
+      ...store,
+      loading: false
     }))
   }
 }
@@ -130,10 +139,11 @@ export const uploadImageToWNFS: (
     // Announce the changes to the server
     await fs.publish()
 
+    console.log(`${image.name} image has been published`)
     addNotification(`${image.name} image has been published`, 'success')
-
   } catch (error) {
     addNotification(error.message, 'error')
+    console.log(error)
   }
 }
 
@@ -141,7 +151,9 @@ export const uploadImageToWNFS: (
  * Delete an image from the user's private or public WNFS
  * @param name
  */
-export const deleteImageFromWNFS: (name: string) => Promise<void> = async (name) => {
+export const deleteImageFromWNFS: (
+  name: string
+) => Promise<void> = async name => {
   try {
     const { selectedArea } = getStore(galleryStore)
     const fs = getStore(filesystemStore)
@@ -157,6 +169,7 @@ export const deleteImageFromWNFS: (name: string) => Promise<void> = async (name)
       // Announce the changes to the server
       await fs.publish()
 
+      console.log(`${name} image has been deleted`)
       addNotification(`${name} image has been deleted`, 'success')
 
       // Refetch images and update galleryStore
@@ -166,6 +179,7 @@ export const deleteImageFromWNFS: (name: string) => Promise<void> = async (name)
     }
   } catch (error) {
     addNotification(error.message, 'error')
+    console.error(error)
   }
 }
 

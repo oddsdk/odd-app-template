@@ -1,15 +1,11 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
-
-  import { galleryStore } from '../../../stores'
-  import { AREAS, getImagesFromWNFS } from '$lib/gallery'
-  import type { Image } from '$lib/gallery'
-  import FileUploadCard from '$components/gallery/upload/FileUploadCard.svelte'
-  import ImageCard from '$components/gallery/imageGallery/ImageCard.svelte'
-  import ImageModal from '$components/gallery/imageGallery/ImageModal.svelte'
-
-  // Get images from the user's public WNFS
-  getImagesFromWNFS()
+  import { galleryStore } from '../../stores'
+  import { filesystemStore, sessionStore } from '../../../../stores'
+  import { AREAS, getImagesFromWNFS, type Image } from '../../lib/gallery'
+  import FileUploadCard from '../upload/FileUploadCard.svelte'
+  import ImageCard from './ImageCard.svelte'
+  import ImageModal from './ImageModal.svelte'
 
   /**
    * Open the ImageModal and pass it the selected `image` from the gallery
@@ -23,7 +19,7 @@
 
   // If galleryStore.selectedArea changes from private to public, re-run getImagesFromWNFS
   let selectedArea = null
-  const unsubscribe = galleryStore.subscribe(async updatedStore => {
+  const unsubscribeGalleryStore = galleryStore.subscribe(async updatedStore => {
     // Get initial selectedArea
     if (!selectedArea) {
       selectedArea = updatedStore.selectedArea
@@ -35,7 +31,20 @@
     }
   })
 
-  onDestroy(unsubscribe)
+  // Once the user has been authed, fetch the images from their file system
+  let imagesFetched = false
+  const unsubscribeSessionStore = sessionStore.subscribe((newState) => {
+    if (newState.authed && $filesystemStore && !imagesFetched) {
+      imagesFetched = true
+      // Get images from the user's public WNFS
+      getImagesFromWNFS()
+    }
+  })
+
+  onDestroy(() => {
+    unsubscribeGalleryStore()
+    unsubscribeSessionStore()
+  })
 </script>
 
 <section class="overflow-hidden text-gray-700">

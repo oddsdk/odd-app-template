@@ -98,10 +98,7 @@ The app template is designed to be easy for you to _make it your own._ Here's ho
 
     If you're not building an image gallery, you don't need the gallery demo code, except perhaps to learn from. To get rid of it, delete:
 
-    - `/src/lib/gallery.svelte`
-    - `/src/routes/gallery.svelte`
-    - `/src/components/gallery`
-    - the `galleryStore` in `/src/stores.ts`
+    - `/src/routes/gallery`
     - the `initializeFilesystem` function in `/src/lib/auth/account.ts` creates directories used by WNFS. Change those to what you need for your app or delete them if you're not using WNFS.
 
 👏 You're ready to start adding custom functionality! 🚀
@@ -109,7 +106,6 @@ The app template is designed to be easy for you to _make it your own._ Here's ho
 Check out the [Webnative Guide](https://guide.fission.codes/developers/webnative) for Webnative questions or [UCAN.xyz](https://ucan.xyz) for UCAN questions.
 
 ## 🧨 Deploy
-
 
 The Webnative App Template is currently deployed as a [Netlify app](https://webnative.netlify.app) and a [Fission app](https://webnative-template.fission.app), but it should be supported on any static hosting platform (Vercel, Cloudflare Pages, etc).
 
@@ -120,9 +116,10 @@ In order to deploy your Webnative application on Netlify:
 1. Create a new Netlify site and connect your app's git repository. (If you don't have your application stored in a git repository, you can upload the output of a [static build](#static-build).)
 2. Netlify takes care of the rest. No Netlify-specific configuration is needed.
 3. There is no step 3.
+
 ### Fission App Hosting
 
-A Webnative application can be published to IPFS with the [Fission CLI](https://guide.fission.codes/developers/cli) or the [Fission GitHub publish action](https://github.com/fission-suite/publish-action). 
+A Webnative application can be published to IPFS with the [Fission CLI](https://guide.fission.codes/developers/cli) or the [Fission GitHub publish action](https://github.com/fission-suite/publish-action).
 
 To publish with the Fission CLI:
 
