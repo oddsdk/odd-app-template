@@ -139,7 +139,6 @@ export const uploadImageToWNFS: (
     // Announce the changes to the server
     await fs.publish()
 
-    console.log(`${image.name} image has been published`)
     addNotification(`${image.name} image has been published`, 'success')
   } catch (error) {
     addNotification(error.message, 'error')
@@ -169,7 +168,6 @@ export const deleteImageFromWNFS: (
       // Announce the changes to the server
       await fs.publish()
 
-      console.log(`${name} image has been deleted`)
       addNotification(`${name} image has been deleted`, 'success')
 
       // Refetch images and update galleryStore
