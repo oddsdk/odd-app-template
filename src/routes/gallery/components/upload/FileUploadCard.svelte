@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { galleryStore } from '../../../stores'
-  import { handleFileInput } from '$lib/gallery'
-  import FileUploadIcon from '$components/icons/FileUploadIcon.svelte'
+  import { galleryStore } from '$routes/gallery/stores'
+  import { handleFileInput } from '$routes/gallery/lib/gallery'
+  import FileUploadIcon from '$routes/gallery/components/icons/FileUploadIcon.svelte'
   import LoadingSpinner from '$components/common/LoadingSpinner.svelte'
 
   // Handle files uploaded directly through the file input

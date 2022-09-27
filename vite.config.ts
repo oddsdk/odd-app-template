@@ -7,6 +7,8 @@ const config = {
   resolve: {
     alias: {
       $components: resolve('./src/components'),
+      $routes: resolve('./src/routes'),
+      $src: resolve('./src'),
       $static: resolve('./static')
     }
   }

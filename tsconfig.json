@@ -25,6 +25,8 @@
     "paths": {
       "$components/*": ["src/components/*"],
       "$lib/*": ["src/lib/*"],
+      "$routes/*": ["src/routes/*"],
+      "$src/*": ["src/*"],
       "$static/*": ["static/*"]
     }
   },

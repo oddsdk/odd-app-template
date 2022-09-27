@@ -1,10 +1,8 @@
 import * as webnative from 'webnative'
-import type FileSystem from 'webnative/fs/index'
 
 import { asyncDebounce } from '$lib/utils'
 import { filesystemStore, sessionStore } from '../../stores'
 import { getBackupStatus } from '$lib/auth/backup'
-import { AREAS, GALLERY_DIRS } from '$lib/gallery'
 
 export const isUsernameValid = async (username: string): Promise<boolean> => {
   return webnative.account.isUsernameValid(username)
@@ -29,9 +27,6 @@ export const register = async (username: string): Promise<boolean> => {
   const fs = await webnative.bootstrapRootFileSystem()
   filesystemStore.set(fs)
 
-  // TODO Remove if only public and private directories are needed
-  await initializeFilesystem(fs)
-
   sessionStore.update(session => ({
     ...session,
     username,
@@ -39,16 +34,6 @@ export const register = async (username: string): Promise<boolean> => {
   }))
 
   return success
-}
-
-/**
- * Create additional directories and files needed by the app
- *
- * @param fs FileSystem
- */
-const initializeFilesystem = async (fs: FileSystem): Promise<void> => {
-  await fs.mkdir(webnative.path.directory(...GALLERY_DIRS[AREAS.PUBLIC]))
-  await fs.mkdir(webnative.path.directory(...GALLERY_DIRS[AREAS.PRIVATE]))
 }
 
 export const loadAccount = async (username: string): Promise<void> => {

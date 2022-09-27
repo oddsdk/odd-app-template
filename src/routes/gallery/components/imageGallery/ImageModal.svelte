@@ -1,10 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
 
-  import { deleteImageFromWNFS } from '$lib/gallery'
-  import { galleryStore } from '../../../stores'
-  import type { Gallery, Image } from '$lib/gallery'
-  import { fissionServerUrl } from '$lib/app-info'
+  import { ipfsGatewayUrl } from '$lib/app-info';
+  import { galleryStore } from '$routes/gallery/stores'
+  import { deleteImageFromWNFS, type Gallery, type Image } from '$routes/gallery/lib/gallery'
 
   export let image: Image
   export let isModalOpen: boolean = false
@@ -141,7 +140,7 @@
         </div>
         <div class="flex flex-col items-center justify-center">
           <a
-            href={`https://ipfs.${fissionServerUrl}/ipfs/${image.cid}/userland`}
+            href={`https://ipfs.${ipfsGatewayUrl}/ipfs/${image.cid}/userland`}
             target="_blank"
             class="underline mb-4 hover:text-slate-500"
           >

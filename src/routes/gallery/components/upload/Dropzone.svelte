@@ -1,6 +1,9 @@
 <script lang="ts">
+  import {
+    getImagesFromWNFS,
+    uploadImageToWNFS
+  } from '$routes/gallery/lib/gallery'
   import { addNotification } from '$lib/notifications'
-  import { getImagesFromWNFS, uploadImageToWNFS } from '$lib/gallery'
 
   /**
    * Detect when a user drags a file in or out of the dropzone to change the styles
@@ -28,6 +31,7 @@
           // If the dropped files aren't images, we don't want them!
           if (!file.type.match('image/*')) {
             addNotification('Please upload images only', 'error')
+            console.error('Please upload images only')
           } else {
             await uploadImageToWNFS(file)
           }

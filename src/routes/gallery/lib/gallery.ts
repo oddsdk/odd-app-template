@@ -1,14 +1,13 @@
-import * as uint8arrays from 'uint8arrays'
 import { get as getStore } from 'svelte/store'
-
 import * as wn from 'webnative'
-import { addNotification } from '$lib/notifications'
-import { filesystemStore, galleryStore } from '../stores'
+import * as uint8arrays from 'uint8arrays'
+import type { CID } from 'multiformats/cid'
+import type { PuttableUnixTree, File as WNFile } from 'webnative/fs/types'
+import type { Metadata } from 'webnative/fs/metadata'
 
-export enum AREAS {
-  PUBLIC = 'Public',
-  PRIVATE = 'Private',
-}
+import { filesystemStore } from '$src/stores'
+import { AREAS, galleryStore } from '$routes/gallery/stores'
+import { addNotification } from '$lib/notifications'
 
 export type Image = {
   cid: string
@@ -26,9 +25,22 @@ export type Gallery = {
   loading: boolean
 }
 
+interface GalleryFile extends PuttableUnixTree, WNFile {
+  cid: CID
+  content: Uint8Array
+  header: {
+    content: Uint8Array
+    metadata: Metadata
+  }
+}
+
+type Link = {
+  size: number
+}
+
 export const GALLERY_DIRS = {
   [AREAS.PUBLIC]: ['public', 'gallery'],
-  [AREAS.PRIVATE]: ['private', 'gallery'],
+  [AREAS.PRIVATE]: ['private', 'gallery']
 }
 const FILE_SIZE_LIMIT = 5
 
@@ -38,7 +50,7 @@ const FILE_SIZE_LIMIT = 5
 export const getImagesFromWNFS: () => Promise<void> = async () => {
   try {
     // Set loading: true on the galleryStore
-    galleryStore.update((store) => ({ ...store, loading: true }))
+    galleryStore.update(store => ({ ...store, loading: true }))
 
     const { selectedArea } = getStore(galleryStore)
     const isPrivate = selectedArea === AREAS.PRIVATE
@@ -58,18 +70,23 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
 
         // The CID for private files is currently located in `file.header.content`,
         // whereas the CID for public files is located in `file.cid`
-        const cid = isPrivate ? file.header.content.toString() : file.cid.toString()
+        const cid = isPrivate
+          ? (file as GalleryFile).header.content.toString()
+          : (file as GalleryFile).cid.toString()
 
         // Create a base64 string to use as the image `src`
-        const src = `data:image/jpeg;base64, ${uint8arrays.toString(file.content, 'base64')}`
+        const src = `data:image/jpeg;base64, ${uint8arrays.toString(
+          (file as GalleryFile).content,
+          'base64'
+        )}`
 
         return {
           cid,
-          ctime: file.header.metadata.unixMeta.ctime,
+          ctime: (file as GalleryFile).header.metadata.unixMeta.ctime,
           name,
           private: isPrivate,
-          size: links[name].size,
-          src,
+          size: (links[name] as Link).size,
+          src
         }
       })
     )
@@ -79,19 +96,22 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
     images.sort((a, b) => b.ctime - a.ctime)
 
     // Push images to the galleryStore
-    galleryStore.update((store) => ({
-      ...store,
-      ...(isPrivate ? {
-        privateImages: images,
-      } : {
-        publicImages: images,
-      }),
-      loading: false,
-    }))
-  } catch (error) {
     galleryStore.update(store => ({
       ...store,
-      loading: false,
+      ...(isPrivate
+        ? {
+            privateImages: images
+          }
+        : {
+            publicImages: images
+          }),
+      loading: false
+    }))
+  } catch (error) {
+    console.error(error)
+    galleryStore.update(store => ({
+      ...store,
+      loading: false
     }))
   }
 }
@@ -131,9 +151,9 @@ export const uploadImageToWNFS: (
     await fs.publish()
 
     addNotification(`${image.name} image has been published`, 'success')
-
   } catch (error) {
     addNotification(error.message, 'error')
+    console.error(error)
   }
 }
 
@@ -141,7 +161,9 @@ export const uploadImageToWNFS: (
  * Delete an image from the user's private or public WNFS
  * @param name
  */
-export const deleteImageFromWNFS: (name: string) => Promise<void> = async (name) => {
+export const deleteImageFromWNFS: (
+  name: string
+) => Promise<void> = async name => {
   try {
     const { selectedArea } = getStore(galleryStore)
     const fs = getStore(filesystemStore)
@@ -166,6 +188,7 @@ export const deleteImageFromWNFS: (name: string) => Promise<void> = async (name)
     }
   } catch (error) {
     addNotification(error.message, 'error')
+    console.error(error)
   }
 }
 
