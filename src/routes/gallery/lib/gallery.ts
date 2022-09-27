@@ -5,8 +5,8 @@ import type { CID } from 'multiformats/cid'
 import type { PuttableUnixTree, File as WNFile } from 'webnative/fs/types'
 import type { Metadata } from 'webnative/fs/metadata'
 
-import { filesystemStore } from '../../../stores'
-import { AREAS, galleryStore } from '../stores'
+import { filesystemStore } from '$src/stores'
+import { AREAS, galleryStore } from '$routes/gallery/stores'
 import { addNotification } from '$lib/notifications'
 
 export type Image = {

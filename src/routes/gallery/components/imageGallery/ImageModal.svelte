@@ -2,8 +2,8 @@
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
 
   import { fissionServerUrl } from '$lib/app-info';
-  import { galleryStore } from '../../stores'
-  import { deleteImageFromWNFS, type Gallery, type Image } from '../../lib/gallery'
+  import { galleryStore } from '$routes/gallery/stores'
+  import { deleteImageFromWNFS, type Gallery, type Image } from '$routes/gallery/lib/gallery'
 
   export let image: Image
   export let isModalOpen: boolean = false

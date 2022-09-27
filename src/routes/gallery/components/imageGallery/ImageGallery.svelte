@@ -1,12 +1,12 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
 
-  import { AREAS, galleryStore } from '../../stores'
-  import { filesystemStore, sessionStore } from '../../../../stores'
-  import { getImagesFromWNFS, type Image } from '../../lib/gallery'
-  import FileUploadCard from '../upload/FileUploadCard.svelte'
-  import ImageCard from './ImageCard.svelte'
-  import ImageModal from './ImageModal.svelte'
+  import { filesystemStore, sessionStore } from '$src/stores'
+  import { AREAS, galleryStore } from '$routes/gallery/stores'
+  import { getImagesFromWNFS, type Image } from '$routes/gallery/lib/gallery'
+  import FileUploadCard from '$routes/gallery/components/upload/FileUploadCard.svelte'
+  import ImageCard from '$routes/gallery/components/imageGallery/ImageCard.svelte'
+  import ImageModal from '$routes/gallery/components/imageGallery/ImageModal.svelte'
 
   /**
    * Open the ImageModal and pass it the selected `image` from the gallery

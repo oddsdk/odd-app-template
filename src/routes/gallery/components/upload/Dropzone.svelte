@@ -1,5 +1,8 @@
 <script lang="ts">
-  import { getImagesFromWNFS, uploadImageToWNFS } from '../../lib/gallery'
+  import {
+    getImagesFromWNFS,
+    uploadImageToWNFS
+  } from '$routes/gallery/lib/gallery'
   import { addNotification } from '$lib/notifications'
 
   /**

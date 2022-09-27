@@ -3,9 +3,9 @@
   import * as wn from 'webnative'
   import type FileSystem from 'webnative/fs/index'
 
-  import { filesystemStore } from '../../stores'
-  import { AREAS } from './stores'
-  import { GALLERY_DIRS } from './lib/gallery'
+  import { filesystemStore } from '$src/stores'
+  import { AREAS } from '$routes/gallery/stores'
+  import { GALLERY_DIRS } from '$routes/gallery/lib/gallery'
 
   let fsCheckCompleted = false
 
