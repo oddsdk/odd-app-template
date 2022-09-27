@@ -67,7 +67,6 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
         const file = await fs.get(
           wn.path.file(...GALLERY_DIRS[selectedArea], `${name}`)
         )
-        console.log('file', file)
 
         // The CID for private files is currently located in `file.header.content`,
         // whereas the CID for public files is located in `file.cid`
@@ -154,7 +153,7 @@ export const uploadImageToWNFS: (
     addNotification(`${image.name} image has been published`, 'success')
   } catch (error) {
     addNotification(error.message, 'error')
-    console.log(error)
+    console.error(error)
   }
 }
 
