@@ -4,7 +4,8 @@ import type FileSystem from 'webnative/fs/index'
 import { asyncDebounce } from '$lib/utils'
 import { filesystemStore, sessionStore } from '../../stores'
 import { getBackupStatus } from '$lib/auth/backup'
-import { AREAS, GALLERY_DIRS } from '../../routes/gallery/lib/gallery'
+import { AREAS } from '../../routes/gallery/stores'
+import { GALLERY_DIRS } from '../../routes/gallery/lib/gallery'
 
 export const isUsernameValid = async (username: string): Promise<boolean> => {
   return webnative.account.isUsernameValid(username)

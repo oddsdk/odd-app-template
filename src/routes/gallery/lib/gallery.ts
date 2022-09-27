@@ -1,15 +1,12 @@
 import { get as getStore } from 'svelte/store'
 import * as wn from 'webnative'
 import * as uint8arrays from 'uint8arrays'
+import type FileSystem from 'webnative/fs/index'
+import type { PuttableUnixTree, File } from 'webnative/fs/types'
 
 import { filesystemStore } from '../../../stores'
-import { galleryStore } from '../stores'
+import { AREAS, galleryStore } from '../stores'
 import { addNotification } from '$lib/notifications'
-
-export enum AREAS {
-  PUBLIC = 'Public',
-  PRIVATE = 'Private'
-}
 
 export type Image = {
   cid: string
@@ -25,6 +22,12 @@ export type Gallery = {
   privateImages: Image[] | null
   selectedArea: AREAS
   loading: boolean
+}
+
+interface GalleryFile extends PuttableUnixTree, File {
+  header: {
+
+  }
 }
 
 export const GALLERY_DIRS = {
@@ -56,16 +59,17 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
         const file = await fs.get(
           wn.path.file(...GALLERY_DIRS[selectedArea], `${name}`)
         )
+        console.log('file', file)
 
         // The CID for private files is currently located in `file.header.content`,
         // whereas the CID for public files is located in `file.cid`
         const cid = isPrivate
-          ? (file as any).header.content.toString()
-          : (file as any).cid.toString()
+          ? file.header.content.toString()
+          : file.cid.toString()
 
         // Create a base64 string to use as the image `src`
         const src = `data:image/jpeg;base64, ${uint8arrays.toString(
-          (file as any).content,
+          file.content,
           'base64'
         )}`
 

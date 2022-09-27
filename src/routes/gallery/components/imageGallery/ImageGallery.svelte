@@ -1,9 +1,9 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
 
-  import { galleryStore } from '../../stores'
+  import { AREAS, galleryStore } from '../../stores'
   import { filesystemStore, sessionStore } from '../../../../stores'
-  import { AREAS, getImagesFromWNFS, type Image } from '../../lib/gallery'
+  import { getImagesFromWNFS, type Image } from '../../lib/gallery'
   import FileUploadCard from '../upload/FileUploadCard.svelte'
   import ImageCard from './ImageCard.svelte'
   import ImageModal from './ImageModal.svelte'
