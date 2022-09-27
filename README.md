@@ -99,7 +99,6 @@ The app template is designed to be easy for you to _make it your own._ Here's ho
     If you're not building an image gallery, you don't need the gallery demo code, except perhaps to learn from. To get rid of it, delete:
 
     - `/src/routes/gallery`
-    - the `initializeFilesystem` function in `/src/lib/auth/account.ts` creates directories used by WNFS. Change those to what you need for your app or delete them if you're not using WNFS.
 
 👏 You're ready to start adding custom functionality! 🚀
 
