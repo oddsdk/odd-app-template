@@ -1,8 +1,9 @@
 import { get as getStore } from 'svelte/store'
 import * as wn from 'webnative'
 import * as uint8arrays from 'uint8arrays'
-import type FileSystem from 'webnative/fs/index'
-import type { PuttableUnixTree, File } from 'webnative/fs/types'
+import type { CID } from 'multiformats/cid'
+import type { PuttableUnixTree, File as WNFile } from 'webnative/fs/types'
+import type { Metadata } from 'webnative/fs/metadata'
 
 import { filesystemStore } from '../../../stores'
 import { AREAS, galleryStore } from '../stores'
@@ -24,10 +25,17 @@ export type Gallery = {
   loading: boolean
 }
 
-interface GalleryFile extends PuttableUnixTree, File {
+interface GalleryFile extends PuttableUnixTree, WNFile {
+  cid: CID
+  content: Uint8Array
   header: {
-
+    content: Uint8Array
+    metadata: Metadata
   }
+}
+
+type Link = {
+  size: number
 }
 
 export const GALLERY_DIRS = {
@@ -64,21 +72,21 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
         // The CID for private files is currently located in `file.header.content`,
         // whereas the CID for public files is located in `file.cid`
         const cid = isPrivate
-          ? file.header.content.toString()
-          : file.cid.toString()
+          ? (file as GalleryFile).header.content.toString()
+          : (file as GalleryFile).cid.toString()
 
         // Create a base64 string to use as the image `src`
         const src = `data:image/jpeg;base64, ${uint8arrays.toString(
-          file.content,
+          (file as GalleryFile).content,
           'base64'
         )}`
 
         return {
           cid,
-          ctime: (file as any).header.metadata.unixMeta.ctime,
+          ctime: (file as GalleryFile).header.metadata.unixMeta.ctime,
           name,
           private: isPrivate,
-          size: (links[name] as any).size,
+          size: (links[name] as Link).size,
           src
         }
       })
