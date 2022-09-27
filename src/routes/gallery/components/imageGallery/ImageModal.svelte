@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
 
-  import { fissionServerUrl } from '$lib/app-info';
+  import { ipfsGatewayUrl } from '$lib/app-info';
   import { galleryStore } from '$routes/gallery/stores'
   import { deleteImageFromWNFS, type Gallery, type Image } from '$routes/gallery/lib/gallery'
 
@@ -140,7 +140,7 @@
         </div>
         <div class="flex flex-col items-center justify-center">
           <a
-            href={`https://ipfs.${fissionServerUrl}/ipfs/${image.cid}/userland`}
+            href={`https://ipfs.${ipfsGatewayUrl}/ipfs/${image.cid}/userland`}
             target="_blank"
             class="underline mb-4 hover:text-slate-500"
           >
