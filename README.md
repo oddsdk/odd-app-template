@@ -47,7 +47,7 @@ Ready? Let's go:
 1. Clone the repository:
 
     ```shell
-    git clone git@github.com:fission-codes/webnative.git
+    git clone git@github.com:fission-codes/webnative-app-template.git
     ```
 
 2. Install the dependencies.
