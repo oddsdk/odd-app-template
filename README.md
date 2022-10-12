@@ -84,7 +84,7 @@ The app template is designed to be easy for you to _make it your own._ Here's ho
     - Replace the favicon files in `/static` by following the instructions in [this blog post](https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs)
     - Generate a Twitter/Social Media Embed image.
         - In `/src/lib/app-info.ts`, change `appImageURL` to match the URL of your embed image.
-        - In `/src/routes/__layout.svelte`, update `og:image:width` and `og:image:height` to the size of your embed image.
+        - In `/src/routes/+layout.svelte`, update `og:image:width` and `og:image:height` to the size of your embed image.
 
 1. Customize the look and feel.
 
@@ -92,7 +92,7 @@ The app template is designed to be easy for you to _make it your own._ Here's ho
 
 1. Clear out the app's home page.
 
-    The home page content is in `/src/routes/index.svelte`. Delete everything in the file (but don't delete the file!) to start over with a blank home page.
+    The home page content is in `/src/routes/+page.svelte`. Delete everything in the file (but don't delete the file!) to start over with a blank home page.
 
 1. Remove the image gallery demo app code.
 
