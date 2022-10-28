@@ -6,6 +6,8 @@
 
 The Webnative App Template is a clone-and-go template for building a web application using Webnative, fast. Clone, customize, and deploy to have a running distributed app in mere minutes.
 
+**⚠️Warning! ⚠️️** [Webnative](https://github.com/fission-codes/webnative) is beta software. We recommend you not develop production applications using the Webnative App Template at this time. We're working on making it reliable, fast, and awesome, but we're not there yet!
+
 ## 🤔 What's Webnative?
 
 [The Webnative SDK](https://github.com/fission-codes/webnative) empowers developers to build fully distributed web applications without needing a complex back-end. The SDK provides:
@@ -152,7 +154,7 @@ In order to deploy your Webnative application on Netlify:
 
 ### Vercel
 
-Try out [Webnative App Template on Vercel](https://webnative-template.vercel.app/)
+Try out the [Webnative App Template on Vercel](https://webnative-template.vercel.app/).
 
 In order to deploy your Webnative application on Vercel:
 
@@ -162,7 +164,7 @@ In order to deploy your Webnative application on Vercel:
 
 ### Cloudflare Pages
 
-Try out [Webnative App Template on Cloudflare Pages](https://webnative-template.pages.dev/)
+Try out the [Webnative App Template on Cloudflare Pages](https://webnative-template.pages.dev/).
 
 In order to deploy your Webnative application on Cloudflare Pages:
 
