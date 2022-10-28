@@ -47,7 +47,9 @@ The app template includes a functioning application: an image gallery. Check out
 
 You can try out the template yourself [here](https://webnative-template.fission.app/).
 
-Ready? Let's go:
+Ready? Let's go.
+
+Prerequiste: ensure you are running Node 16.14 or greater, but _not_ Node 17 (18 is fine though!).
 
 1. Clone the repository:
 
