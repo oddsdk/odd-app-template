@@ -6,7 +6,10 @@
 
 The Webnative App Template is a clone-and-go template for building a web application using Webnative, fast. Clone, customize, and deploy to have a running distributed app in mere minutes.
 
-**⚠️Warning! ⚠️️** [Webnative](https://github.com/fission-codes/webnative) is beta software. We recommend you not develop production applications using the Webnative App Template at this time. We're working on making it reliable, fast, and awesome, but we're not there yet!
+<div style="background-color: #FEEB80; padding: 1px 20px; border-radius: 10px;">
+    <p class="text-align: center;"><strong>❗️Webnative is beta software.</strong></p>
+    <p>We recommend you <u>do not develop production applications using the Webnative App Template</u> at this time. We're working on making it reliable, fast, and awesome, but we're not there yet!</p>
+</div>
 
 ## 🤔 What's Webnative?
 
@@ -29,10 +32,10 @@ The Webnative App Template provides a _silky-smooth user experience_ out of the 
 
 The app template is built with modern web technologies:
 
--   SvelteKit (powered by Vite under the hood)
--   TypeScript
--   Tailwind
--   DaisyUI
+-   [SvelteKit](https://kit.svelte.dev/) (powered by [Vite](https://vitejs.dev/) under the hood)
+-   [TypeScript](https://www.typescriptlang.org/)
+-   [Tailwind](https://tailwindcss.com/)
+-   [DaisyUI](https://daisyui.com/)
 
 ### 👩‍🏫 A simple Webnative demo to learn from
 
@@ -111,10 +114,10 @@ Check out the [Webnative Guide](https://guide.fission.codes/developers/webnative
 
 Any static hosting platform should be supported. The Webnative App Template is currently deployed on:
 
--   [Fission](https://webnative-template.fission.app)
--   [Netlify](https://webnative.netlify.app)
--   [Vercel](https://webnative-template.vercel.app/)
--   [Cloudflare Pages](https://webnative-template.pages.dev/)
+-   [Fission](#fission-app-hosting)
+-   [Netlify](#netlify)
+-   [Vercel](#vercel)
+-   [Cloudflare Pages](#cloudflare-pages)
 
 ### Fission App Hosting
 
