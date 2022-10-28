@@ -174,8 +174,9 @@ In order to deploy your Webnative application on Cloudflare Pages:
 1. Create a new Pages project and connect your app's git repository. (If you don't have your application stored in a git repository, you can upload the output of a [static build](#static-build).)
 2. Select `SvelteKit` from the "Framework preset".
 3. Set the "Build output directory" to `build`.
-4. Under "Environment variables", add a variable with name of `NODE_VERSION` and value of `16`. (This may not be entirely necessary, but it locks the version so that it doesn't change underneath you.)
-5. Click "Save and Deploy".
+4. Under "Environment variables", add a variable with name of `NODE_VERSION` and value of `16`.
+5. Add the same environment variable to the "Preview" environment.
+6. Click "Save and Deploy".
 
 ### Static Build
 
