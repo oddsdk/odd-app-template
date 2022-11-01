@@ -7,7 +7,7 @@
 The Webnative App Template is a clone-and-go template for building a web application using Webnative, fast. Clone, customize, and deploy to have a running distributed app in mere minutes.
 
 <div style="background-color: #FEEB80; padding: 1px 20px; border-radius: 10px;">
-    <p class="text-align: center;"><strong>❗️Webnative is beta software.</strong></p>
+    <p class="text-align: center;"><strong>❗️Webnative is alpha software.</strong></p>
     <p>We recommend you <u>do not develop production applications using the Webnative App Template</u> at this time. We're working on making it reliable, fast, and awesome, but we're not there yet!</p>
 </div>
 
@@ -54,7 +54,7 @@ Prerequiste: ensure you are running Node 16.14 or greater, but _not_ Node 17 (18
 1. Clone the repository:
 
     ```shell
-    git clone git@github.com:fission-codes/webnative-app-template.git
+    git clone git@github.com:webnative-examples/webnative-app-template.git
     ```
 
 2. Install the dependencies.
@@ -123,7 +123,7 @@ Any static hosting platform should be supported. The Webnative App Template is c
 
 ### Fission App Hosting
 
-Try out [Webnative App Tempalte on Fission](https://webnative-template.fission.app)
+Try out [Webnative App Template on Fission](https://webnative-template.fission.app)
 
 A Webnative application can be published to IPFS with the [Fission CLI](https://guide.fission.codes/developers/cli) or the [Fission GitHub publish action](https://github.com/fission-suite/publish-action).
 
