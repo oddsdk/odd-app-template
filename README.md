@@ -1,10 +1,15 @@
 # Webnative App Template
 
-[![Built by FISSION](https://img.shields.io/badge/⌘-Built_by_FISSION-purple.svg)](https://fission.codes) [![Built by FISSION](https://img.shields.io/badge/webnative-v0.34.1-purple.svg)](https://github.com/fission-suite/webnative) [![Discord](https://img.shields.io/discord/478735028319158273.svg)](https://discord.gg/zAQBDEq) [![Discourse](https://img.shields.io/discourse/https/talk.fission.codes/topics)](https://talk.fission.codes) [![Netlify Status](https://api.netlify.com/api/v1/badges/7b7418ef-86eb-43c4-a668-0118568c7f46/deploy-status)](https://app.netlify.com/sites/webnative/deploys)
+[![Built by FISSION](https://img.shields.io/badge/⌘-Built_by_FISSION-purple.svg)](https://fission.codes) [![Built by FISSION](https://img.shields.io/badge/webnative-v0.34.1-purple.svg)](https://github.com/fission-suite/webnative) [![Discord](https://img.shields.io/discord/478735028319158273.svg)](https://discord.gg/zAQBDEq) [![Discourse](https://img.shields.io/discourse/https/talk.fission.codes/topics)](https://talk.fission.codes)
 
 ![Webnative UI Screenshot](static/webnative-ui.png)
 
 The Webnative App Template is a clone-and-go template for building a web application using Webnative, fast. Clone, customize, and deploy to have a running distributed app in mere minutes.
+
+<div style="background-color: #FEEB80; padding: 1px 20px; border-radius: 10px;">
+    <p class="text-align: center;"><strong>❗️Webnative is beta software.</strong></p>
+    <p>We recommend you <u>do not develop production applications using the Webnative App Template</u> at this time. We're working on making it reliable, fast, and awesome, but we're not there yet!</p>
+</div>
 
 ## 🤔 What's Webnative?
 
@@ -27,10 +32,10 @@ The Webnative App Template provides a _silky-smooth user experience_ out of the 
 
 The app template is built with modern web technologies:
 
--   SvelteKit (powered by Vite under the hood)
--   TypeScript
--   Tailwind
--   DaisyUI
+-   [SvelteKit](https://kit.svelte.dev/) (powered by [Vite](https://vitejs.dev/) under the hood)
+-   [TypeScript](https://www.typescriptlang.org/)
+-   [Tailwind](https://tailwindcss.com/)
+-   [DaisyUI](https://daisyui.com/)
 
 ### 👩‍🏫 A simple Webnative demo to learn from
 
@@ -40,9 +45,11 @@ The app template includes a functioning application: an image gallery. Check out
 
 ## 🚀 Getting Started
 
-You can try out the template yourself [here](https://webnative.netlify.app/).
+You can try out the template yourself [here](https://webnative-template.fission.app/).
 
-Ready? Let's go:
+Ready? Let's go.
+
+Prerequiste: ensure you are running Node 16.14 or greater, but _not_ Node 17 (18 is fine though!).
 
 1. Clone the repository:
 
@@ -107,21 +114,20 @@ Check out the [Webnative Guide](https://guide.fission.codes/developers/webnative
 
 ## 🧨 Deploy
 
-The Webnative App Template is currently deployed as a [Netlify app](https://webnative.netlify.app) and a [Fission app](https://webnative-template.fission.app), but it should be supported on any static hosting platform (Vercel, Cloudflare Pages, etc).
+Any static hosting platform should be supported. The Webnative App Template is currently deployed on:
 
-### Netlify
-
-In order to deploy your Webnative application on Netlify:
-
-1. Create a new Netlify site and connect your app's git repository. (If you don't have your application stored in a git repository, you can upload the output of a [static build](#static-build).)
-2. Netlify takes care of the rest. No Netlify-specific configuration is needed.
-3. There is no step 3.
+-   [Fission](#fission-app-hosting)
+-   [Netlify](#netlify)
+-   [Vercel](#vercel)
+-   [Cloudflare Pages](#cloudflare-pages)
 
 ### Fission App Hosting
 
+Try out [Webnative App Tempalte on Fission](https://webnative-template.fission.app)
+
 A Webnative application can be published to IPFS with the [Fission CLI](https://guide.fission.codes/developers/cli) or the [Fission GitHub publish action](https://github.com/fission-suite/publish-action).
 
-To publish with the Fission CLI:
+**To publish with the Fission CLI:**
 
 1. [Install the CLI](https://guide.fission.codes/developers/installation)
 2. Run `fission setup` to make a Fission account
@@ -132,7 +138,7 @@ To publish with the Fission CLI:
 
 Your app will be available online at the domain assigned by the register command.
 
-To set up the GitHub publish action:
+**To set up the GitHub publish action:**
 
 1. Register the app with the CLI
 2. Export your machine key with `base64 ~/.config/fission/key/machine_id.ed25519`
@@ -140,6 +146,39 @@ To set up the GitHub publish action:
 4. Update the `publish.yml` with the name of your registered app
 
 See the [Fission Guide](https://guide.fission.codes/developers/installation) and the publish action README for more details.
+
+### Netlify
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7b7418ef-86eb-43c4-a668-0118568c7f46/deploy-status)](https://app.netlify.com/sites/webnative/deploys)
+
+In order to deploy your Webnative application on Netlify:
+
+1. Create a new Netlify site and connect your app's git repository. (If you don't have your application stored in a git repository, you can upload the output of a [static build](#static-build).)
+2. Just click Deploy. Netlify takes care of the rest. No Netlify-specific configuration is needed.
+3. There is no step 3.
+
+### Vercel
+
+Try out the [Webnative App Template on Vercel](https://webnative-app-template.vercel.app/).
+
+In order to deploy your Webnative application on Vercel:
+
+1. Create a new Vercel project and connect your app's git repository. (If you don't have your application stored in a git repository, you can upload the output of a [static build](#static-build).)
+2. Override the default output directory and set it to `build`.
+3. Deploy. That's it!
+
+### Cloudflare Pages
+
+Try out the [Webnative App Template on Cloudflare Pages](https://webnative-template.pages.dev/).
+
+In order to deploy your Webnative application on Cloudflare Pages:
+
+1. Create a new Pages project and connect your app's git repository. (If you don't have your application stored in a git repository, you can upload the output of a [static build](#static-build).)
+2. Select `SvelteKit` from the "Framework preset".
+3. Set the "Build output directory" to `build`.
+4. Under "Environment variables", add a variable with name of `NODE_VERSION` and value of `16`.
+5. Add the same environment variable to the "Preview" environment.
+6. Click "Save and Deploy".
 
 ### Static Build
 
