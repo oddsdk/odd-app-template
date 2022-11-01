@@ -159,7 +159,7 @@ In order to deploy your Webnative application on Netlify:
 
 ### Vercel
 
-Try out the [Webnative App Template on Vercel](https://webnative-template.vercel.app/).
+Try out the [Webnative App Template on Vercel](https://webnative-app-template.vercel.app/).
 
 In order to deploy your Webnative application on Vercel:
 
