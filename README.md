@@ -123,7 +123,7 @@ Any static hosting platform should be supported. The Webnative App Template is c
 
 ### Fission App Hosting
 
-Try out [Webnative App Tempalte on Fission](https://webnative-template.fission.app)
+Try out [Webnative App Template on Fission](https://webnative-template.fission.app)
 
 A Webnative application can be published to IPFS with the [Fission CLI](https://guide.fission.codes/developers/cli) or the [Fission GitHub publish action](https://github.com/fission-suite/publish-action).
 
