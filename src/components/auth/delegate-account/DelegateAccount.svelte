@@ -10,8 +10,16 @@
     dispatch('cancel')
   }
 
+  /**
+   * Auto submit the form when the pinInput is equal to the TARGET_PIN_LENGTH
+   */
+  const TARGET_PIN_LENGTH = 6
   const checkPin = () => {
-    dispatch('checkpin')
+    if (pinInput.length === TARGET_PIN_LENGTH) {
+      dispatch('checkpin')
+    } else {
+      pinError = false
+    }
   }
 </script>
 
@@ -31,13 +39,18 @@
         <input
           id="pin"
           type="text"
-          class="input input-bordered w-full max-w-[197px] mb-2 rounded-full h-[68px] focus:outline-none font-mono text-deviceCode text-center tracking-[0.1em] font-light"
+          class="input input-bordered w-full max-w-[197px] mb-2 rounded-full h-[68px] focus:outline-none font-mono text-deviceCode text-center tracking-[0.1em] font-light {pinError
+            ? '!text-red-500 !border-red-500'
+            : ''}"
+          maxlength="6"
           bind:value={pinInput}
+          on:keyup={checkPin}
         />
         <label for="pin" class="label">
           {#if !pinError}
             <span class="label-text-alt">
-              Enter the connection code to approve the connection.
+              Enter the connection code from that device to approve this
+              connection.
             </span>
           {:else}
             <span class="label-text-alt text-error">
@@ -47,9 +60,6 @@
         </label>
       </div>
       <div>
-        <button class="btn btn-primary mb-5 w-full" on:click={checkPin}>
-          Approve the connection
-        </button>
         <button class="btn btn-outline w-full" on:click={cancelConnection}>
           Cancel Request
         </button>

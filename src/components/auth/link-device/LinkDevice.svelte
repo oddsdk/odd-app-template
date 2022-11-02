@@ -30,7 +30,7 @@
         {#if pin}
           <span
             on:click={copyCode}
-            class="btn bg-blue-100 dark:bg-blue-900 hover:bg-blue-100 dark:hover:bg-blue-900 border-0 btn-lg rounded-full text-deviceCode tracking-[.18em] w-3/4 cursor-pointer font-mono font-light"
+            class="btn text-base-100 hover:text-base-100 bg-base-content hover:bg-base-content border-0 btn-lg rounded-full text-deviceCode tracking-[.18em] w-3/4 cursor-pointer font-mono font-light"
           >
             {pin}
           </span>
