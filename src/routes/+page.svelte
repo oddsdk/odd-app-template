@@ -17,59 +17,37 @@
   onDestroy(unsubscribe)
 </script>
 
-<div
-  class="min-h-[calc(100vh-96px)] flex flex-col items-start justify-center max-w-[690px] m-auto gap-6 pb-5 text-sm"
->
-  {#if session?.authed}
-    <div class="card card-bordered w-96 dark:border-slate-600">
-      <div class="card-body">
-        <h2 class="card-title">👋 Account</h2>
-        <p>
-          Your username is
-          <span
-            class="inline-block px-2 font-mono bg-slate-300 dark:bg-slate-700 rounded-md"
-          >
-            {session.username}
-          </span>
-        </p>
+{#if session?.authed}
+  <div
+    class="min-h-[calc(100vh-96px)] flex flex-col items-start max-w-[690px] m-auto gap-10 pb-5 text-sm"
+  >
+    <h1 class="text-xl">Welcome, {session.username}!</h1>
 
-        {#if session.backupCreated}
-          <p>✅ You have connected your account on another device.</p>
-        {:else}
-          <p>
-            <span
-              class="h-7 w-7 inline-block bg-orange-300 rounded-full font-normal text-center"
-            >
-              <Shield />
-            </span>
-
-            You have not connected your account on another device.
-          </p>
-        {/if}
-        <div class="card-actions justify-center mt-3">
-          <button
-            class="btn btn-primary"
-            on:click={() => goto('/delegate-account')}
-          >
-            Connect a new device
-          </button>
-        </div>
-      </div>
+    <div class="flex flex-col items-start justify-center gap-5">
+      <h2 class="text-lg">Photo Gallery Demo</h2>
+      <p>
+        Webnative makes it easy to implement private, encrypted, user-owned
+        storage in your app. See it in action with our photo gallery demo.
+      </p>
+      <a class="btn btn-primary" href="/gallery">Try the Photo Gallery Demo</a>
     </div>
 
-    <div class="card w-96 card-bordered dark:border-slate-600">
-      <div class="card-body">
-        <h2 class="card-title">📷 Photo Gallery Demo</h2>
-        <p>
-          Try out the Webnative File System by storing your photos in public and
-          private storage.
-        </p>
-        <div class="card-actions justify-center">
-          <a class="btn btn-primary" href="/gallery">Go to Photos</a>
-        </div>
-      </div>
+    <div class="flex flex-col items-start justify-center gap-5">
+      <h2 class="text-lg">Device Connection Demo</h2>
+      <p>
+        With Webnative SDK, a user’s account lives only on their connected
+        devices—entirely under their control. It’s easy for them to connect as
+        many devices as they’d like. For recoverability, we recommend they
+        always connect at least 2.
+      </p>
+      <button
+        class="btn btn-primary"
+        on:click={() => goto('/delegate-account')}
+      >
+        Connection an additional device
+      </button>
     </div>
-  {:else}
-    <AboutThisTemplate />
-  {/if}
-</div>
+  </div>
+{:else}
+  <AboutThisTemplate />
+{/if}

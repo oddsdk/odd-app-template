@@ -30,17 +30,17 @@
 
   {#if !$sessionStore.loading && !$sessionStore.authed}
     <div class="flex-none">
-      <a class="btn btn-primary btn-sm h-10" href="/connect">Connect</a>
+      <a class="btn btn-primary btn-sm !h-10" href="/connect">Connect</a>
     </div>
   {/if}
 
   {#if !$sessionStore.loading && $sessionStore.backupCreated === false}
     <span
       on:click={() => goto('/delegate-account')}
-      class="btn btn-sm h-10 btn-warning rounded-full font-normal transition-colors ease-in hover:bg-orange-500 hover:border-orange-500"
+      class="btn btn-sm h-10 btn-warning rounded-full bg-orange-300 border-2 border-neutral font-semiBold text-neutral transition-colors ease-in hover:border-neutral-50 hover:bg-orange-300"
     >
+      <span class="mr-2">Backup recommended</span>
       <Shield />
-      <span class="ml-2 hidden md:block">Backup recommended</span>
     </span>
   {/if}
 

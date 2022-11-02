@@ -45,9 +45,7 @@
 {:else}
   <input type="checkbox" id="register-modal" checked class="modal-toggle" />
   <div class="modal">
-    <div
-      class="modal-box w-narrowModal relative text-center dark:border-slate-600 dark:border"
-    >
+    <div class="modal-box w-narrowModal relative text-center">
       <a href="/" class="btn btn-xs btn-circle absolute right-2 top-2">✕</a>
 
       <div>
@@ -133,7 +131,7 @@
         <div class="mt-5">
           <a class="btn btn-outline" href="/connect">Back</a>
           <button
-            class="ml-2 btn btn-primary disabled:border-neutral"
+            class="ml-2 btn btn-primary disabled:opacity-50 disabled:border-neutral disabled:text-neutral"
             disabled={username.length === 0 ||
               !usernameValid ||
               !usernameAvailable}
