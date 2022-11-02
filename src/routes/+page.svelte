@@ -5,6 +5,7 @@
   import { appName } from '$lib/app-info'
   import { sessionStore } from '../stores'
   import type { Session } from '$lib/session'
+  import AboutThisTemplate from '$components/about/AboutThisTemplate.svelte'
   import Shield from '$components/icons/Shield.svelte'
 
   let session: Session
@@ -16,9 +17,9 @@
   onDestroy(unsubscribe)
 </script>
 
-<div class="grid grid-flow-row auto-rows-max gap-5 justify-items-center pb-5">
-  <h1 class="text-2xl">Welcome to {appName}!</h1>
-
+<div
+  class="min-h-[calc(100vh-96px)] flex flex-col items-start justify-center max-w-[690px] m-auto gap-6 pb-5 text-sm"
+>
   {#if session?.authed}
     <div class="card card-bordered w-96 dark:border-slate-600">
       <div class="card-body">
@@ -68,41 +69,7 @@
         </div>
       </div>
     </div>
+  {:else}
+    <AboutThisTemplate />
   {/if}
-  <div class="card card-bordered w-96 dark:border-slate-600">
-    <div class="card-body">
-      <h2 class="card-title">About</h2>
-      <p>
-        This app is a template for building apps with the
-        <a
-          class="link link-primary whitespace-nowrap"
-          href="https://github.com/fission-codes/webnative"
-          target="_blank"
-        >
-          Webnative SDK
-          <span class="-scale-x-100 scale-y-100 inline-block">⎋</span>
-        </a>
-      </p>
-      <p>
-        Get started
-        <a
-          class="link link-primary"
-          href="https://github.com/fission-codes/webnative-app-template"
-          target="_blank"
-        >
-          using this template
-          <span class="-scale-x-100 scale-y-100 inline-block">⎋</span>
-        </a>
-        and learn more in the
-        <a
-          class="link link-primary"
-          href="https://guide.fission.codes/developers/webnative"
-          target="_blank"
-        >
-          Webnative Guide
-          <span class="-scale-x-100 scale-y-100 inline-block">⎋</span>
-        </a>
-      </p>
-    </div>
-  </div>
 </div>

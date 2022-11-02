@@ -1,10 +1,10 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
-  
-  import { appName } from '$lib/app-info'
+
   import { sessionStore, themeStore } from '../stores'
   import { storeTheme, type Theme } from '$lib/theme'
   import Brand from '$components/icons/Brand.svelte'
+  import BrandFull from '$components/icons/BrandFull.svelte'
   import DarkMode from '$components/icons/DarkMode.svelte'
   import LightMode from '$components/icons/LightMode.svelte'
   import Shield from '$components/icons/Shield.svelte'
@@ -16,16 +16,21 @@
 </script>
 
 <header class="navbar bg-base-100 pt-0">
-  <div class="flex-1 cursor-pointer hover:underline" on:click={() => goto('/')}>
+  <div class="flex-1 items-center cursor-pointer" on:click={() => goto('/')}>
     <Brand />
-    <span class="text-xl ml-2 hidden md:inline">{appName}</span>
+    <div class="hidden md:inline-block ml-3">
+      <BrandFull />
+    </div>
+    <span
+      class="hidden sm:inline-block ml-3 px-2 py-[2px] !no-underline font-semiBold text-center text-xs text-neutral bg-gradient-to-r from-orange-600 to-orange-300"
+    >
+      ALPHA
+    </span>
   </div>
 
   {#if !$sessionStore.loading && !$sessionStore.authed}
     <div class="flex-none">
-      <a class="btn btn-sm h-10 btn-primary normal-case" href="/connect">
-        Connect
-      </a>
+      <a class="btn btn-primary btn-sm h-10" href="/connect">Connect</a>
     </div>
   {/if}
 
@@ -39,7 +44,7 @@
     </span>
   {/if}
 
-  <span class="ml-2">
+  <span class="ml-2 cursor-pointer">
     {#if $themeStore === 'light'}
       <span on:click={() => setTheme('dark')}>
         <LightMode />

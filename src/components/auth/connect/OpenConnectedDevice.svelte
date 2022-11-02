@@ -5,18 +5,18 @@
   class="modal-toggle"
 />
 <div class="modal">
-  <div class="modal-box w-96 relative text-center">
+  <div class="modal-box w-96 sm:w-wideModal relative text-center">
     <a href="/" class="btn btn-xs btn-circle absolute right-2 top-2">✕</a>
     <div>
-      <h3 class="mb-5 text-2xl font-serif">Connect an existing account</h3>
+      <h3 class="mb-8 text-base">Connect your existing account</h3>
       <div>
-        <p class="text-sm mb-3">
-          To connect with an existing account, you'll need a device that's
-          already connected to that account.
+        <p class="text-sm text-left mb-6">
+          To connect your existing account on this device, you’ll need a device
+          you are already connected on.
         </p>
-        <p class="text-sm">
-          On that device, click "Connect a new device" and follow the
-          instuctions.
+        <p class="text-sm text-left">
+          On that device, click “Connect a new device” and follow the
+          instructions.
         </p>
       </div>
     </div>

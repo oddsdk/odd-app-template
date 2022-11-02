@@ -53,5 +53,7 @@
 <div data-theme={$themeStore} class="min-h-screen">
   <Header />
   <Notifications />
-  <slot />
+  <div class="px-4">
+    <slot />
+  </div>
 </div>

@@ -46,39 +46,34 @@
   <input type="checkbox" id="register-modal" checked class="modal-toggle" />
   <div class="modal">
     <div
-      class="modal-box w-80 relative text-center dark:border-slate-600 dark:border"
+      class="modal-box w-narrowModal relative text-center dark:border-slate-600 dark:border"
     >
-      <a
-        href="/"
-        class="btn btn-xs btn-circle absolute right-2 top-2 dark:bg-slate-600"
-      >
-        ✕
-      </a>
+      <a href="/" class="btn btn-xs btn-circle absolute right-2 top-2">✕</a>
 
       <div>
-        <h3 class="mb-7 text-xl font-serif">Choose a username</h3>
+        <h3 class="mb-7 text-base">Choose a username</h3>
         <div class="relative">
           <input
             id="registration"
             type="text"
             placeholder="Type here"
-            class="input input-bordered w-full block dark:border-slate-300"
+            class="input input-bordered focus:outline-none w-full px-3 block"
             class:input-error={username.length !== 0 &&
               (!usernameValid || !usernameAvailable)}
             on:input={checkUsername}
           />
           {#if checkingUsername}
             <span
-              class="rounded-lg border-t-2 border-l-2 border-slate-600 dark:border-slate-50 w-4 h-4 block absolute top-4 right-4 animate-spin"
+              class="rounded-lg border-t-2 border-l-2 border-base-content w-4 h-4 block absolute top-4 right-4 animate-spin"
             />
           {/if}
           {#if !(username.length === 0) && usernameAvailable && usernameValid && !checkingUsername}
-            <span class="w-4 h-4 block absolute top-5 right-4">
+            <span class="w-4 h-4 block absolute top-[17px] right-4">
               <CheckIcon />
             </span>
           {/if}
           {#if !(username.length === 0) && !checkingUsername && !(usernameAvailable && usernameValid)}
-            <span class="w-4 h-4 block absolute top-5 right-4">
+            <span class="w-4 h-4 block absolute top-[17px] right-4">
               <XIcon />
             </span>
           {/if}
@@ -88,16 +83,16 @@
           <!-- Status of username: valid, available, etc -->
           <label for="registration" class="label mt-1">
             {#if usernameValid && usernameAvailable}
-              <span class="label-text-alt text-success">
-                The username is available.
+              <span class="label-text-alt text-green-700 dark:text-green-500">
+                This username is available.
               </span>
             {:else if !usernameValid}
               <span class="label-text-alt text-error">
-                The username is invalid.
+                This username is invalid.
               </span>
             {:else if !usernameAvailable}
               <span class="label-text-alt text-error">
-                The username is unavailable.
+                This username is unavailable.
               </span>
             {/if}
           </label>
@@ -115,7 +110,7 @@
           <input
             type="checkbox"
             id="shared-computer"
-            class="peer checkbox checkbox-primary inline-grid align-bottom dark:border-slate-300"
+            class="peer checkbox checkbox-primary border-2 border-base-content hover:border-orange-300 transition-colors duration-250 ease-in-out inline-grid align-bottom"
           />
           <!-- Warning when "This is a shared computer" is checked -->
           <label
@@ -136,9 +131,9 @@
         </div>
 
         <div class="mt-5">
-          <a class="btn btn-primary btn-outline" href="/connect">Back</a>
+          <a class="btn btn-outline" href="/connect">Back</a>
           <button
-            class="ml-2 btn btn-primary"
+            class="ml-2 btn btn-primary disabled:border-neutral"
             disabled={username.length === 0 ||
               !usernameValid ||
               !usernameAvailable}
