@@ -51,6 +51,15 @@ module.exports = {
   },
   theme: {
     extend: {
+      animation: {
+        marquee: 'marquee 15s linear infinite'
+      },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(102%)' },
+          '100%': { transform: 'translateX(-100vw)' }
+        }
+      },
       boxShadow: {
         orange: '0px 8px 0px rgba(243, 110, 101, 0.2)'
       },
@@ -64,7 +73,8 @@ module.exports = {
           700: '#15803D'
         },
         neutral: {
-          500: '#737373',
+          50: '#FAFAFA',
+          500: '#737373'
         },
         orange: {
           300: '#F26D64',
@@ -77,17 +87,18 @@ module.exports = {
       fontFamily: {
         sans: ['UncutSans_Regular'],
         semiBold: ['UncutSans_Medium'],
-        bold: ['UncutSans_Bold'],
+        bold: ['UncutSans_Bold']
       },
       fontSize: {
         mobileNav: ['24px', { lineHeight: '24px' }],
         deviceCode: ['30px', { lineHeight: '36px' }],
+        xxs: ['12px', { lineHeight: '16px' }],
         xs: ['13px', { lineHeight: '24px', letterSpacing: '0.1em' }],
         sm: ['16px', { lineHeight: '24px' }],
         base: ['20px', { lineHeight: '28px' }],
-        lg: ['31px', { lineHeight: '32px' }],
+        lg: ['24px', { lineHeight: '32px' }],
         xl: ['38px', { lineHeight: '48px' }],
-        '2xl': ['50px', { lineHeight: '62px' }],
+        '2xl': ['50px', { lineHeight: '62px' }]
       },
       width: {
         narrowModal: '327px',

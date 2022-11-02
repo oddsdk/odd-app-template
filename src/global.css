@@ -34,12 +34,13 @@ h4, h5, h6 {
   @apply font-semiBold;
 }
 
-body, p, li, a, span, input, .btn {
+body, p, li, a, span, input {
   @apply font-sans;
 }
 
 /* Button default styles */
 .btn {
+  @apply font-semiBold;
   @apply border-2;
   @apply min-h-0;
 }
@@ -94,4 +95,13 @@ body, p, li, a, span, input, .btn {
 
 .label-text-alt {
   @apply text-sm;
+}
+
+/* Utils classes */
+
+/* this is a tailwind class, but there's a bug where it doesn't add the correct browser prefixes */
+.bg-clip-text {
+  -o-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-background-clip: text;
 }
