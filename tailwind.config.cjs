@@ -54,11 +54,8 @@ module.exports = {
       animation: {
         marquee: 'marquee 15s linear infinite'
       },
-      keyframes: {
-        marquee: {
-          '0%': { transform: 'translateX(102%)' },
-          '100%': { transform: 'translateX(-100vw)' }
-        }
+      aspectRatio: {
+        '22/23': '22 / 23'
       },
       boxShadow: {
         orange: '0px 8px 0px rgba(243, 110, 101, 0.2)'
@@ -77,8 +74,10 @@ module.exports = {
           500: '#737373'
         },
         orange: {
+          50: '#FFF7ED',
           300: '#F26D64',
-          600: '#EED082'
+          600: '#EED082',
+          700: '#C2410C'
         },
         red: {
           600: '#DC2626'
@@ -99,6 +98,12 @@ module.exports = {
         lg: ['24px', { lineHeight: '32px' }],
         xl: ['38px', { lineHeight: '48px' }],
         '2xl': ['50px', { lineHeight: '62px' }]
+      },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(102%)' },
+          '100%': { transform: 'translateX(-100vw)' }
+        }
       },
       width: {
         narrowModal: '327px',

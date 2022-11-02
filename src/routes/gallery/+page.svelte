@@ -29,20 +29,17 @@
 
 <div class="p-2 text-center">
   {#if $sessionStore.authed}
-    <div class="flex mb-4">
-      <div
-        class="tabs tabs-boxed w-fit border {$themeStore === 'light'
-          ? 'button-transparent'
-          : 'border-primary'}"
-      >
+    <div class="flex items-center justify-center translate-y-1/2 w-fit m-auto">
+      <div class="tabs border-2 border-base-content rounded-lg">
         {#each Object.keys(AREAS) as area}
           <button
             on:click={() => handleChangeTab(AREAS[area])}
-            class="tab {$galleryStore.selectedArea === AREAS[area]
-              ? 'tab-active'
-              : 'hover:text-primary'} ease-in"
+            class="tab h-10 font-bold text-sm ease-in {$galleryStore.selectedArea ===
+            AREAS[area]
+              ? 'tab-active bg-base-content text-base-100'
+              : 'bg-base-100 text-base-content'}"
           >
-            {AREAS[area]} WNFS
+            {AREAS[area]} Photos
           </button>
         {/each}
       </div>
