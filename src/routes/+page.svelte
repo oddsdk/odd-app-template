@@ -9,7 +9,7 @@
   <Home />
 {:else}
   <div
-    class="min-h-[calc(100vh-96px)] flex flex-col items-start justify-center max-w-[690px] m-auto gap-6 pb-5 text-sm"
+    class="min-h-[calc(100vh-96px)] flex flex-col items-start justify-center max-w-[700px] m-auto gap-6 pb-5 text-sm"
   >
     <AboutThisTemplate title={`Welcome to the ${appName}`} />
   </div>
