@@ -1,5 +1,11 @@
 <script lang="ts">
   import { themeStore } from '../stores'
+
+  /**
+   * I typically don't do browser specific tweaks, but Firefox doesn't fully support background-clip
+   * so the marquee text is cut off half way through the animation
+   */
+  const isFirefox = navigator.userAgent.indexOf('Firefox') != -1
 </script>
 
 <div
@@ -7,7 +13,9 @@
 >
   {#if $themeStore === 'light'}
     <p
-      class="motion-safe:animate-marquee motion-safe:left-full whitespace-nowrap font-bold text-xxs text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-300"
+      class="motion-safe:animate-marquee motion-safe:left-full whitespace-nowrap font-bold text-xxs {isFirefox
+        ? 'text-orange-500'
+        : 'text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-300'}"
     >
       *** Experimental *** - You are currently previewing Webnative SDK Alpha
       0.2
