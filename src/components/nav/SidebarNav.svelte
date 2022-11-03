@@ -33,6 +33,7 @@
   }
 </script>
 
+<!-- Only render the nav if the user is authed -->
 {#if $sessionStore.authed}
   <div class="drawer drawer-mobile h-screen">
     <input
