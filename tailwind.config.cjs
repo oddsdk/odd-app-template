@@ -52,7 +52,7 @@ module.exports = {
   theme: {
     extend: {
       animation: {
-        marquee: 'marquee 15s linear infinite'
+        marquee: 'marquee 20s linear infinite'
       },
       aspectRatio: {
         '22/23': '22 / 23'

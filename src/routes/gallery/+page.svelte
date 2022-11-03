@@ -2,7 +2,7 @@
   import { onDestroy } from 'svelte'
   import { goto } from '$app/navigation'
 
-  import { sessionStore, themeStore } from '$src/stores'
+  import { sessionStore } from '$src/stores'
   import { AREAS, galleryStore } from '$routes/gallery/stores'
   import Dropzone from '$routes/gallery/components/upload/Dropzone.svelte'
   import ImageGallery from '$routes/gallery/components/imageGallery/ImageGallery.svelte'
