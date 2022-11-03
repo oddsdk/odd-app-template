@@ -24,7 +24,7 @@
 
     // Iterate over the dropped files and upload them to WNFS
     await Promise.all(
-      files.map(async (item, index) => {
+      files.map(async item => {
         if (item.kind === 'file') {
           const file: File = item.getAsFile()
 

@@ -27,9 +27,9 @@
     }
   ]
 
-  let checked = ''
+  let checked = false
   const handleCloseDrawer = (): void => {
-    checked = ''
+    checked = false
   }
 </script>
 

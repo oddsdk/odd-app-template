@@ -2,7 +2,7 @@
   import type { Image } from '$routes/gallery/lib/gallery'
 
   export let image: Image
-  export let openModal
+  export let openModal: (image: Image) => void
 
   const handleOpenModal = () => openModal(image)
 </script>
