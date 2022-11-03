@@ -3,8 +3,9 @@
 
   import { sessionStore, themeStore } from '../stores'
   import { storeTheme, type Theme } from '$lib/theme'
-  import Brand from '$components/icons/Brand.svelte'
-  import BrandFull from '$components/icons/BrandFull.svelte'
+  import AlphaTag from '$components/nav/AlphaTag.svelte'
+  import BrandLogo from '$components/icons/BrandLogo.svelte'
+  import BrandWordmark from '$components/icons/BrandWordmark.svelte'
   import DarkMode from '$components/icons/DarkMode.svelte'
   import Hamburger from '$components/icons/Hamburger.svelte'
   import LightMode from '$components/icons/LightMode.svelte'
@@ -16,39 +17,37 @@
   }
 </script>
 
-<header class="navbar flex bg-base-100 pt-0">
-  <div class="md:hidden">
+<header class="navbar flex bg-base-100 pt-4">
+  <div class="lg:hidden">
     {#if $sessionStore.authed}
-      <Hamburger />
+      <label for="sidebar-nav" class="drawer-button cursor-pointer">
+        <Hamburger />
+      </label>
     {:else}
       <div
-        class="flex md:hidden flex-1 items-center cursor-pointer"
+        class="flex items-center cursor-pointer gap-3"
         on:click={() => goto('/')}
       >
-        <Brand />
-        <span
-          class="inline-block ml-3 px-2 py-[2px] !no-underline font-semiBold text-center text-xs text-neutral bg-gradient-to-r from-orange-600 to-orange-300"
-        >
-          ALPHA
-        </span>
+        <BrandLogo />
+        <AlphaTag />
       </div>
     {/if}
   </div>
 
-  <div
-    class="hidden md:flex flex-1 items-center cursor-pointer"
-    on:click={() => goto('/')}
-  >
-    <Brand />
-    <div class="hidden md:inline-block ml-3">
-      <BrandFull />
-    </div>
-    <span
-      class="hidden sm:inline-block ml-3 px-2 py-[2px] !no-underline font-semiBold text-center text-xs text-neutral bg-gradient-to-r from-orange-600 to-orange-300"
+  {#if !$sessionStore.authed}
+    <div
+      class="hidden lg:flex flex-1 items-center cursor-pointer gap-3"
+      on:click={() => goto('/')}
     >
-      ALPHA
-    </span>
-  </div>
+      <BrandLogo />
+      <div class="hidden lg:inline-block">
+        <BrandWordmark />
+      </div>
+      <div class="hidden sm:inline-block">
+        <AlphaTag />
+      </div>
+    </div>
+  {/if}
 
   <div class="ml-auto">
     {#if !$sessionStore.loading && !$sessionStore.authed}

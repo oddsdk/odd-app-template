@@ -71,7 +71,8 @@ module.exports = {
         },
         neutral: {
           50: '#FAFAFA',
-          500: '#737373'
+          500: '#737373',
+          800: '#262626',
         },
         orange: {
           50: '#FFF7ED',

@@ -27,7 +27,7 @@
   onDestroy(unsubscribe)
 </script>
 
-<div class="p-2 text-center">
+<div class="p-2 mb-14 text-center">
   {#if $sessionStore.authed}
     <div class="flex items-center justify-center translate-y-1/2 w-fit m-auto">
       <div class="tabs border-2 border-base-content rounded-lg">

@@ -8,6 +8,7 @@
   import Footer from '$components/Footer.svelte'
   import Header from '$components/Header.svelte'
   import Notifications from '$components/notifications/Notifications.svelte'
+  import SidebarNav from '$components/nav/SidebarNav.svelte'
 
   sessionStore.subscribe(session => {
     if (session.error) {
@@ -52,10 +53,12 @@
 </svelte:head>
 
 <div data-theme={$themeStore} class="min-h-screen">
-  <Header />
   <Notifications />
-  <div class="px-4">
-    <slot />
-  </div>
+  <SidebarNav>
+    <Header />
+    <div class="px-4">
+      <slot />
+    </div>
+  </SidebarNav>
   <Footer />
 </div>
