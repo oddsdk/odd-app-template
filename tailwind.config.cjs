@@ -22,7 +22,8 @@ module.exports = {
           '--rounded-btn': '8px',
           '--rounded-badge': '2px',
           '--tab-radius': '2px',
-          '--btn-text-case': 'normal-case'
+          '--btn-text-case': 'normal-case',
+          '--navbar-padding': '16px'
         },
         light: {
           primary: '#3b82f6',
@@ -39,7 +40,8 @@ module.exports = {
           '--rounded-btn': '8px',
           '--rounded-badge': '2px',
           '--tab-radius': '2px',
-          '--btn-text-case': 'normal-case'
+          '--btn-text-case': 'normal-case',
+          '--navbar-padding': '16px'
         }
       }
     ],
