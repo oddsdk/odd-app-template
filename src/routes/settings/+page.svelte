@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { goto } from '$app/navigation'
-
-  import { sessionStore } from '../../stores'
+  import { sessionStore } from '$src/stores'
+  import AvatarUpload from '$components/settings/AvatarUpload.svelte'
 </script>
 
 <div
@@ -9,25 +8,33 @@
 >
   <h1 class="text-xl">Account Settings</h1>
 
-  <div class="flex flex-col items-start justify-center gap-5">
-    <h2 class="text-lg">Photo Gallery Demo</h2>
-    <p>
-      Webnative makes it easy to implement private, encrypted, user-owned
-      storage in your app. See it in action with our photo gallery demo.
-    </p>
-    <a class="btn btn-primary" href="/gallery">Try the Photo Gallery Demo</a>
-  </div>
+  <div class="flex flex-col items-start justify-center gap-6">
+    <div>
+      <AvatarUpload />
+    </div>
 
-  <div class="flex flex-col items-start justify-center gap-5">
-    <h2 class="text-lg">Device Connection Demo</h2>
-    <p>
-      With Webnative SDK, a user’s account lives only on their connected
-      devices—entirely under their control. It’s easy for them to connect as
-      many devices as they’d like. For recoverability, we recommend they always
-      connect at least 2.
-    </p>
-    <button class="btn btn-primary" on:click={() => goto('/delegate-account')}>
-      Connect an additional device
-    </button>
+    <div>
+      <h3 class="text-lg mb-4">Username</h3>
+      <p>{$sessionStore.username}</p>
+    </div>
+    <div>
+      <h3 class="text-lg mb-4">Theme preference</h3>
+      <p>{$sessionStore.username}</p>
+    </div>
+
+    <div>
+      <h3 class="text-lg mb-4">Connected devices</h3>
+      {#if $sessionStore.backupCreated}
+        <p class="mb-4">
+          You've already connected an additional device, but you can connect
+          more.
+        </p>
+      {:else}
+        <p class="mb-4">You have no other connected devices.</p>
+      {/if}
+      <a class="btn btn-primary" href="/delegate-account">
+        Connect an additional device
+      </a>
+    </div>
   </div>
 </div>
