@@ -27,7 +27,7 @@
       connect at least 2.
     </p>
     <button class="btn btn-primary" on:click={() => goto('/delegate-account')}>
-      Connection an additional device
+      Connect an additional device
     </button>
   </div>
 </div>
