@@ -1,6 +1,6 @@
 import { browser } from '$app/environment'
 
-export type Theme = 'light' | 'dark'
+export type Theme = 'light' | 'dark' | 'default'
 
 export const loadTheme = (): Theme => {
   if (browser) {

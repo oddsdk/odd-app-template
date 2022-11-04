@@ -50,10 +50,17 @@ export const getAvatarFromWNFS: () => Promise<void> = async () => {
     // Find the file that matches the AVATAR_FILE_NAME
     const path = wn.path.directory(...ACCOUNT_SETTINGS_DIR)
     const links = await fs.ls(path)
-    const avatarFileNameWithExt = Object.keys(links).find(key => key.includes(AVATAR_FILE_NAME))
+    const avatarFileNameWithExt = Object.keys(links).find(key =>
+      key.includes(AVATAR_FILE_NAME)
+    )
 
+    // If user has not uploaded an avatar, silently fail and let the UI handle it
     if (!avatarFileNameWithExt) {
-      throw new Error('User has not uploaded an avatar')
+      accountSettingsStore.update(store => ({
+        ...store,
+        loading: false
+      }))
+      return
     }
 
     const avatarRaw = await fs.get(
