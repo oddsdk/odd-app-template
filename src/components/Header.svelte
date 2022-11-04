@@ -20,7 +20,10 @@
 <header class="navbar flex bg-base-100 pt-4">
   <div class="lg:hidden">
     {#if $sessionStore.authed}
-      <label for="sidebar-nav" class="drawer-button cursor-pointer">
+      <label
+        for="sidebar-nav"
+        class="drawer-button cursor-pointer -translate-x-2"
+      >
         <Hamburger />
       </label>
     {:else}
