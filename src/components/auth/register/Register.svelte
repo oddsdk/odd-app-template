@@ -32,6 +32,10 @@
   }
 
   const registerUser = async () => {
+    if (checkingUsername) {
+      return
+    }
+
     initializingFilesystem = true
 
     registrationSuccess = await register(username)
@@ -134,7 +138,8 @@
             class="ml-2 btn btn-primary disabled:opacity-50 disabled:border-neutral disabled:text-neutral"
             disabled={username.length === 0 ||
               !usernameValid ||
-              !usernameAvailable}
+              !usernameAvailable ||
+              checkingUsername}
             on:click={registerUser}
           >
             Register
