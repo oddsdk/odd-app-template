@@ -63,7 +63,7 @@
     {#if !$sessionStore.loading && $sessionStore.backupCreated === false}
       <span
         on:click={() => goto('/delegate-account')}
-        class="btn btn-sm h-10 btn-warning rounded-full bg-orange-300 border-2 border-neutral font-semiBold text-neutral transition-colors ease-in hover:border-neutral-50 hover:bg-orange-300"
+        class="btn btn-sm h-10 btn-warning rounded-full bg-orange-300 border-2 border-neutral font-semiBold text-neutral transition-colors ease-in hover:bg-orange-300"
       >
         <span class="mr-2">Backup recommended</span>
         <Shield />

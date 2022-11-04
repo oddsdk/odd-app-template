@@ -72,8 +72,8 @@ body, p, li, a, span, input {
   @apply px-4;
 }
 
-.btn-primary:hover {
-  @apply border-base-content;
+.btn-primary:hover, .btn-warning:hover {
+  @apply border-orange-300;
 }
 
 /* Input default styles */
