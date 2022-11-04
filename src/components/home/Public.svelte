@@ -7,7 +7,7 @@
 >
   <h1 class="text-xl">Welcome to the {appName}</h1>
 
-  <div class="max-w-[573px]">
+  <div class="max-w-[590px]">
     <p class="mb-5">
       Webnative SDK is a true local-first edge computing stack. Effortlessly
       give your users:
