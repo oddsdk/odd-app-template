@@ -37,6 +37,7 @@
     {/if}
   </div>
 
+  <!-- Even if the user is not authed, render this header in the connection flow -->
   {#if !$sessionStore.authed || $page.url.pathname.match(/register|backup|delegate/)}
     <div
       class="hidden lg:flex flex-1 items-center cursor-pointer gap-3"

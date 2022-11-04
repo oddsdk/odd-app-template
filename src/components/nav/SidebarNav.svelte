@@ -33,7 +33,7 @@
   }
 </script>
 
-<!-- Only render the nav if the user is authed -->
+<!-- Only render the nav if the user is authed and not in the connection flow -->
 {#if $sessionStore.authed && !$page.url.pathname.match(/register|backup|delegate/)}
   <div class="drawer drawer-mobile h-screen">
     <input
