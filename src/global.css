@@ -98,13 +98,3 @@ body, p, li, a, span, input {
 .label-text-alt {
   @apply text-sm;
 }
-
-/* Utils classes */
-
-/* this is a tailwind class, but there's a bug where it doesn't add the correct browser prefixes */
-.bg-clip-text {
-  background-clip: text;
-  -o-background-clip: text;
-  -moz-background-clip: text;
-  -webkit-background-clip: text;
-}
