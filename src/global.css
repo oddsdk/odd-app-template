@@ -57,6 +57,7 @@ body, p, li, a, span, input {
   @apply bg-base-100;
   @apply shadow-orange;
   @apply h-11;
+  @apply px-4;
 }
 
 .btn-primary {
@@ -68,6 +69,7 @@ body, p, li, a, span, input {
   @apply from-orange-600;
   @apply to-orange-300;
   @apply h-11;
+  @apply px-4;
 }
 
 .btn-primary:hover {
