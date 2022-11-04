@@ -37,6 +37,8 @@
         >
           Skip for now
         </button>
+      {:else}
+        <a class="btn btn-outline mt-4" href="/">Cancel</a>
       {/if}
     </div>
   </div>
