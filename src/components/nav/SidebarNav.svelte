@@ -34,7 +34,7 @@
 </script>
 
 <!-- Only render the nav if the user is authed -->
-{#if $sessionStore.authed}
+{#if $sessionStore.authed && !$page.url.pathname.match(/register|backup|delegate/)}
   <div class="drawer drawer-mobile h-screen">
     <input
       id="sidebar-nav"

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
-
+  import { page } from '$app/stores'
   import { sessionStore, themeStore } from '../stores'
   import { storeTheme, type Theme } from '$lib/theme'
   import AlphaTag from '$components/nav/AlphaTag.svelte'
@@ -34,7 +34,7 @@
     {/if}
   </div>
 
-  {#if !$sessionStore.authed}
+  {#if !$sessionStore.authed || $page.url.pathname.match(/register|backup|delegate/)}
     <div
       class="hidden lg:flex flex-1 items-center cursor-pointer gap-3"
       on:click={() => goto('/')}

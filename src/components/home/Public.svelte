@@ -13,7 +13,7 @@
       give your users:
     </p>
 
-    <ul class="mb-5 pl-6 list-disc">
+    <ul class="mb-6 pl-6 list-disc">
       <li>
         <span class="font-bold">modern, passwordless accounts</span>
         , without a complex and costly cloud-native back-end
