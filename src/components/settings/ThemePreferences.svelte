@@ -22,7 +22,6 @@
   // const systemDefault = window.matchMedia('(prefers-color-scheme: dark)').matches
   //     ? 'dark'
   //     : 'light'
-  console.log('selected', selected)
   themeStore.subscribe((updatedTheme) => {
     // if (updatedTheme === systemDefault) {
     //   selected = 'default'
