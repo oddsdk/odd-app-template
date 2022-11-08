@@ -20,7 +20,7 @@
       </li>
       <li>
         <span class="font-bold">user-controlled data</span>
-        , secured by default via our encrypted-at-rest file storage protocol
+        , secured by default with our encrypted-at-rest file storage protocol
       </li>
       <li>
         <span class="font-bold">local-first functionality</span>
