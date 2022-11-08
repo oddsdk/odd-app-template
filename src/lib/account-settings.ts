@@ -50,12 +50,12 @@ export const getAvatarFromWNFS: () => Promise<void> = async () => {
     // Find the file that matches the AVATAR_FILE_NAME
     const path = wn.path.directory(...ACCOUNT_SETTINGS_DIR)
     const links = await fs.ls(path)
-    const avatarFileNameWithExt = Object.keys(links).find(key =>
+    const avatarLinks = Object.keys(links).filter(key =>
       key.includes(AVATAR_FILE_NAME)
     )
 
     // If user has not uploaded an avatar, silently fail and let the UI handle it
-    if (!avatarFileNameWithExt) {
+    if (!avatarLinks) {
       accountSettingsStore.update(store => ({
         ...store,
         loading: false
@@ -63,22 +63,40 @@ export const getAvatarFromWNFS: () => Promise<void> = async () => {
       return
     }
 
-    const avatarRaw = await fs.get(
-      wn.path.file(...ACCOUNT_SETTINGS_DIR, `${avatarFileNameWithExt}`)
+    const images = await Promise.all(
+      avatarLinks.map(async name => {
+        const file = await fs.get(
+          wn.path.file(...ACCOUNT_SETTINGS_DIR, `${name}`)
+        )
+
+        // The CID for private files is currently located in `file.header.content`
+        const cid = (file as AvatarFile).header.content.toString()
+
+        // Create a base64 string to use as the image `src`
+        const src = `data:image/jpeg;base64, ${uint8arrays.toString(
+          (file as AvatarFile).content,
+          'base64'
+        )}`
+
+        return {
+          cid,
+          ctime: (file as AvatarFile).header.metadata.unixMeta.ctime,
+          name,
+          size: (links[name] as Link).size,
+          src
+        }
+      })
     )
 
-    const cid = (avatarRaw as AvatarFile).header.content.toString()
-    const src = `data:image/jpeg;base64, ${uint8arrays.toString(
-      (avatarRaw as AvatarFile).content,
-      'base64'
-    )}`
+    // Sort the newest images to the top of the list
+    images.sort((a, b) => b.ctime - a.ctime)
 
+    // The most recent avatar should be at the top of the list now
     const avatar = {
-      cid,
-      ctime: (avatarRaw as AvatarFile).header.metadata.unixMeta.ctime,
+      cid: images[0].cid,
+      ctime: images[0].ctime,
       name: AVATAR_FILE_NAME,
-      size: (links[avatarFileNameWithExt] as Link).size,
-      src
+      src: images[0].src
     }
 
     // Push images to the accountSettingsStore
