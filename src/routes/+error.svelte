@@ -13,7 +13,7 @@
 
   <img
     class="relative z-0 w-[227px] h-[227px] rounded-full border-[16px] border-base-content"
-    src={`${window.location.origin}/still-circle-animation.svg`}
+    src={`${window.location.origin}/wn-404.gif`}
     alt={`Circle animation`}
   />
 
