@@ -1,7 +1,16 @@
 <script lang="ts">
-  import { accountSettingsStore, sessionStore } from '$src/stores'
-  import { handleFileInput } from '$lib/account-settings'
+  import { getAvatarFromWNFS, uploadAvatarToWNFS } from '$lib/account-settings'
   import Avatar from '$components/settings/Avatar.svelte'
+
+  /**
+   * Handle uploads made by interacting with the file input
+   */
+  const handleFileInput: (file: File) => Promise<void> = async file => {
+    await uploadAvatarToWNFS(file)
+
+    // Refetch avatar and update accountSettingsStore
+    await getAvatarFromWNFS()
+  }
 
   // Handle a file uploaded directly through the file input
   let files: FileList

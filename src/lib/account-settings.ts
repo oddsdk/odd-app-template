@@ -29,33 +29,53 @@ interface AvatarFile extends PuttableUnixTree, WNFile {
   }
 }
 
-type Link = {
-  size: number
-}
-
 export const ACCOUNT_SETTINGS_DIR = ['private', 'settings']
+const AVATAR_DIR = [...ACCOUNT_SETTINGS_DIR, 'avatars']
+const AVATAR_ARCHIVE_DIR = [...AVATAR_DIR, 'archive']
 const AVATAR_FILE_NAME = 'avatar'
 const FILE_SIZE_LIMIT = 5
 
 /**
+ * Move old avatar to the archive directory
+ */
+const archiveOldAvatar = async (): Promise<void> => {
+  const fs = getStore(filesystemStore)
+
+  // Return if user has not uploaded an avatar yet
+  const avatarDirExists = await fs.exists(wn.path.file(...AVATAR_DIR))
+  if (!avatarDirExists) {
+    return
+  }
+
+  // Find the filename of the old avatar
+  const path = wn.path.directory(...AVATAR_DIR)
+  const links = await fs.ls(path)
+  const oldAvatarFileName = Object.keys(links).find(key =>
+    key.includes(AVATAR_FILE_NAME)
+  )
+
+  // Move avatar to archive dir
+  const fromPath = wn.path.file(...AVATAR_DIR, oldAvatarFileName)
+  const toPath = wn.path.file(...AVATAR_ARCHIVE_DIR, oldAvatarFileName)
+  await fs.mv(fromPath, toPath)
+
+  // Announce the changes to the server
+  await fs.publish()
+}
+
+/**
  * Get the Avatar from the user's WNFS and construct its `src`
  */
-export const getAvatarFromWNFS: () => Promise<void> = async () => {
+export const getAvatarFromWNFS = async (): Promise<void> => {
   try {
     // Set loading: true on the accountSettingsStore
     accountSettingsStore.update(store => ({ ...store, loading: true }))
 
     const fs = getStore(filesystemStore)
 
-    // Find the file that matches the AVATAR_FILE_NAME
-    const path = wn.path.directory(...ACCOUNT_SETTINGS_DIR)
-    const links = await fs.ls(path)
-    const avatarLinks = Object.keys(links).filter(key =>
-      key.includes(AVATAR_FILE_NAME)
-    )
-
-    // If user has not uploaded an avatar, silently fail and let the UI handle it
-    if (!avatarLinks) {
+    // If the avatar dir doesn't exist, silently fail and let the UI handle it
+    const avatarDirExists = await fs.exists(wn.path.file(...AVATAR_DIR))
+    if (!avatarDirExists) {
       accountSettingsStore.update(store => ({
         ...store,
         loading: false
@@ -63,40 +83,38 @@ export const getAvatarFromWNFS: () => Promise<void> = async () => {
       return
     }
 
-    const images = await Promise.all(
-      avatarLinks.map(async name => {
-        const file = await fs.get(
-          wn.path.file(...ACCOUNT_SETTINGS_DIR, `${name}`)
-        )
-
-        // The CID for private files is currently located in `file.header.content`
-        const cid = (file as AvatarFile).header.content.toString()
-
-        // Create a base64 string to use as the image `src`
-        const src = `data:image/jpeg;base64, ${uint8arrays.toString(
-          (file as AvatarFile).content,
-          'base64'
-        )}`
-
-        return {
-          cid,
-          ctime: (file as AvatarFile).header.metadata.unixMeta.ctime,
-          name,
-          size: (links[name] as Link).size,
-          src
-        }
-      })
+    // Find the file that matches the AVATAR_FILE_NAME
+    const path = wn.path.directory(...AVATAR_DIR)
+    const links = await fs.ls(path)
+    const avatarName = Object.keys(links).find(key =>
+      key.includes(AVATAR_FILE_NAME)
     )
 
-    // Sort the newest images to the top of the list
-    images.sort((a, b) => b.ctime - a.ctime)
+    // If user has not uploaded an avatar, silently fail and let the UI handle it
+    if (!avatarName) {
+      accountSettingsStore.update(store => ({
+        ...store,
+        loading: false
+      }))
+      return
+    }
 
-    // The most recent avatar should be at the top of the list now
+    const file = await fs.get(wn.path.file(...AVATAR_DIR, `${avatarName}`))
+
+    // The CID for private files is currently located in `file.header.content`
+    const cid = (file as AvatarFile).header.content.toString()
+
+    // Create a base64 string to use as the image `src`
+    const src = `data:image/jpeg;base64, ${uint8arrays.toString(
+      (file as AvatarFile).content,
+      'base64'
+    )}`
+
     const avatar = {
-      cid: images[0].cid,
-      ctime: images[0].ctime,
-      name: AVATAR_FILE_NAME,
-      src: images[0].src
+      cid,
+      ctime: (file as AvatarFile).header.metadata.unixMeta.ctime,
+      name: avatarName,
+      src
     }
 
     // Push images to the accountSettingsStore
@@ -119,9 +137,7 @@ export const getAvatarFromWNFS: () => Promise<void> = async () => {
  * Upload an avatar image to the user's private WNFS
  * @param image
  */
-export const uploadImageToWNFS: (
-  image: File
-) => Promise<void> = async image => {
+export const uploadAvatarToWNFS = async (image: File): Promise<void> => {
   try {
     const fs = getStore(filesystemStore)
 
@@ -130,6 +146,9 @@ export const uploadImageToWNFS: (
     if (imageSizeInMB > FILE_SIZE_LIMIT) {
       throw new Error('Image can be no larger than 5MB')
     }
+
+    // Archive old avatar
+    await archiveOldAvatar()
 
     // Rename the file to `avatar.[extension]`
     const updatedImage = new File(
@@ -142,7 +161,7 @@ export const uploadImageToWNFS: (
 
     // Create a sub directory and add the avatar
     await fs.write(
-      wn.path.file(...ACCOUNT_SETTINGS_DIR, updatedImage.name),
+      wn.path.file(...AVATAR_DIR, updatedImage.name),
       updatedImage
     )
 
@@ -154,16 +173,4 @@ export const uploadImageToWNFS: (
     addNotification(error.message, 'error')
     console.error(error)
   }
-}
-
-/**
- * Handle uploads made by interacting with the file input
- */
-export const handleFileInput: (
-  file: File
-) => Promise<void> = async file => {
-  await uploadImageToWNFS(file)
-
-  // Refetch avatar and update accountSettingsStore
-  await getAvatarFromWNFS()
 }
