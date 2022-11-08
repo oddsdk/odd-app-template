@@ -54,7 +54,7 @@ const archiveOldAvatar = async (): Promise<void> => {
     key.includes(AVATAR_FILE_NAME)
   )
   const oldFileNameArray = oldAvatarFileName.split('.')[0]
-  const archiveFileName = `${oldFileNameArray[0]}-${Date.now()}-.${
+  const archiveFileName = `${oldFileNameArray[0]}-${Date.now()}.${
     oldFileNameArray[1]
   }`
   // Move avatar to archive dir
