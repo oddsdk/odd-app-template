@@ -57,7 +57,8 @@ const archiveOldAvatar = async (): Promise<void> => {
   const archiveFileName = `${oldFileNameArray[0]}-${Date.now()}.${
     oldFileNameArray[1]
   }`
-  // Move avatar to archive dir
+
+  // Move old avatar to archive dir
   const fromPath = wn.path.file(...AVATAR_DIR, oldAvatarFileName)
   const toPath = wn.path.file(...AVATAR_ARCHIVE_DIR, archiveFileName)
   await fs.mv(fromPath, toPath)
