@@ -1,5 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import clipboardCopy from 'clipboard-copy'
+
+  import { appName } from '$lib/app-info'
+  import { addNotification } from '$lib/notifications'
 
   export let pin: string
 
@@ -8,24 +12,32 @@
   const cancelConnection = () => {
     dispatch('cancel')
   }
+
+  const copyCode = async () => {
+    await clipboardCopy(pin)
+    addNotification('Copied to clipboard', 'success')
+  }
 </script>
 
 <input type="checkbox" id="my-modal-5" checked class="modal-toggle" />
 <div class="modal">
   <div
-    class="modal-box w-80 relative text-center dark:border-slate-600 dark:border"
+    class="modal-box w-narrowModal relative text-center dark:border-slate-600 dark:border"
   >
     <div class="grid grid-flow-row auto-rows-max gap-7">
-      <h3 class="text-xl font-serif">Connection Requested</h3>
+      <h3 class="text-base">Connect to {appName}</h3>
       <div class="grid grid-flow-row auto-rows-max gap-4 justify-items-center">
         {#if pin}
           <span
-            class="btn bg-blue-100 dark:bg-blue-900 hover:bg-blue-100 dark:hover:bg-blue-900 border-0 btn-lg rounded-full text-3xl tracking-[.18em] w-3/4 cursor-default font-mono font-light"
+            on:click={copyCode}
+            class="btn text-base-100 hover:text-base-100 bg-base-content hover:bg-base-content border-0 btn-lg rounded-full text-deviceCode tracking-[.18em] w-3/4 cursor-pointer font-mono font-light"
           >
             {pin}
           </span>
         {/if}
-        <span class="text-md">Enter this code on your connected device.</span>
+        <span class="text-sm text-left">
+          Enter this code on your connected device.
+        </span>
         <div
           class="grid grid-flow-col auto-cols-max gap-4 justify-center items-center text-slate-500"
         >
@@ -37,7 +49,7 @@
       </div>
       <div>
         <button
-          class="btn btn-primary btn-outline text-base font-normal mt-4"
+          class="btn btn-outline text-base mt-4"
           on:click={cancelConnection}
         >
           Cancel Request

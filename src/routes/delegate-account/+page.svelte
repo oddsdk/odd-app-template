@@ -48,8 +48,11 @@
         connectionLink = `${origin}/link-device?username=${username}`
         qrcode = new QRCode({
           content: connectionLink,
-          color: $themeStore === 'light' ? '#334155' : '#E2E8F0',
-          background: '#ffffff00'
+          color: $themeStore === 'light' ? '#171717' : '#FAFAFA',
+          background: $themeStore === 'light' ? '#FAFAFA' : '#171717',
+          padding: 0,
+          width: 216,
+          height: 216
         }).svg()
 
         initAccountLinkingProducer(username)

@@ -26,7 +26,7 @@
     success: {
       component: CheckThinIcon,
       props: {
-        color: $themeStore === 'light' ? '#b8ffd3' : '#002e12'
+        color: '#14532D'
       }
     },
     warning: {
