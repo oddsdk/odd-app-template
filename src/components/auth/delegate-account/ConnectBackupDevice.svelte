@@ -38,7 +38,12 @@
           Skip for now
         </button>
       {:else}
-        <a class="btn btn-outline mt-4" href="/">Cancel</a>
+        <a
+          class="btn btn-xs btn-link text-sm font-normal underline mt-4"
+          href="/"
+        >
+          Cancel
+        </a>
       {/if}
     </div>
   </div>

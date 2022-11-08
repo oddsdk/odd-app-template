@@ -8,6 +8,7 @@
   import BrandWordmark from '$components/icons/BrandWordmark.svelte'
   import Home from '$components/icons/Home.svelte'
   import PhotoGallery from '$components/icons/PhotoGallery.svelte'
+  import Settings from '$components/icons/Settings.svelte'
 
   const navItems = [
     {
@@ -24,6 +25,11 @@
       label: 'About This Template',
       href: '/about/',
       icon: About
+    },
+    {
+      label: 'Account Settings',
+      href: '/settings/',
+      icon: Settings
     }
   ]
 

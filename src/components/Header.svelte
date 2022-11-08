@@ -4,6 +4,7 @@
   import { sessionStore, themeStore } from '../stores'
   import { storeTheme, type Theme } from '$lib/theme'
   import AlphaTag from '$components/nav/AlphaTag.svelte'
+  import Avatar from '$components/settings/Avatar.svelte'
   import BrandLogo from '$components/icons/BrandLogo.svelte'
   import BrandWordmark from '$components/icons/BrandWordmark.svelte'
   import DarkMode from '$components/icons/DarkMode.svelte'
@@ -15,6 +16,7 @@
     themeStore.set(newTheme)
     storeTheme(newTheme)
   }
+
 </script>
 
 <header class="navbar flex bg-base-100 pt-4">
@@ -68,6 +70,12 @@
         <span class="mr-2">Backup recommended</span>
         <Shield />
       </span>
+    {/if}
+
+    {#if $sessionStore.authed}
+      <a href="/settings" class="ml-2 cursor-pointer">
+        <Avatar size="small" />
+      </a>
     {/if}
 
     <span class="ml-2 cursor-pointer">

@@ -4,6 +4,7 @@ import type FileSystem from 'webnative/fs/index'
 import { asyncDebounce } from '$lib/utils'
 import { filesystemStore, sessionStore } from '../../stores'
 import { getBackupStatus } from '$lib/auth/backup'
+import { ACCOUNT_SETTINGS_DIR } from '$lib/account-settings'
 import { AREAS } from '$routes/gallery/stores'
 import { GALLERY_DIRS } from '$routes/gallery/lib/gallery'
 
@@ -50,6 +51,7 @@ export const register = async (username: string): Promise<boolean> => {
 const initializeFilesystem = async (fs: FileSystem): Promise<void> => {
   await fs.mkdir(webnative.path.directory(...GALLERY_DIRS[AREAS.PUBLIC]))
   await fs.mkdir(webnative.path.directory(...GALLERY_DIRS[AREAS.PRIVATE]))
+  await fs.mkdir(webnative.path.directory(...ACCOUNT_SETTINGS_DIR))
 }
 
 export const loadAccount = async (username: string): Promise<void> => {
