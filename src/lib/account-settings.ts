@@ -53,10 +53,13 @@ const archiveOldAvatar = async (): Promise<void> => {
   const oldAvatarFileName = Object.keys(links).find(key =>
     key.includes(AVATAR_FILE_NAME)
   )
-
+  const oldFileNameArray = oldAvatarFileName.split('.')[0]
+  const archiveFileName = `${oldFileNameArray[0]}-${Date.now()}-.${
+    oldFileNameArray[1]
+  }`
   // Move avatar to archive dir
   const fromPath = wn.path.file(...AVATAR_DIR, oldAvatarFileName)
-  const toPath = wn.path.file(...AVATAR_ARCHIVE_DIR, oldAvatarFileName)
+  const toPath = wn.path.file(...AVATAR_ARCHIVE_DIR, archiveFileName)
   await fs.mv(fromPath, toPath)
 
   // Announce the changes to the server
@@ -139,6 +142,9 @@ export const getAvatarFromWNFS = async (): Promise<void> => {
  */
 export const uploadAvatarToWNFS = async (image: File): Promise<void> => {
   try {
+    // Set loading: true on the accountSettingsStore
+    accountSettingsStore.update(store => ({ ...store, loading: true }))
+
     const fs = getStore(filesystemStore)
 
     // Reject files over 5MB
@@ -160,10 +166,7 @@ export const uploadAvatarToWNFS = async (image: File): Promise<void> => {
     )
 
     // Create a sub directory and add the avatar
-    await fs.write(
-      wn.path.file(...AVATAR_DIR, updatedImage.name),
-      updatedImage
-    )
+    await fs.write(wn.path.file(...AVATAR_DIR, updatedImage.name), updatedImage)
 
     // Announce the changes to the server
     await fs.publish()
