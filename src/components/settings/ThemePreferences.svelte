@@ -3,10 +3,6 @@
   import { storeTheme, type Theme } from '$lib/theme'
 
   const options = [
-    // {
-    //   label: 'System Default',
-    //   value: 'default'
-    // },
     {
       label: 'Dark',
       value: 'dark'
@@ -19,15 +15,8 @@
 
   let selected = $themeStore
 
-  // const systemDefault = window.matchMedia('(prefers-color-scheme: dark)').matches
-  //     ? 'dark'
-  //     : 'light'
   themeStore.subscribe((updatedTheme) => {
-    // if (updatedTheme === systemDefault) {
-    //   selected = 'default'
-    // } else {
     selected = updatedTheme
-    // }
   })
 
   const setTheme = (newTheme: Theme) => {
@@ -36,7 +25,6 @@
   }
 
   $: if (selected) {
-    // setTheme(selected === 'default' ? systemDefault : selected)
     setTheme(selected)
   }
 </script>
