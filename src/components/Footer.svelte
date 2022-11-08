@@ -5,7 +5,7 @@
    * I typically don't do browser specific tweaks, but Firefox doesn't fully support background-clip
    * so the marquee text is cut off half way through the animation
    */
-  const isFirefox = navigator.userAgent.indexOf('Firefox') != -1
+  const isFirefox = navigator.userAgent.indexOf('Firefox') !== -1
 </script>
 
 <div
