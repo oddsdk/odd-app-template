@@ -10,37 +10,22 @@
   font-style: normal;
 }
 
-@font-face {
-    font-family: 'UncutSans_Medium';
-    src: url('/fonts/uncut-sans-medium-webfont.woff2') format('woff2'),
-         url('/fonts/uncut-sans-medium-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-  font-family: 'UncutSans_Bold';
-  src: url('/fonts/uncut-sans-bold-webfont.woff2') format('woff2'),
-        url('/fonts/uncut-sans-bold-webfont.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-
 h1, h2, h3 {
   @apply font-bold;
 }
 
 h4, h5, h6 {
-  @apply font-semiBold;
+  @apply font-medium;
 }
 
 body, p, li, a, span, input {
   @apply font-sans;
+  @apply font-normal;
 }
 
 /* Button default styles */
 .btn {
-  @apply font-semiBold;
+  @apply font-medium;
   @apply border-2;
   @apply min-h-0;
 }
