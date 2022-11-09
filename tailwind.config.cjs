@@ -88,9 +88,7 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ['UncutSans_Regular'],
-        semiBold: ['UncutSans_Medium'],
-        bold: ['UncutSans_Bold']
+        sans: ['UncutSans']
       },
       fontSize: {
         mobileNav: ['24px', { lineHeight: '24px' }],
@@ -116,10 +114,6 @@ module.exports = {
       zIndex: {
         max: '1000' // High enough to appear above the modal(999)
       }
-      // spacing: {
-      //   headerHeight: '64px',
-      //   footerHeight: '32px',
-      // },
     }
   },
   purge: {
