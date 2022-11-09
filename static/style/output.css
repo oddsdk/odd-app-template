@@ -42,7 +42,7 @@ html {
   -o-tab-size: 4;
      tab-size: 4;
   /* 3 */
-  font-family: UncutSans_Regular;
+  font-family: UncutSans;
   /* 4 */
 }
 
@@ -2668,6 +2668,14 @@ body[dir="rtl"] .checkbox:checked,
   height: 40px;
 }
 
+.h-\[28px\] {
+  height: 28px;
+}
+
+.h-\[16px\] {
+  height: 16px;
+}
+
 .h-\[68px\] {
   height: 68px;
 }
@@ -2722,6 +2730,14 @@ body[dir="rtl"] .checkbox:checked,
 
 .w-\[40px\] {
   width: 40px;
+}
+
+.w-\[28px\] {
+  width: 28px;
+}
+
+.w-\[16px\] {
+  width: 16px;
 }
 
 .w-fit {
@@ -3142,14 +3158,6 @@ body[dir="rtl"] .checkbox:checked,
   vertical-align: bottom;
 }
 
-.font-bold {
-  font-family: UncutSans_Bold;
-}
-
-.font-semiBold {
-  font-family: UncutSans_Medium;
-}
-
 .font-mono {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
@@ -3196,6 +3204,10 @@ body[dir="rtl"] .checkbox:checked,
 
 .font-bold {
   font-weight: 700;
+}
+
+.font-medium {
+  font-weight: 500;
 }
 
 .font-normal {
@@ -3356,55 +3368,54 @@ body[dir="rtl"] .checkbox:checked,
 }
 
 @font-face {
-  font-family: 'UncutSans_Regular';
+  font-family: 'UncutSans';
 
   src: url('/fonts/uncut-sans-regular-webfont.woff2') format('woff2'),
         url('/fonts/uncut-sans-regular-webfont.woff') format('woff');
 
-  font-weight: normal;
+  font-weight: 400;
 
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'UncutSans_Medium';
+  font-family: 'UncutSans';
 
   src: url('/fonts/uncut-sans-medium-webfont.woff2') format('woff2'),
          url('/fonts/uncut-sans-medium-webfont.woff') format('woff');
 
-  font-weight: normal;
+  font-weight: 500;
 
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'UncutSans_Bold';
+  font-family: 'UncutSans';
 
   src: url('/fonts/uncut-sans-bold-webfont.woff2') format('woff2'),
         url('/fonts/uncut-sans-bold-webfont.woff') format('woff');
 
-  font-weight: normal;
+  font-weight: 700;
 
   font-style: normal;
 }
 
 h1, h2, h3 {
-  font-family: UncutSans_Bold;
   font-weight: 700;
 }
 
 h4, h5, h6 {
-  font-family: UncutSans_Medium;
+  font-weight: 500;
 }
 
-body, p, li, a, span, input {
-  font-family: UncutSans_Regular;
+body, input {
+  font-family: UncutSans;
 }
 
 /* Button default styles */
 
 .btn {
-  font-family: UncutSans_Medium;
+  font-weight: 500;
   border-width: 2px;
   min-height: 0px;
 }
