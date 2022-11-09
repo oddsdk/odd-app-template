@@ -3,44 +3,49 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'UncutSans_Regular';
+  font-family: 'UncutSans';
   src: url('/fonts/uncut-sans-regular-webfont.woff2') format('woff2'),
-        url('/fonts/uncut-sans-regular-webfont.woff') format('woff');
+    url('/fonts/uncut-sans-regular-webfont.woff') format('woff');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-    font-family: 'UncutSans_Medium';
-    src: url('/fonts/uncut-sans-medium-webfont.woff2') format('woff2'),
-         url('/fonts/uncut-sans-medium-webfont.woff') format('woff');
-    font-weight: 500;
-    font-style: normal;
+  font-family: 'UncutSans';
+  src: url('/fonts/uncut-sans-medium-webfont.woff2') format('woff2'),
+    url('/fonts/uncut-sans-medium-webfont.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
 }
 
 @font-face {
-  font-family: 'UncutSans_Bold';
+  font-family: 'UncutSans';
   src: url('/fonts/uncut-sans-bold-webfont.woff2') format('woff2'),
-        url('/fonts/uncut-sans-bold-webfont.woff') format('woff');
+    url('/fonts/uncut-sans-bold-webfont.woff') format('woff');
   font-weight: 700;
   font-style: normal;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   @apply font-bold;
 }
 
-h4, h5, h6 {
-  @apply font-semiBold;
+h4,
+h5,
+h6 {
+  @apply font-medium;
 }
 
-body, p, li, a, span, input {
+body,
+input {
   @apply font-sans;
 }
 
 /* Button default styles */
 .btn {
-  @apply font-semiBold;
+  @apply font-medium;
   @apply border-2;
   @apply min-h-0;
 }
@@ -72,7 +77,8 @@ body, p, li, a, span, input {
   @apply px-4;
 }
 
-.btn-primary:hover, .btn-warning:hover {
+.btn-primary:hover,
+.btn-warning:hover {
   @apply border-orange-300;
 }
 

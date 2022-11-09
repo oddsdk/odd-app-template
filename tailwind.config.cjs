@@ -88,9 +88,7 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ['UncutSans_Regular'],
-        semiBold: ['UncutSans_Medium'],
-        bold: ['UncutSans_Bold']
+        sans: ['UncutSans']
       },
       fontSize: {
         mobileNav: ['24px', { lineHeight: '24px' }],
