@@ -6,22 +6,18 @@
 
 <input type="checkbox" id="link-device-modal" checked class="modal-toggle" />
 <div class="modal">
-  <div
-    class="modal-box w-80 relative text-center dark:border-slate-600 dark:border"
-  >
+  <div class="modal-box w-narrowModal relative text-center">
     <div>
-      <h3 class="mb-7 text-xl font-serif">
+      <h3 class="mb-14 text-base">
         Welcome, {$sessionStore.username}!
       </h3>
-      <div class="flex justify-center">
-        <span>
-          <WelcomeCheckIcon />
-        </span>
+      <div class="flex justify-center mb-11 text-base-content">
+        <WelcomeCheckIcon />
       </div>
       <div>
-        <p class="mt-8 mb-4">Your account has been created.</p>
+        <p class="mb-4 text-left">Your account has been created.</p>
 
-        <div class="mb-8">
+        <div class="mb-8 text-left">
           <input type="checkbox" id="password-message" class="peer hidden" />
           <label
             class="text-primary underline mb-8 hover:cursor-pointer peer-checked:hidden"

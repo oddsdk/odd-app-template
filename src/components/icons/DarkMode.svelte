@@ -1,16 +1,19 @@
-<svg
-  width="41"
-  height="40"
-  viewBox="0 0 41 40"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
-  class="stroke-slate-50 fill-slate-900 hover:stroke-slate-900 hover:fill-slate-50 hover:cursor-pointer transition-colors"
->
-  <rect x="1" y="0.5" width="39" height="39" rx="19.5" />
-  <path
-    d="M28.8542 23.3542C27.8176 23.7708 26.6856 24.0001 25.5 24.0001C20.5294 24.0001 16.5 19.9706 16.5 15.0001C16.5 13.8145 16.7292 12.6825 17.1458 11.6459C13.8365 12.9758 11.5 16.2151 11.5 20.0001C11.5 24.9706 15.5294 29.0001 20.5 29.0001C24.285 29.0001 27.5243 26.6636 28.8542 23.3542Z"
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none">
+  <rect
+    width="38"
+    height="38"
+    x="1"
+    y="1"
+    fill="#171717"
+    stroke="#FAFAFA"
     stroke-width="2"
+    rx="19"
+  />
+  <path
+    stroke="#FAFAFA"
     stroke-linecap="round"
     stroke-linejoin="round"
+    stroke-width="2"
+    d="M28.354 23.354a9 9 0 0 1-11.708-11.708A9.003 9.003 0 0 0 20 29a9.003 9.003 0 0 0 8.354-5.646Z"
   />
 </svg>

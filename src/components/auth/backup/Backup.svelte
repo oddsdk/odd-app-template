@@ -14,18 +14,16 @@
 
 <input type="checkbox" id="backup-modal" checked class="modal-toggle" />
 <div class="modal">
-  <div
-    class="modal-box w-80 relative text-center dark:border-slate-600 dark:border"
-  >
+  <div class="modal-box w-narrowModal relative text-center">
     <div id="backup-message" class="peer-checked:hidden">
-      <h3 class="mb-7 text-xl font-serif">Backup your account</h3>
-      <p class="mt-8 mb-4">
+      <h3 class="mb-8 text-base">Backup your account</h3>
+      <p class="mb-5 text-left">
         Your {appName} account & its data live only on your devices.
       </p>
 
-      <p class="mt-8 mb-4">
-        We highly recommend connecting your account on at least one more device,
-        so that you have a backup.
+      <p class="mb-8 text-left">
+        We highly recommend backing up your account on at least one additional
+        device.
       </p>
 
       <button
@@ -35,7 +33,7 @@
         Connect a backup device
       </button>
       <button
-        class="btn btn-xs btn-link text-base font-normal underline mt-4"
+        class="btn btn-xs btn-link text-sm underline mt-4"
         on:click={() => navigate('are-you-sure')}
       >
         Skip for now

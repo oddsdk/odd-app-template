@@ -2,10 +2,95 @@
 @tailwind components;
 @tailwind utilities;
 
-.modal-box {
-  @apply p-8;
+@font-face {
+  font-family: 'UncutSans_Regular';
+  src: url('/fonts/uncut-sans-regular-webfont.woff2') format('woff2'),
+        url('/fonts/uncut-sans-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
+@font-face {
+    font-family: 'UncutSans_Medium';
+    src: url('/fonts/uncut-sans-medium-webfont.woff2') format('woff2'),
+         url('/fonts/uncut-sans-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'UncutSans_Bold';
+  src: url('/fonts/uncut-sans-bold-webfont.woff2') format('woff2'),
+        url('/fonts/uncut-sans-bold-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+h1, h2, h3 {
+  @apply font-bold;
+}
+
+h4, h5, h6 {
+  @apply font-semiBold;
+}
+
+body, p, li, a, span, input {
+  @apply font-sans;
+}
+
+/* Button default styles */
+.btn {
+  @apply font-semiBold;
+  @apply border-2;
+  @apply min-h-0;
+}
+
+.btn-circle {
+  @apply text-base-100;
+  @apply bg-base-content;
+}
+
+.btn-outline {
+  @apply text-sm;
+  @apply text-base-content;
+  @apply border-base-content;
+  @apply bg-base-100;
+  @apply shadow-orange;
+  @apply h-11;
+  @apply px-4;
+}
+
+.btn-primary {
+  @apply text-sm;
+  @apply text-neutral;
+  @apply border-neutral;
+  @apply shadow-orange;
+  @apply bg-gradient-to-r;
+  @apply from-orange-600;
+  @apply to-orange-300;
+  @apply h-11;
+  @apply px-4;
+}
+
+.btn-primary:hover, .btn-warning:hover {
+  @apply border-orange-300;
+}
+
+/* Input default styles */
+.input-bordered {
+  @apply text-base-content;
+  @apply border-2;
+  @apply border-base-content;
+}
+
+/* Modal default styles */
+.modal-box {
+  @apply p-8;
+  @apply border-2;
+  @apply border-base-content;
+}
+
+/* Label default styles */
 .label {
   @apply px-0;
 }

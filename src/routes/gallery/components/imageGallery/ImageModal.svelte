@@ -102,18 +102,16 @@
     class="modal cursor-pointer z-50"
     on:click|self={handleCloseModal}
   >
-    <div
-      class="modal-box relative text-center text-base-content border dark:border-slate-600"
-    >
+    <div class="modal-box relative text-center text-base-content">
       <label
         for={`image-modal-${image.cid}`}
-        class="btn btn-xs btn-circle absolute right-2 top-2 dark:bg-slate-600"
+        class="btn btn-xs btn-circle absolute right-2 top-2"
         on:click={handleCloseModal}
       >
         ✕
       </label>
       <div>
-        <h3 class="mb-7 text-xl font-serif">{image.name}</h3>
+        <h3 class="mb-7 text-lg break-all">{image.name}</h3>
 
         <div class="relative">
           {#if showPreviousArrow}
@@ -125,7 +123,7 @@
             </button>
           {/if}
           <img
-            class="block object-cover object-center w-full h-full mb-4 rounded-[1rem]"
+            class="block object-cover object-center border-2 border-base-content w-full h-full mb-4 rounded-[1rem]"
             alt={`Image: ${image.name}`}
             src={image.src}
           />
@@ -153,10 +151,7 @@
             <a href={image.src} download={image.name} class="btn btn-primary">
               Download Image
             </a>
-            <button
-              class="btn bg-error text-white"
-              on:click={handleDeleteImage}
-            >
+            <button class="btn btn-outline" on:click={handleDeleteImage}>
               Delete Image
             </button>
           </div>
