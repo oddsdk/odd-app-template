@@ -19,7 +19,7 @@
 
   // If the user is not authed redirect them to the home page
   const unsubscribe = sessionStore.subscribe(newState => {
-    if (!newState.loading && !newState.authed) {
+    if (!newState.loading && !newState.session) {
       goto('/')
     }
   })
@@ -28,7 +28,7 @@
 </script>
 
 <div class="p-2 mb-14 text-center">
-  {#if $sessionStore.authed}
+  {#if $sessionStore.session}
     <div class="flex items-center justify-center translate-y-1/2 w-fit m-auto">
       <div class="tabs border-2 overflow-hidden border-base-content rounded-lg">
         {#each Object.keys(AREAS) as area}

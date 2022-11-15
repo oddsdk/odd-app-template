@@ -35,7 +35,7 @@
   // Once the user has been authed, fetch the images from their file system
   let imagesFetched = false
   const unsubscribeSessionStore = sessionStore.subscribe((newState) => {
-    if (newState.authed && $filesystemStore && !imagesFetched) {
+    if (newState.session && $filesystemStore && !imagesFetched) {
       imagesFetched = true
       // Get images from the user's public WNFS
       getImagesFromWNFS()
