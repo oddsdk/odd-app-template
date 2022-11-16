@@ -68,15 +68,16 @@ const initializeFilesystem = async (fs: FileSystem): Promise<void> => {
 
 export const loadAccount = async (username: string): Promise<void> => {
   const program = getStore(programStore)
-  const fs = await program.loadRootFileSystem(username)
-  filesystemStore.set(fs)
+  const session = await program.auth[ webnative.strategyTypes.default ].session()
 
-  const backupStatus = await getBackupStatus(fs)
+  filesystemStore.set(session.fs)
 
-  sessionStore.update(session => ({
-    ...session,
+  const backupStatus = await getBackupStatus(session.fs)
+
+  sessionStore.update(state => ({
+    ...state,
     username,
-    authed: true,
+    session,
     backupCreated: backupStatus.created
   }))
 }
