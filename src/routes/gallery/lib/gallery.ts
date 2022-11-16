@@ -126,7 +126,7 @@ export const uploadImageToWNFS: (
     // Reject files over 20MB
     const imageSizeInMB = image.size / (1024 * 1024)
     if (imageSizeInMB > FILE_SIZE_LIMIT) {
-      throw new Error('Image can be no larger than 5MB')
+      throw new Error('Image can be no larger than 20MB')
     }
 
     // Reject the upload if the image already exists in the directory

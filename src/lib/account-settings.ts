@@ -34,7 +34,7 @@ export const ACCOUNT_SETTINGS_DIR = [ 'private', 'settings' ]
 const AVATAR_DIR = [ ...ACCOUNT_SETTINGS_DIR, 'avatars' ]
 const AVATAR_ARCHIVE_DIR = [ ...AVATAR_DIR, 'archive' ]
 const AVATAR_FILE_NAME = 'avatar'
-const FILE_SIZE_LIMIT = 5
+const FILE_SIZE_LIMIT = 20
 
 /**
  * Move old avatar to the archive directory
@@ -148,10 +148,10 @@ export const uploadAvatarToWNFS = async (image: File): Promise<void> => {
 
     const fs = getStore(filesystemStore)
 
-    // Reject files over 5MB
+    // Reject files over 20MB
     const imageSizeInMB = image.size / (1024 * 1024)
     if (imageSizeInMB > FILE_SIZE_LIMIT) {
-      throw new Error('Image can be no larger than 5MB')
+      throw new Error('Image can be no larger than 20MB')
     }
 
     // Archive old avatar
