@@ -8,7 +8,7 @@ export const initialize = async (): Promise<void> => {
     let backupStatus: BackupStatus = null
 
     const program: webnative.Program = await webnative.program({
-      id: { creator: 'Fission', name: 'WAT' },
+      tag: { creator: 'Fission', name: 'WAT' },
       debug: false // TODO: Add a flag or script to turn debugging on/off
     })
 
