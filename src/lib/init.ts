@@ -1,19 +1,16 @@
 import * as webnative from 'webnative'
 
-import { filesystemStore, programStore, sessionStore } from '../stores'
+import { filesystemStore, sessionStore } from '../stores'
 import { getBackupStatus, type BackupStatus } from '$lib/auth/backup'
-
 
 export const initialize = async (): Promise<void> => {
   try {
     let backupStatus: BackupStatus = null
 
     const program: webnative.Program = await webnative.program({
-      id: { creator: "Fission", name: "WAT" },
+      id: { creator: 'Fission', name: 'WAT' },
       debug: false // TODO: Add a flag or script to turn debugging on/off
     })
-
-    programStore.set(program)
 
     if (program.session) {
       // Authed
@@ -22,6 +19,7 @@ export const initialize = async (): Promise<void> => {
       sessionStore.set({
         username: program.session.username,
         session: program.session,
+        authStrategy: program.auth.webCrypto,
         loading: false,
         backupCreated: backupStatus.created
       })
@@ -33,6 +31,7 @@ export const initialize = async (): Promise<void> => {
       sessionStore.set({
         username: '',
         session: null,
+        authStrategy: null,
         loading: false,
         backupCreated: null
       })

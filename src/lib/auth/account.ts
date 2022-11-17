@@ -3,7 +3,7 @@ import type FileSystem from 'webnative/fs/index'
 import { get as getStore } from 'svelte/store'
 
 import { asyncDebounce } from '$lib/utils'
-import { filesystemStore, programStore, sessionStore } from '../../stores'
+import { filesystemStore, sessionStore } from '../../stores'
 import { getBackupStatus } from '$lib/auth/backup'
 import { ACCOUNT_SETTINGS_DIR } from '$lib/account-settings'
 import { AREAS } from '$routes/gallery/stores'
@@ -11,15 +11,15 @@ import { GALLERY_DIRS } from '$routes/gallery/lib/gallery'
 
 
 export const isUsernameValid = async (username: string): Promise<boolean> => {
-  const program = getStore(programStore)
-  return program.auth[ webnative.strategyTypes.default ].isUsernameValid(username)
+  const session = getStore(sessionStore)
+  return session.authStrategy.isUsernameValid(username)
 }
 
 const _isUsernameAvailable = async (
   username: string
 ) => {
-  const program = getStore(programStore)
-  return program.auth[ webnative.strategyTypes.default ].isUsernameAvailable(username)
+  const session = getStore(sessionStore)
+  return session.authStrategy.isUsernameAvailable(username)
 }
 
 const debouncedIsUsernameAvailable = asyncDebounce(
@@ -34,8 +34,7 @@ export const isUsernameAvailable = async (
 }
 
 export const register = async (username: string): Promise<boolean> => {
-  const program = getStore(programStore)
-  const authStrategy = program.auth[ webnative.strategyTypes.default ]
+  const authStrategy = getStore(sessionStore).authStrategy
   const { success } = await authStrategy.register({ username })
 
   if (!success) return success
@@ -67,8 +66,7 @@ const initializeFilesystem = async (fs: FileSystem): Promise<void> => {
 }
 
 export const loadAccount = async (username: string): Promise<void> => {
-  const program = getStore(programStore)
-  const session = await program.auth[ webnative.strategyTypes.default ].session()
+  const session = await getStore(sessionStore).authStrategy.session()
 
   filesystemStore.set(session.fs)
 
