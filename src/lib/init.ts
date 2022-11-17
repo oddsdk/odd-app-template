@@ -31,7 +31,7 @@ export const initialize = async (): Promise<void> => {
       sessionStore.set({
         username: '',
         session: null,
-        authStrategy: null,
+        authStrategy: program.auth,
         loading: false,
         backupCreated: null
       })
