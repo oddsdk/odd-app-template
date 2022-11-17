@@ -6,6 +6,7 @@
   import { errorToMessage } from '$lib/session'
   import { initialize } from '$lib/init'
   import Footer from '$components/Footer.svelte'
+  import FullScreenLoadingSpinner from '$components/common/FullScreenLoadingSpinner.svelte'
   import Header from '$components/Header.svelte'
   import Notifications from '$components/notifications/Notifications.svelte'
   import SidebarNav from '$components/nav/SidebarNav.svelte'
@@ -54,11 +55,15 @@
 
 <div data-theme={$themeStore} class="min-h-screen">
   <Notifications />
+  <!-- {#if $sessionStore.loading}
+    <FullScreenLoadingSpinner />
+  {:else} -->
   <SidebarNav>
     <Header />
     <div class="px-4">
       <slot />
     </div>
   </SidebarNav>
+  <!-- {/if} -->
   <Footer />
 </div>

@@ -1,4 +1,5 @@
 import * as webnative from 'webnative'
+// import { get as getStore } from 'svelte/store'
 
 import { filesystemStore, sessionStore } from '../stores'
 import { getBackupStatus, type BackupStatus } from '$lib/auth/backup'
@@ -6,11 +7,19 @@ import { getBackupStatus, type BackupStatus } from '$lib/auth/backup'
 export const initialize = async (): Promise<void> => {
   try {
     let backupStatus: BackupStatus = null
+    // const initialSessionStore = getStore(sessionStore)
 
     const program: webnative.Program = await webnative.program({
       tag: { creator: 'Fission', name: 'WAT' },
       debug: false // TODO: Add a flag or script to turn debugging on/off
     })
+
+    console.log('program.auth', program.auth)
+
+    // sessionStore.set({
+    //   ...initialSessionStore,
+    //   authStrategy: program.auth,
+    // })
 
     if (program.session) {
       // Authed
@@ -31,7 +40,7 @@ export const initialize = async (): Promise<void> => {
       sessionStore.set({
         username: '',
         session: null,
-        authStrategy: null,
+        authStrategy: program.auth,
         loading: false,
         backupCreated: null
       })
