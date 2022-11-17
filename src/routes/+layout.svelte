@@ -1,5 +1,6 @@
 <script lang="ts">
   import '../global.css'
+  import { page } from '$app/stores'
   import { addNotification } from '$lib/notifications'
   import { appDescription, appImageURL, appName, appURL } from '$lib/app-info'
   import { sessionStore, themeStore } from '../stores'
@@ -55,15 +56,16 @@
 
 <div data-theme={$themeStore} class="min-h-screen">
   <Notifications />
-  <!-- {#if $sessionStore.loading}
+
+  {#if $sessionStore.loading && !$page.url.pathname.match(/register|backup|delegate/)}
     <FullScreenLoadingSpinner />
-  {:else} -->
-  <SidebarNav>
-    <Header />
-    <div class="px-4">
-      <slot />
-    </div>
-  </SidebarNav>
-  <!-- {/if} -->
+  {:else}
+    <SidebarNav>
+      <Header />
+      <div class="px-4">
+        <slot />
+      </div>
+    </SidebarNav>
+  {/if}
   <Footer />
 </div>

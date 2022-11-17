@@ -12,7 +12,6 @@ import { GALLERY_DIRS } from '$routes/gallery/lib/gallery'
 
 export const isUsernameValid = async (username: string): Promise<boolean> => {
   const session = getStore(sessionStore)
-  console.log('session', session)
   return session.authStrategy.isUsernameValid(username)
 }
 
