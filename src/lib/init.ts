@@ -19,7 +19,7 @@ export const initialize = async (): Promise<void> => {
       sessionStore.set({
         username: program.session.username,
         session: program.session,
-        authStrategy: program.auth.webCrypto,
+        authStrategy: program.auth,
         loading: false,
         backupCreated: backupStatus.created
       })
