@@ -57,7 +57,7 @@
 <div data-theme={$themeStore} class="min-h-screen">
   <Notifications />
 
-  {#if $sessionStore.loading && !$page.url.pathname.match(/register|backup|delegate/)}
+  {#if $sessionStore.loading}
     <FullScreenLoadingSpinner />
   {:else}
     <SidebarNav>
