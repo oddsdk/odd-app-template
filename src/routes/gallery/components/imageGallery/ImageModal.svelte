@@ -87,8 +87,6 @@
 
   // Unsubscribe from galleryStore updates
   onDestroy(unsubcribe)
-
-  console.log('image', image)
 </script>
 
 <svelte:window on:keydown={handleKeyDown} />
