@@ -50,6 +50,10 @@ body, input {
   @apply bg-base-content;
 }
 
+.btn-circle:hover {
+  @apply bg-base-content;
+}
+
 .btn-outline {
   @apply text-sm;
   @apply text-base-content;
@@ -62,8 +66,8 @@ body, input {
 
 .btn-primary {
   @apply text-sm;
-  @apply text-neutral;
-  @apply border-neutral;
+  @apply text-neutral-900;
+  @apply border-neutral-900;
   @apply shadow-orange;
   @apply bg-gradient-to-r;
   @apply from-orange-600;
@@ -73,7 +77,7 @@ body, input {
 }
 
 .btn-primary:hover, .btn-warning:hover {
-  @apply border-orange-300;
+  @apply border-neutral-900;
 }
 
 /* Input default styles */

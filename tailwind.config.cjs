@@ -62,7 +62,7 @@ module.exports = {
       boxShadow: {
         orange: '0px 8px 0px rgba(243, 110, 101, 0.2)'
       },
-      color: {
+      colors: {
         blue: {
           100: '#DBEAFE',
           900: '#1E3A8A'
@@ -74,7 +74,9 @@ module.exports = {
         neutral: {
           50: '#FAFAFA',
           500: '#737373',
-          800: '#262626'
+          700: '#404040',
+          800: '#262626',
+          900: '#171717'
         },
         orange: {
           50: '#FFF7ED',

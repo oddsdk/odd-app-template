@@ -4,6 +4,8 @@
   import { ipfsGatewayUrl } from '$lib/app-info';
   import { galleryStore } from '$routes/gallery/stores'
   import { deleteImageFromWNFS, type Gallery, type Image } from '$routes/gallery/lib/gallery'
+  import Download from '$components/icons/Download.svelte'
+  import Trash from '$components/icons/Trash.svelte'
 
   export let image: Image
   export let isModalOpen: boolean = false
@@ -85,6 +87,8 @@
 
   // Unsubscribe from galleryStore updates
   onDestroy(unsubcribe)
+
+  console.log('image', image)
 </script>
 
 <svelte:window on:keydown={handleKeyDown} />
@@ -137,22 +141,47 @@
           {/if}
         </div>
         <div class="flex flex-col items-center justify-center">
+          <p class="mb-2 text-neutral-500">
+            Created {new Date(image.ctime).toDateString()}
+          </p>
           <a
             href={`https://ipfs.${ipfsGatewayUrl}/ipfs/${image.cid}/userland`}
             target="_blank"
-            class="underline mb-4 hover:text-slate-500"
+            class="underline mb-2 hover:text-neutral-500"
           >
-            View on IPFS
+            View on IPFS{#if image.private}*{/if}
           </a>
-          <p class="mb-4">
-            Created at {new Date(image.ctime).toDateString()}
-          </p>
-          <div class="flex items-center justify-between gap-4">
-            <a href={image.src} download={image.name} class="btn btn-primary">
-              Download Image
+
+          {#if image.private}
+            <p class="mb-2 text-neutral-700">
+              * Your private files can only be viewed on devices that have
+              permission. When viewed directly on IPFS, you will see the
+              encrypted state of this file. This is because the raw IPFS gateway
+              view does not have permission to decrypt this file.
+            </p>
+            <p class="mb-2 text-neutral-700">
+              Interested in private file sharing as a feature? Follow the <a
+                href="https://github.com/webnative-examples/webnative-app-template/issues/4"
+                target="_blank"
+              >
+                github issue
+              </a>
+              .
+            </p>
+          {/if}
+
+          <div
+            class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4"
+          >
+            <a
+              href={image.src}
+              download={image.name}
+              class="btn btn-primary gap-2"
+            >
+              <Download /> Download Image
             </a>
-            <button class="btn btn-outline" on:click={handleDeleteImage}>
-              Delete Image
+            <button class="btn btn-outline gap-2" on:click={handleDeleteImage}>
+              <Trash /> Delete Image
             </button>
           </div>
         </div>
