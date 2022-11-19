@@ -40,6 +40,8 @@ export const initialize = async (): Promise<void> => {
     }
 
   } catch (error) {
+    console.error(error)
+
     switch (error) {
       case webnative.ProgramError.InsecureContext:
         sessionStore.update(session => ({
