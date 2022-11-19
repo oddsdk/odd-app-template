@@ -135,7 +135,7 @@
         <div class="mt-5">
           <a class="btn btn-outline" href="/connect">Back</a>
           <button
-            class="ml-2 btn btn-primary disabled:opacity-50 disabled:border-neutral disabled:text-neutral"
+            class="ml-2 btn btn-primary disabled:opacity-50 disabled:border-neutral-900 disabled:text-neutral-900"
             disabled={username.length === 0 ||
               !usernameValid ||
               !usernameAvailable ||
