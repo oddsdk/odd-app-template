@@ -151,13 +151,13 @@
           </a>
 
           {#if image.private}
-            <p class="mb-2 text-neutral-700">
+            <p class="mb-2 text-neutral-700 dark:text-neutral-500">
               * Your private files can only be viewed on devices that have
               permission. When viewed directly on IPFS, you will see the
               encrypted state of this file. This is because the raw IPFS gateway
               view does not have permission to decrypt this file.
             </p>
-            <p class="mb-2 text-neutral-700">
+            <p class="mb-2 text-neutral-700 dark:text-neutral-500">
               Interested in private file sharing as a feature? Follow the <a
                 class="underline"
                 href="https://github.com/webnative-examples/webnative-app-template/issues/4"
