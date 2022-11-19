@@ -1,5 +1,6 @@
 import * as webnative from 'webnative'
 
+import { dev } from '$app/environment'
 import { filesystemStore, sessionStore } from '../stores'
 import { getBackupStatus, type BackupStatus } from '$lib/auth/backup'
 
@@ -9,7 +10,7 @@ export const initialize = async (): Promise<void> => {
 
     const program: webnative.Program = await webnative.program({
       tag: { creator: 'Fission', name: 'WAT' },
-      debug: false // TODO: Add a flag or script to turn debugging on/off
+      debug: dev
     })
 
     if (program.session) {
