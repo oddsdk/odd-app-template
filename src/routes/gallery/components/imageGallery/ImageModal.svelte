@@ -159,12 +159,12 @@
             </p>
             <p class="mb-2 text-neutral-700">
               Interested in private file sharing as a feature? Follow the <a
+                class="underline"
                 href="https://github.com/webnative-examples/webnative-app-template/issues/4"
                 target="_blank"
               >
-                github issue
+                github issue.
               </a>
-              .
             </p>
           {/if}
 
