@@ -70,8 +70,8 @@ body, input {
   @apply border-neutral-900;
   @apply shadow-orange;
   @apply bg-gradient-to-r;
-  @apply from-orange-600;
-  @apply to-orange-300;
+  @apply from-orange-300;
+  @apply to-orange-600;
   @apply h-11;
   @apply px-4;
 }
