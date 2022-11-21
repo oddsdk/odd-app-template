@@ -14,7 +14,7 @@
     <p
       class="motion-safe:animate-marquee motion-safe:left-full whitespace-nowrap font-bold text-xxs {isFirefox
         ? 'text-orange-500'
-        : 'text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-300'}"
+        : 'text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-orange-600'}"
     >
       *** Experimental *** - You are currently previewing Webnative SDK Alpha
       0.2
