@@ -40,7 +40,7 @@
 </script>
 
 <!-- Only render the nav if the user is authed and not in the connection flow -->
-{#if $sessionStore.session && !$page.url.pathname.match(/register|backup|delegate/)}
+{#if $sessionStore.session}
   <div class="drawer drawer-mobile h-screen">
     <input
       id="sidebar-nav"
@@ -51,7 +51,11 @@
     <div class="drawer-content flex flex-col">
       <slot />
     </div>
-    <div class="drawer-side">
+    <div
+      class="drawer-side {$page.url.pathname.match(/register|backup|delegate/)
+        ? '!hidden'
+        : ''}"
+    >
       <label
         for="sidebar-nav"
         class="drawer-overlay !bg-[#262626] !opacity-[.85]"
