@@ -9,7 +9,7 @@ export const initialize = async (): Promise<void> => {
     let backupStatus: BackupStatus = null
 
     const program: webnative.Program = await webnative.program({
-      tag: { creator: 'Fission', name: 'WAT' },
+      namespace: { creator: 'Fission', name: 'WAT' },
       debug: dev
     })
 
