@@ -20,16 +20,20 @@
   }
 </script>
 
-<h3 class="text-lg mb-4">Avatar</h3>
-<div class="flex items-center gap-4">
-  <Avatar />
+<div>
+  <h3 class="text-lg mb-4">Avatar</h3>
+  <div class="flex items-center gap-4">
+    <Avatar />
 
-  <label for="upload-avatar" class="btn btn-outline">Upload a new avatar</label>
-  <input
-    bind:files
-    id="upload-avatar"
-    type="file"
-    accept="image/*"
-    class="hidden"
-  />
+    <label for="upload-avatar" class="btn btn-outline">
+      Upload a new avatar
+    </label>
+    <input
+      bind:files
+      id="upload-avatar"
+      type="file"
+      accept="image/*"
+      class="hidden"
+    />
+  </div>
 </div>

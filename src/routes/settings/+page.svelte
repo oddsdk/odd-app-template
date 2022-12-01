@@ -2,7 +2,10 @@
   import { goto } from '$app/navigation'
   import { sessionStore } from '$src/stores'
   import AvatarUpload from '$components/settings/AvatarUpload.svelte'
+  import ConnectedDevices from '$components/settings/ConnectedDevices.svelte'
+  import RecoveryKit from '$components/settings/RecoveryKit.svelte'
   import ThemePreferences from '$components/settings/ThemePreferences.svelte'
+  import Username from '$components/settings/Username.svelte'
 </script>
 
 {#if $sessionStore.session}
@@ -12,33 +15,15 @@
     <h1 class="text-xl">Account Settings</h1>
 
     <div class="flex flex-col items-start justify-center gap-6">
-      <div>
-        <AvatarUpload />
-      </div>
+      <AvatarUpload />
 
-      <div>
-        <h3 class="text-lg mb-4">Username</h3>
-        <p>{$sessionStore.username}</p>
-      </div>
+      <Username />
 
-      <div>
-        <ThemePreferences />
-      </div>
+      <ThemePreferences />
 
-      <div>
-        <h3 class="text-lg mb-4">Connected devices</h3>
-        {#if $sessionStore.backupCreated}
-          <p class="mb-4">
-            You've already connected an additional device, but you can connect
-            more.
-          </p>
-        {:else}
-          <p class="mb-4">You have no other connected devices.</p>
-        {/if}
-        <a class="btn btn-primary" href="/delegate-account">
-          Connect an additional device
-        </a>
-      </div>
+      <ConnectedDevices />
+
+      <RecoveryKit />
     </div>
   </div>
 {:else}

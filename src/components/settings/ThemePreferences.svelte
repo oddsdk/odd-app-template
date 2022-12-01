@@ -29,20 +29,22 @@
   }
 </script>
 
-<h3 class="text-lg mb-4">Theme preference</h3>
+<div>
+  <h3 class="text-lg mb-4">Theme preference</h3>
 
-{#each options as option}
-  <div class="form-control items-start">
-    <label class="label cursor-pointer">
-      <input
-        type="radio"
-        name="theme-preference"
-        class="radio checked:bg-base-content"
-        value={option.value}
-        checked={selected === option.value}
-        bind:group={selected}
-      />
-      <span class="label-text text-sm ml-2">{option.label}</span>
-    </label>
-  </div>
-{/each}
+  {#each options as option}
+    <div class="form-control items-start">
+      <label class="label cursor-pointer">
+        <input
+          type="radio"
+          name="theme-preference"
+          class="radio checked:bg-base-content"
+          value={option.value}
+          checked={selected === option.value}
+          bind:group={selected}
+        />
+        <span class="label-text text-sm ml-2">{option.label}</span>
+      </label>
+    </div>
+  {/each}
+</div>
