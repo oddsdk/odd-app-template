@@ -60,7 +60,7 @@ body, input {
   @apply border-base-content;
   @apply bg-base-100;
   @apply shadow-orange;
-  @apply h-11;
+  @apply h-10;
   @apply px-4;
 }
 
@@ -72,7 +72,7 @@ body, input {
   @apply bg-gradient-to-r;
   @apply from-orange-300;
   @apply to-orange-600;
-  @apply h-11;
+  @apply h-10;
   @apply px-4;
 }
 

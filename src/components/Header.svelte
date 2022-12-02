@@ -56,12 +56,6 @@
   {/if}
 
   <div class="ml-auto">
-    {#if !$sessionStore.loading && !$sessionStore.session}
-      <div class="flex-none">
-        <a class="btn btn-primary btn-sm !h-10" href="/connect">Connect</a>
-      </div>
-    {/if}
-
     {#if !$sessionStore.loading && $sessionStore.backupCreated === false}
       <span
         on:click={() => goto('/delegate-account')}

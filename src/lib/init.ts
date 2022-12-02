@@ -14,6 +14,7 @@ export const initialize = async (): Promise<void> => {
     })
 
     if (program.session) {
+      console.log('program.session', program.session)
       // Authed
       backupStatus = await getBackupStatus(program.session.fs)
 
@@ -42,7 +43,7 @@ export const initialize = async (): Promise<void> => {
   } catch (error) {
     console.error(error)
 
-    switch (error) {
+    switch (error.message) {
       case webnative.ProgramError.InsecureContext:
         sessionStore.update(session => ({
           ...session,
@@ -51,6 +52,11 @@ export const initialize = async (): Promise<void> => {
         }))
         break
 
+      /**
+       * This is a bandaid fix or an error coming from ipfs-core -> ipfs-core-config -> datastore-level -> abstract-level
+       * in FF private browsing mode ¯\_(ツ)_/¯
+       */
+      case 'Database is not open':
       case webnative.ProgramError.UnsupportedBrowser:
         sessionStore.update(session => ({
           ...session,

@@ -19,7 +19,7 @@ module.exports = {
           'base-content': '#FAFAFA', // Base text content color
           'base-100': '#171717', // Base background color
           '--rounded-box': '16px',
-          '--rounded-btn': '8px',
+          '--rounded-btn': '4px',
           '--rounded-badge': '2px',
           '--tab-radius': '2px',
           '--btn-text-case': 'normal-case',
@@ -37,7 +37,7 @@ module.exports = {
           'base-content': '#171717', // Base text content color
           'base-100': '#FAFAFA', // Base background color
           '--rounded-box': '16px',
-          '--rounded-btn': '8px',
+          '--rounded-btn': '4px',
           '--rounded-badge': '2px',
           '--tab-radius': '2px',
           '--btn-text-case': 'normal-case',
@@ -60,7 +60,7 @@ module.exports = {
         '22/23': '22 / 23'
       },
       boxShadow: {
-        orange: '0px 8px 0px rgba(243, 110, 101, 0.2)'
+        orange: '0px 4px 0px rgba(243, 110, 101, 0.35)'
       },
       colors: {
         blue: {
@@ -73,6 +73,7 @@ module.exports = {
         },
         neutral: {
           50: '#FAFAFA',
+          200: '#E5E5E5',
           500: '#737373',
           700: '#404040',
           800: '#262626',
