@@ -1,6 +1,5 @@
 <script lang="ts">
   import '../global.css'
-  import { page } from '$app/stores'
   import { addNotification } from '$lib/notifications'
   import { appDescription, appImageURL, appName, appURL } from '$lib/app-info'
   import { sessionStore, themeStore } from '../stores'
