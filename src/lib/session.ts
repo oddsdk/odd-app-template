@@ -1,11 +1,14 @@
 import type * as webnative from 'webnative'
+import type * as Crypto from 'webnative/components/crypto/implementation.js'
 
 import { appName } from '$lib/app-info'
 
 export type Session = {
   username: string
+  hashedUsername: string
   session: webnative.Session | null
   authStrategy: webnative.AuthenticationStrategy | null
+  crypto?: Crypto.Implementation
   loading: boolean
   backupCreated: boolean
   error?: SessionError

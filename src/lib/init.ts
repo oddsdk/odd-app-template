@@ -14,12 +14,15 @@ export const initialize = async (): Promise<void> => {
     })
 
     if (program.session) {
-      console.log('program.session', program.session)
       // Authed
       backupStatus = await getBackupStatus(program.session.fs)
 
+      const fullUsername = localStorage.getItem('fullUsername')
+      const username = fullUsername.split('#')[0]
+
       sessionStore.set({
-        username: program.session.username,
+        username: username,
+        hashedUsername: program.session.username,
         session: program.session,
         authStrategy: program.auth,
         loading: false,
@@ -32,8 +35,11 @@ export const initialize = async (): Promise<void> => {
       // Not authed
       sessionStore.set({
         username: '',
+        hashedUsername: null,
         session: null,
         authStrategy: program.auth,
+        // Temporarily adding a `crypto` key here so it can be accessed in the register flow, but maybe this should be saved somewhere else
+        crypto: program.components.crypto,
         loading: false,
         backupCreated: null
       })
@@ -43,7 +49,7 @@ export const initialize = async (): Promise<void> => {
   } catch (error) {
     console.error(error)
 
-    switch (error.message) {
+    switch (error) {
       case webnative.ProgramError.InsecureContext:
         sessionStore.update(session => ({
           ...session,
@@ -52,11 +58,6 @@ export const initialize = async (): Promise<void> => {
         }))
         break
 
-      /**
-       * This is a bandaid fix or an error coming from ipfs-core -> ipfs-core-config -> datastore-level -> abstract-level
-       * in FF private browsing mode ¯\_(ツ)_/¯
-       */
-      case 'Database is not open':
       case webnative.ProgramError.UnsupportedBrowser:
         sessionStore.update(session => ({
           ...session,

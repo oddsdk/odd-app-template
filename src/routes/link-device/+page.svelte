@@ -17,20 +17,21 @@
   let accountLinkingConsumer: webnative.AccountLinkingConsumer
   let displayPin: string = ''
 
-  const username = extractSearchParam($page.url, 'username')
+  const hashedUsername = extractSearchParam($page.url, 'hashedUsername')
+  const username = decodeURIComponent(extractSearchParam($page.url, 'username'))
 
   const initAccountLinkingConsumer = async () => {
-    accountLinkingConsumer = await createAccountLinkingConsumer(username)
+    accountLinkingConsumer = await createAccountLinkingConsumer(hashedUsername)
 
     accountLinkingConsumer.on('challenge', ({ pin }) => {
       displayPin = pin.join('')
     })
 
-    accountLinkingConsumer.on('link', async ({ approved, username }) => {
+    accountLinkingConsumer.on('link', async ({ approved }) => {
       if (approved) {
         view = 'load-filesystem'
 
-        await loadAccount(username)
+        await loadAccount(hashedUsername, username)
 
         addNotification("You're now connected!", 'success')
         goto('/')

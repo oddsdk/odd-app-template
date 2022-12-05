@@ -1,4 +1,8 @@
+import * as uint8arrays from 'uint8arrays'
 import * as webnative from 'webnative'
+import { sha256 } from 'webnative/components/crypto/implementation/browser'
+import { publicKeyToDid } from 'webnative/did/transformers'
+import type { Crypto } from 'webnative'
 import type FileSystem from 'webnative/fs/index'
 import { get as getStore } from 'svelte/store'
 
@@ -9,6 +13,7 @@ import { ACCOUNT_SETTINGS_DIR } from '$lib/account-settings'
 import { AREAS } from '$routes/gallery/stores'
 import { GALLERY_DIRS } from '$routes/gallery/lib/gallery'
 
+export const USERNAME_STORAGE_KEY = 'fullUsername'
 
 export const isUsernameValid = async (username: string): Promise<boolean> => {
   const session = getStore(sessionStore)
@@ -33,9 +38,36 @@ export const isUsernameAvailable = async (
   return debouncedIsUsernameAvailable(username)
 }
 
-export const register = async (username: string): Promise<boolean> => {
-  const authStrategy = getStore(sessionStore).authStrategy
-  const { success } = await authStrategy.register({ username })
+export const createDID = async (crypto: Crypto.Implementation): Promise<string> => {
+  const pubKey = await crypto.keystore.publicExchangeKey()
+  const ksAlg = await crypto.keystore.getAlgorithm()
+
+  return publicKeyToDid(crypto, pubKey, ksAlg)
+}
+
+export const sha256Str = async (str: string): Promise<string> => {
+  const hash = await window.crypto.subtle.digest(
+    'sha-256',
+    uint8arrays.fromString(str)
+  )
+  return uint8arrays.toString(new Uint8Array(hash), 'hex')
+}
+
+export const prepareUsername = async (username: string): Promise<string> => {
+    const normalizedUsername = username.normalize('NFD')
+    const hashedUsername = await sha256(
+      new TextEncoder().encode(normalizedUsername)
+    )
+
+    return uint8arrays
+      .toString(hashedUsername, 'base32')
+      .slice(0, 32)
+}
+
+export const register = async (encodedUsername: string): Promise<boolean> => {
+  const { authStrategy } = getStore(sessionStore)
+
+  const { success } = await authStrategy.register({ username: encodedUsername })
 
   if (!success) return success
 
@@ -47,7 +79,8 @@ export const register = async (username: string): Promise<boolean> => {
 
   sessionStore.update(state => ({
     ...state,
-    username,
+    username: localStorage.getItem(USERNAME_STORAGE_KEY).split('#')[0],
+    hashedUsername: encodedUsername,
     session
   }))
 
@@ -65,16 +98,19 @@ const initializeFilesystem = async (fs: FileSystem): Promise<void> => {
   await fs.mkdir(webnative.path.directory(...ACCOUNT_SETTINGS_DIR))
 }
 
-export const loadAccount = async (username: string): Promise<void> => {
+export const loadAccount = async (hashedUsername: string, fullUsername: string): Promise<void> => {
   const session = await getStore(sessionStore).authStrategy.session()
 
   filesystemStore.set(session.fs)
 
   const backupStatus = await getBackupStatus(session.fs)
 
+  localStorage.setItem(USERNAME_STORAGE_KEY, fullUsername)
+
   sessionStore.update(state => ({
     ...state,
-    username,
+    hashedUsername,
+    username: fullUsername.split('#')[0],
     session,
     backupCreated: backupStatus.created
   }))
