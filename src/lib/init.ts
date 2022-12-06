@@ -3,6 +3,7 @@ import * as webnative from 'webnative'
 import { dev } from '$app/environment'
 import { filesystemStore, sessionStore } from '../stores'
 import { getBackupStatus, type BackupStatus } from '$lib/auth/backup'
+import { USERNAME_STORAGE_KEY } from '$lib/auth/account'
 
 export const initialize = async (): Promise<void> => {
   try {
@@ -17,7 +18,7 @@ export const initialize = async (): Promise<void> => {
       // Authed
       backupStatus = await getBackupStatus(program.session.fs)
 
-      const fullUsername = localStorage.getItem('fullUsername')
+      const fullUsername = await program.components.storage.getItem(USERNAME_STORAGE_KEY) as string
 
       sessionStore.set({
         username: {
@@ -27,6 +28,7 @@ export const initialize = async (): Promise<void> => {
         },
         session: program.session,
         authStrategy: program.auth,
+        program,
         loading: false,
         backupCreated: backupStatus.created
       })
@@ -39,8 +41,7 @@ export const initialize = async (): Promise<void> => {
         username: null,
         session: null,
         authStrategy: program.auth,
-        // Temporarily adding a `crypto` key here so it can be accessed in the register flow, but maybe this should be saved somewhere else
-        crypto: program.components.crypto,
+        program,
         loading: false,
         backupCreated: null
       })

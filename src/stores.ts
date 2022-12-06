@@ -14,6 +14,7 @@ export const sessionStore: Writable<Session> = writable({
   username: null,
   session: null,
   authStrategy: null,
+  program: null,
   loading: true,
   backupCreated: null
 })

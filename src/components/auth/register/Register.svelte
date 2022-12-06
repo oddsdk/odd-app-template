@@ -26,7 +26,11 @@
 
   const checkUsername = async (event: Event) => {
     const { value } = event.target as HTMLInputElement
-    const { crypto } = getStore(sessionStore)
+    const {
+      program: {
+        components: { crypto, storage }
+      }
+    } = getStore(sessionStore)
 
     username = value
     checkingUsername = true
@@ -37,7 +41,7 @@
      */
     const did = await createDID(crypto)
     const fullUsername = `${value}#${did}`
-    localStorage.setItem(USERNAME_STORAGE_KEY, fullUsername)
+    await storage.setItem(USERNAME_STORAGE_KEY, fullUsername)
 
     encodedUsername = await prepareUsername(fullUsername)
 

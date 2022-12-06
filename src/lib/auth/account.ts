@@ -57,7 +57,7 @@ export const prepareUsername = async (username: string): Promise<string> => {
 }
 
 export const register = async (hashedUsername: string): Promise<boolean> => {
-  const { authStrategy } = getStore(sessionStore)
+  const { authStrategy, program: { components: { storage } } } = getStore(sessionStore)
 
   const { success } = await authStrategy.register({ username: hashedUsername })
 
@@ -69,7 +69,7 @@ export const register = async (hashedUsername: string): Promise<boolean> => {
   // TODO Remove if only public and private directories are needed
   await initializeFilesystem(session.fs)
 
-  const fullUsername = localStorage.getItem(USERNAME_STORAGE_KEY)
+  const fullUsername = await storage.getItem(USERNAME_STORAGE_KEY) as string
 
   sessionStore.update(state => ({
     ...state,
@@ -96,13 +96,14 @@ const initializeFilesystem = async (fs: FileSystem): Promise<void> => {
 }
 
 export const loadAccount = async (hashedUsername: string, fullUsername: string): Promise<void> => {
-  const session = await getStore(sessionStore).authStrategy.session()
+  const { authStrategy, program: { components: { storage } } } = getStore(sessionStore)
+  const session = await authStrategy.session()
 
   filesystemStore.set(session.fs)
 
   const backupStatus = await getBackupStatus(session.fs)
 
-  localStorage.setItem(USERNAME_STORAGE_KEY, fullUsername)
+  await storage.setItem(USERNAME_STORAGE_KEY, fullUsername)
 
   sessionStore.update(state => ({
     ...state,

@@ -47,7 +47,9 @@
       if (hashedUsername && fullUsername) {
         const origin = window.location.origin
 
-        connectionLink = `${origin}/link-device?hashedUsername=${hashedUsername}&username=${fullUsername}`
+        connectionLink = `${origin}/link-device?hashedUsername=${hashedUsername}&username=${encodeURIComponent(
+          fullUsername
+        )}`
         qrcode = new QRCode({
           content: connectionLink,
           color: $themeStore === 'light' ? '#171717' : '#FAFAFA',

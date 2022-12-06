@@ -10,7 +10,7 @@
     addNotification('Copied to clipboard', 'success')
   }
 
-  $: usernameParts = $sessionStore.username.full.split('#')
+  $: usernameParts = $sessionStore?.username?.full?.split('#')
 </script>
 
 <div>
