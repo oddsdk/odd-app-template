@@ -7,6 +7,7 @@
   import { createAccountLinkingProducer } from '$lib/auth/linking'
   import { filesystemStore, sessionStore, themeStore } from '../../stores'
   import { getBackupStatus, setBackupStatus } from '$lib/auth/backup'
+  import { USERNAME_STORAGE_KEY } from '$lib/auth/account'
   import ConnectBackupDevice from '$components/auth/delegate-account/ConnectBackupDevice.svelte'
   import DelegateAccount from '$components/auth/delegate-account/DelegateAccount.svelte'
 
@@ -40,22 +41,25 @@
     })
 
     unsubscribeSessionStore = sessionStore.subscribe(async val => {
-      const username = val.username
+      const hashedUsername = val.username.hashed
+      const fullUsername = val.username.full
 
-      if (username) {
+      if (hashedUsername && fullUsername) {
         const origin = window.location.origin
 
-        connectionLink = `${origin}/link-device?username=${username}`
+        connectionLink = `${origin}/link-device?hashedUsername=${hashedUsername}&username=${encodeURIComponent(
+          fullUsername
+        )}`
         qrcode = new QRCode({
           content: connectionLink,
           color: $themeStore === 'light' ? '#171717' : '#FAFAFA',
           background: $themeStore === 'light' ? '#FAFAFA' : '#171717',
           padding: 0,
-          width: 216,
-          height: 216
+          width: 250,
+          height: 250
         }).svg()
 
-        initAccountLinkingProducer(username)
+        initAccountLinkingProducer(hashedUsername)
       }
     })
   })

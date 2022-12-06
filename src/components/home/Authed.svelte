@@ -5,7 +5,7 @@
 <div
   class="min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-160px)] pt-8 md:pt-16 flex flex-col items-start max-w-[690px] m-auto gap-10 pb-5 text-sm"
 >
-  <h1 class="text-xl">Welcome, {$sessionStore.username}!</h1>
+  <h1 class="text-xl">Welcome, {$sessionStore.username.trimmed}!</h1>
 
   <div class="flex flex-col items-start justify-center gap-5">
     <h2 class="text-lg">Photo Gallery Demo</h2>

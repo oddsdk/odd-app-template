@@ -3,6 +3,7 @@ import * as webnative from 'webnative'
 import { dev } from '$app/environment'
 import { filesystemStore, sessionStore } from '../stores'
 import { getBackupStatus, type BackupStatus } from '$lib/auth/backup'
+import { USERNAME_STORAGE_KEY } from '$lib/auth/account'
 
 export const initialize = async (): Promise<void> => {
   try {
@@ -14,14 +15,20 @@ export const initialize = async (): Promise<void> => {
     })
 
     if (program.session) {
-      console.log('program.session', program.session)
       // Authed
       backupStatus = await getBackupStatus(program.session.fs)
 
+      const fullUsername = await program.components.storage.getItem(USERNAME_STORAGE_KEY) as string
+
       sessionStore.set({
-        username: program.session.username,
+        username: {
+          full: fullUsername,
+          hashed: program.session.username,
+          trimmed: fullUsername.split('#')[0],
+        },
         session: program.session,
         authStrategy: program.auth,
+        program,
         loading: false,
         backupCreated: backupStatus.created
       })
@@ -31,9 +38,10 @@ export const initialize = async (): Promise<void> => {
     } else {
       // Not authed
       sessionStore.set({
-        username: '',
+        username: null,
         session: null,
         authStrategy: program.auth,
+        program,
         loading: false,
         backupCreated: null
       })
@@ -43,7 +51,7 @@ export const initialize = async (): Promise<void> => {
   } catch (error) {
     console.error(error)
 
-    switch (error.message) {
+    switch (error) {
       case webnative.ProgramError.InsecureContext:
         sessionStore.update(session => ({
           ...session,
@@ -52,11 +60,6 @@ export const initialize = async (): Promise<void> => {
         }))
         break
 
-      /**
-       * This is a bandaid fix or an error coming from ipfs-core -> ipfs-core-config -> datastore-level -> abstract-level
-       * in FF private browsing mode ¯\_(ツ)_/¯
-       */
-      case 'Database is not open':
       case webnative.ProgramError.UnsupportedBrowser:
         sessionStore.update(session => ({
           ...session,

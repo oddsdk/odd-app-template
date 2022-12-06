@@ -35,6 +35,6 @@
   <div
     class="flex items-center justify-center bg-base-content text-base-100 uppercase font-bold rounded-full {sizeClasses}"
   >
-    {$sessionStore.username[0]}
+    {$sessionStore.username.trimmed[0]}
   </div>
 {/if}
