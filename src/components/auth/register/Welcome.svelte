@@ -9,7 +9,7 @@
   <div class="modal-box w-narrowModal relative text-center">
     <div>
       <h3 class="mb-14 text-base">
-        Welcome, {$sessionStore.username.split('#')[0]}!
+        Welcome, {$sessionStore.username.trimmed}!
       </h3>
       <div class="flex justify-center mb-11 text-base-content">
         <WelcomeCheckIcon />

@@ -6,11 +6,11 @@
   import ClipboardIcon from '$components/icons/ClipboardIcon.svelte'
 
   const handleCopyUsername = async (): Promise<void> => {
-    await clipboardCopy($sessionStore.username)
+    await clipboardCopy($sessionStore.username.full)
     addNotification('Copied to clipboard', 'success')
   }
 
-  $: usernameParts = $sessionStore.username.split('#')
+  $: usernameParts = $sessionStore.username.full.split('#')
 </script>
 
 <div>

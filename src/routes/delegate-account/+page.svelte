@@ -41,10 +41,8 @@
     })
 
     unsubscribeSessionStore = sessionStore.subscribe(async val => {
-      const hashedUsername = val.hashedUsername
-      const fullUsername = encodeURIComponent(
-        localStorage.getItem(USERNAME_STORAGE_KEY)
-      )
+      const hashedUsername = val.username.hashed
+      const fullUsername = val.username.full
 
       if (hashedUsername && fullUsername) {
         const origin = window.location.origin

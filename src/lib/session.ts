@@ -1,11 +1,16 @@
 import type * as webnative from 'webnative'
-import type * as Crypto from 'webnative/components/crypto/implementation.js'
+import type { Crypto } from 'webnative/components.js'
 
 import { appName } from '$lib/app-info'
 
+type Username = {
+  full: string
+  hashed: string
+  trimmed: string
+}
+
 export type Session = {
-  username: string
-  hashedUsername: string
+  username: Username
   session: webnative.Session | null
   authStrategy: webnative.AuthenticationStrategy | null
   crypto?: Crypto.Implementation

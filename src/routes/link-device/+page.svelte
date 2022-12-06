@@ -18,7 +18,9 @@
   let displayPin: string = ''
 
   const hashedUsername = extractSearchParam($page.url, 'hashedUsername')
-  const username = decodeURIComponent(extractSearchParam($page.url, 'username'))
+  const fullUsername = decodeURIComponent(
+    extractSearchParam($page.url, 'username')
+  )
 
   const initAccountLinkingConsumer = async () => {
     accountLinkingConsumer = await createAccountLinkingConsumer(hashedUsername)
@@ -31,7 +33,7 @@
       if (approved) {
         view = 'load-filesystem'
 
-        await loadAccount(hashedUsername, username)
+        await loadAccount(hashedUsername, fullUsername)
 
         addNotification("You're now connected!", 'success')
         goto('/')

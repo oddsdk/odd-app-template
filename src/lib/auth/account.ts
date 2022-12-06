@@ -45,29 +45,21 @@ export const createDID = async (crypto: Crypto.Implementation): Promise<string> 
   return publicKeyToDid(crypto, pubKey, ksAlg)
 }
 
-export const sha256Str = async (str: string): Promise<string> => {
-  const hash = await window.crypto.subtle.digest(
-    'sha-256',
-    uint8arrays.fromString(str)
-  )
-  return uint8arrays.toString(new Uint8Array(hash), 'hex')
-}
-
 export const prepareUsername = async (username: string): Promise<string> => {
-    const normalizedUsername = username.normalize('NFD')
-    const hashedUsername = await sha256(
-      new TextEncoder().encode(normalizedUsername)
-    )
+  const normalizedUsername = username.normalize('NFD')
+  const hashedUsername = await sha256(
+    new TextEncoder().encode(normalizedUsername)
+  )
 
-    return uint8arrays
-      .toString(hashedUsername, 'base32')
-      .slice(0, 32)
+  return uint8arrays
+    .toString(hashedUsername, 'base32')
+    .slice(0, 32)
 }
 
-export const register = async (encodedUsername: string): Promise<boolean> => {
+export const register = async (hashedUsername: string): Promise<boolean> => {
   const { authStrategy } = getStore(sessionStore)
 
-  const { success } = await authStrategy.register({ username: encodedUsername })
+  const { success } = await authStrategy.register({ username: hashedUsername })
 
   if (!success) return success
 
@@ -77,10 +69,15 @@ export const register = async (encodedUsername: string): Promise<boolean> => {
   // TODO Remove if only public and private directories are needed
   await initializeFilesystem(session.fs)
 
+  const fullUsername = localStorage.getItem(USERNAME_STORAGE_KEY)
+
   sessionStore.update(state => ({
     ...state,
-    username: localStorage.getItem(USERNAME_STORAGE_KEY),
-    hashedUsername: encodedUsername,
+    username: {
+      full: fullUsername,
+      hashed: hashedUsername,
+      trimmed: fullUsername.split('#')[0]
+    },
     session
   }))
 
@@ -110,7 +107,11 @@ export const loadAccount = async (hashedUsername: string, fullUsername: string):
   sessionStore.update(state => ({
     ...state,
     hashedUsername,
-    username: fullUsername.split('#')[0],
+    username: {
+      full: fullUsername,
+      hashed: hashedUsername,
+      trimmed: fullUsername.split('#')[0],
+    },
     session,
     backupCreated: backupStatus.created
   }))

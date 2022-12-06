@@ -20,8 +20,11 @@ export const initialize = async (): Promise<void> => {
       const fullUsername = localStorage.getItem('fullUsername')
 
       sessionStore.set({
-        username: fullUsername,
-        hashedUsername: program.session.username,
+        username: {
+          full: fullUsername,
+          hashed: program.session.username,
+          trimmed: fullUsername.split('#')[0],
+        },
         session: program.session,
         authStrategy: program.auth,
         loading: false,
@@ -33,8 +36,7 @@ export const initialize = async (): Promise<void> => {
     } else {
       // Not authed
       sessionStore.set({
-        username: '',
-        hashedUsername: null,
+        username: null,
         session: null,
         authStrategy: program.auth,
         // Temporarily adding a `crypto` key here so it can be accessed in the register flow, but maybe this should be saved somewhere else
