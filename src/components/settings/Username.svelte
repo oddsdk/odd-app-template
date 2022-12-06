@@ -4,25 +4,19 @@
   import { sessionStore } from '$src/stores'
   import { addNotification } from '$lib/notifications'
   import ClipboardIcon from '$components/icons/ClipboardIcon.svelte'
+  import TruncatedUsername from '$components/settings/TruncatedUsername.svelte'
 
   const handleCopyUsername = async (): Promise<void> => {
     await clipboardCopy($sessionStore.username.full)
     addNotification('Copied to clipboard', 'success')
   }
-
-  $: usernameParts = $sessionStore?.username?.full?.split('#')
 </script>
 
 <div>
   <h3 class="text-lg mb-4">Username</h3>
   <div class="flex items-center">
     <p>
-      {usernameParts[0]}
-      <span class="text-neutral-500 -ml-[3px]">
-        #{usernameParts[1].substring(0, 12)}...{usernameParts[1].substring(
-          usernameParts[1].length - 5
-        )}
-      </span>
+      <TruncatedUsername />
     </p>
     <button
       class="pl-2 hover:text-neutral-500 transition-colors"
