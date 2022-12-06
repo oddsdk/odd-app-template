@@ -79,7 +79,7 @@ export const register = async (encodedUsername: string): Promise<boolean> => {
 
   sessionStore.update(state => ({
     ...state,
-    username: localStorage.getItem(USERNAME_STORAGE_KEY).split('#')[0],
+    username: localStorage.getItem(USERNAME_STORAGE_KEY),
     hashedUsername: encodedUsername,
     session
   }))

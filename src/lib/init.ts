@@ -18,10 +18,9 @@ export const initialize = async (): Promise<void> => {
       backupStatus = await getBackupStatus(program.session.fs)
 
       const fullUsername = localStorage.getItem('fullUsername')
-      const username = fullUsername.split('#')[0]
 
       sessionStore.set({
-        username: username,
+        username: fullUsername,
         hashedUsername: program.session.username,
         session: program.session,
         authStrategy: program.auth,
