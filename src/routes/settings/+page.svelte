@@ -3,6 +3,7 @@
   import { sessionStore } from '$src/stores'
   import AvatarUpload from '$components/settings/AvatarUpload.svelte'
   import ConnectedDevices from '$components/settings/ConnectedDevices.svelte'
+  import RecoveryKit from '$components/settings/RecoveryKit.svelte'
   import ThemePreferences from '$components/settings/ThemePreferences.svelte'
   import Username from '$components/settings/Username.svelte'
 </script>
@@ -21,6 +22,8 @@
       <ThemePreferences />
 
       <ConnectedDevices />
+
+      <RecoveryKit />
     </div>
   </div>
 {:else}
