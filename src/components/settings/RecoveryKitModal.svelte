@@ -1,16 +1,9 @@
 <script lang="ts">
-  import {
-    activateOPButton,
-    encodeOPSaveRequest
-  } from '@1password/save-button/built/index.js'
-
   import { sessionStore } from '$src/stores'
   import { generateRecoveryKit } from '$lib/account-settings'
-  import OnePassword from '$components/icons/OnePassword.svelte'
   import Download from '$components/icons/Download.svelte'
 
   export let handleToggleModal: () => void
-  let encodedSaveRequest
   $: recoveryKit = null
   $: downloadLinkRef = null
   $: onePasswordBtnRef = null
@@ -28,26 +21,8 @@
     }
 
     fileURL = window.URL.createObjectURL(data)
-
-    prepareSaveTo1Pass()
   }
   const recoveryKitPromise = prepareRecoveryKitDownload()
-
-  const prepareSaveTo1Pass = () => {
-    const saveRequest = {
-      title: `Webnative-RecoveryKit-${$sessionStore.username.trimmed}`,
-      fields: [
-        {
-          autocomplete: 'cc-name',
-          value: 'Wendy J. Appleseed'
-        }
-      ],
-      notes:
-        'Plain text. You can use [Markdown](https://support.1password.com/markdown/) too.'
-    }
-
-    encodedSaveRequest = encodeOPSaveRequest(saveRequest)
-  }
 
   $: if (downloadLinkRef && fileURL && onePasswordBtnRef) {
     downloadLinkRef.setAttribute(
@@ -56,8 +31,6 @@
     )
 
     downloadLinkRef.href = fileURL
-
-    onePasswordBtnRef.setAttribute('value', encodedSaveRequest)
   }
 </script>
 
@@ -106,23 +79,9 @@
         </div>
 
         <!-- svelte-ignore a11y-missing-attribute -->
-        <a
-          class="btn btn-primary w-[227px] gap-2 mb-4"
-          bind:this={downloadLinkRef}
-        >
+        <a class="btn btn-primary w-[227px] gap-2" bind:this={downloadLinkRef}>
           <Download /> Download recovery kit
         </a>
-
-        <!-- svelte-ignore a11y-missing-attribute -->
-        <button
-          class="onepassword-button w-[227px] btn btn-primary gap-2 !bg-gradient-to-tr !from-[#0572EC] !to-[#0364D3] !text-neutral-50"
-          bind:this={onePasswordBtnRef}
-          data-onepassword-type="credit-card"
-          lang="en"
-          data-theme="dark"
-        >
-          <OnePassword /> Save in 1Password
-        </button>
       {/await}
     </div>
   </div>
