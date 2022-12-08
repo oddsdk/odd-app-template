@@ -44,7 +44,7 @@
         </p>
       </div>
     {:else}
-      <a class="btn btn-primary !btn-lg !h-10 gap-2" href="/connect">
+      <a class="btn btn-primary !btn-lg !h-10 gap-2" href="/register">
         <Connect /> Connect this device
       </a>
     {/if}

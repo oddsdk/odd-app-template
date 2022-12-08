@@ -8,7 +8,7 @@ module.exports = {
     themes: [
       {
         dark: {
-          primary: '#3b82f6',
+          primary: '#171717',
           secondary: '#30aadd',
           accent: '#00ffc6',
           neutral: '#171717',
@@ -26,7 +26,7 @@ module.exports = {
           '--navbar-padding': '16px'
         },
         light: {
-          primary: '#3b82f6',
+          primary: '#FAFAFA',
           secondary: '#30aadd',
           accent: '#00ffc6',
           neutral: '#171717',
@@ -65,9 +65,11 @@ module.exports = {
       colors: {
         blue: {
           100: '#DBEAFE',
+          600: '#2563EB',
           900: '#1E3A8A'
         },
         green: {
+          300: '#86EFAC',
           500: '#22C55E',
           700: '#15803D'
         },
@@ -88,6 +90,7 @@ module.exports = {
           700: '#C2410C'
         },
         red: {
+          400: '#F87171',
           600: '#DC2626'
         }
       },
