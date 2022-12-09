@@ -190,7 +190,7 @@ export const generateRecoveryKit = async (): Promise<string> => {
       components: { crypto, reference, storage }
     },
     username: {
-      full,
+      hashed,
       trimmed
     }
   } = getStore(sessionStore)
@@ -245,7 +245,7 @@ export const generateRecoveryKit = async (): Promise<string> => {
 # To use this file, go to ${window.location.origin}/recover/
 # Learn how to customize this kit for your users: https://guide.fission.codes/
 
-username: ${full}
+username: ${hashed}
 key: ${encodedReadKey}`
 
   return content

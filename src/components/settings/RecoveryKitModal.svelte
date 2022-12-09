@@ -6,7 +6,6 @@
   export let handleToggleModal: () => void
   $: recoveryKit = null
   $: downloadLinkRef = null
-  $: onePasswordBtnRef = null
   $: fileURL = null
 
   const prepareRecoveryKitDownload = async () => {
@@ -24,7 +23,7 @@
   }
   const recoveryKitPromise = prepareRecoveryKitDownload()
 
-  $: if (downloadLinkRef && fileURL && onePasswordBtnRef) {
+  $: if (downloadLinkRef && fileURL) {
     downloadLinkRef.setAttribute(
       'download',
       `Webnative-RecoveryKit-${$sessionStore.username.trimmed}.txt`
