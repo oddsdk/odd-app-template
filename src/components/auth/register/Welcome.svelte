@@ -20,7 +20,7 @@
         <div class="mb-8 text-left">
           <input type="checkbox" id="password-message" class="peer hidden" />
           <label
-            class="text-primary underline mb-8 hover:cursor-pointer peer-checked:hidden"
+            class="text-blue-500 underline mb-8 hover:cursor-pointer peer-checked:hidden"
             for="password-message"
           >
             Wait&mdash;what's my password?

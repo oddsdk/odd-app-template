@@ -88,6 +88,10 @@ body, input {
   @apply border-neutral-900;
 }
 
+.btn-link {
+  @apply text-blue-500;
+}
+
 /* Input default styles */
 .input-bordered {
   @apply text-base-content;
