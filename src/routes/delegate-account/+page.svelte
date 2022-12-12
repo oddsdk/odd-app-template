@@ -7,7 +7,6 @@
   import { createAccountLinkingProducer } from '$lib/auth/linking'
   import { filesystemStore, sessionStore, themeStore } from '../../stores'
   import { getBackupStatus, setBackupStatus } from '$lib/auth/backup'
-  import { USERNAME_STORAGE_KEY } from '$lib/auth/account'
   import ConnectBackupDevice from '$components/auth/delegate-account/ConnectBackupDevice.svelte'
   import DelegateAccount from '$components/auth/delegate-account/DelegateAccount.svelte'
 

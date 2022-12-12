@@ -5,15 +5,18 @@ import { filesystemStore, sessionStore } from '../stores'
 import { getBackupStatus, type BackupStatus } from '$lib/auth/backup'
 import { USERNAME_STORAGE_KEY } from '$lib/auth/account'
 
+export const NAMESPACE = { creator: 'Fission', name: 'WAT' }
+
 export const initialize = async (): Promise<void> => {
   try {
     let backupStatus: BackupStatus = null
 
     const program: webnative.Program = await webnative.program({
-      namespace: { creator: 'Fission', name: 'WAT' },
+      namespace: NAMESPACE,
       debug: dev
     })
 
+    console.log('program', program)
     if (program.session) {
       // Authed
       backupStatus = await getBackupStatus(program.session.fs)

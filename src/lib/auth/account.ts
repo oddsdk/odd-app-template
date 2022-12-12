@@ -98,7 +98,7 @@ const initializeFilesystem = async (fs: FileSystem): Promise<void> => {
 export const loadAccount = async (hashedUsername: string, fullUsername: string): Promise<void> => {
   const { authStrategy, program: { components: { storage } } } = getStore(sessionStore)
   const session = await authStrategy.session()
-
+  console.log('session', session)
   filesystemStore.set(session.fs)
 
   const backupStatus = await getBackupStatus(session.fs)

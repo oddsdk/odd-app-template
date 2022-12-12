@@ -88,6 +88,8 @@
     class="flex flex-col items-center justify-center gap-8 min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-160px)] max-w-[352px] m-auto"
   >
     <h1 class="text-base">Connect this device</h1>
+
+    <!-- Registration Form -->
     <form
       on:submit={registerUser}
       class="w-full p-6 rounded bg-base-content text-base-100"
@@ -194,6 +196,7 @@
       </div>
     </form>
 
+    <!-- Existing Account -->
     <div class="flex flex-col gap-5 w-full">
       <button
         class="btn btn-outline !h-[52px] w-full {existingAccount
@@ -219,5 +222,8 @@
         </div>
       {/if}
     </div>
+
+    <!-- Recovery Link -->
+    <a href="/recover" class="underline">Recover an account</a>
   </div>
 {/if}
