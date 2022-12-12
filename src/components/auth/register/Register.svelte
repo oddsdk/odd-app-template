@@ -2,7 +2,6 @@
   import { get as getStore } from 'svelte/store'
 
   import { sessionStore } from '$src/stores'
-  import { appName } from '$lib/app-info'
   import {
     createDID,
     isUsernameValid,

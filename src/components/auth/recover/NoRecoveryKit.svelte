@@ -1,9 +1,21 @@
 <script lang="ts">
-  import { sessionStore } from '$src/stores'
-  import Upload from '$components/icons/Upload.svelte'
+  import LeftArrow from '$components/icons/LeftArrow.svelte'
+
+  let username = ''
+
+  /**
+   * TODO: Maybe send app-owned recover email to user?
+   * @param event
+   */
+  const handleSubmit = (event: Event) => {
+    event.preventDefault()
+
+    console.log('username', username)
+  }
 </script>
 
-<div
+<form
+  on:submit={handleSubmit}
   class="min-h-[calc(100vh-96px)] flex flex-col items-start justify-center max-w-[590px] m-auto gap-6 pb-5 text-sm"
 >
   <h1 class="text-xl">Recover your public data</h1>
@@ -14,21 +26,27 @@
     recover your private data. However, we can give you a copy of your public
     data:
   </p>
-  <ul>
+  <ul class="pl-6 list-disc">
     <li>your public photos</li>
   </ul>
 
   <div class="flex flex-col gap-2">
-    <a
-      class="btn btn-primary !btn-lg !h-[56px] !min-h-0 w-fit gap-2"
-      href="/register"
-    >
-      <Upload /> Upload your recovery kit
-    </a>
-    <p class="text-xxs">
-      {`It should be a file named Webnative-RecoveryKit-{yourUsername}.txt`}
-    </p>
+    <h3 class="font-semibold text-sm">Enter your username</h3>
+    <input
+      class="btn border-2 !outline-0 rounded-lg !bg-base-100 !h-[48px] gap-2 text-left text-base-content"
+      type="text"
+      name="username"
+      bind:value={username}
+    />
+    <p class="text-xxs">We will send you a follow-up email.</p>
   </div>
 
-  <a href="#" class="underline">I don’t have a recovery kit</a>
-</div>
+  <div class="flex flex-col gap-2">
+    <button class="btn btn-primary" type="submit">
+      Recover my public data
+    </button>
+    <a href="/recover" class="btn btn-outline gap-2">
+      <LeftArrow /> I have a recovery kit! Go back
+    </a>
+  </div>
+</form>
