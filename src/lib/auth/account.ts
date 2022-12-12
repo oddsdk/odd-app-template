@@ -15,6 +15,13 @@ import { GALLERY_DIRS } from '$routes/gallery/lib/gallery'
 
 export const USERNAME_STORAGE_KEY = 'fullUsername'
 
+export enum RECOVERY_STATES {
+  Ready,
+  Processing,
+  Error,
+  Done
+}
+
 export const isUsernameValid = async (username: string): Promise<boolean> => {
   const session = getStore(sessionStore)
   return session.authStrategy.isUsernameValid(username)
