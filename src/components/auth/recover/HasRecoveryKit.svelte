@@ -1,5 +1,5 @@
 <script lang="ts">
-  // import { createEventDispatcher } from 'svelte'
+  import { createEventDispatcher } from 'svelte'
   import { store } from 'webnative/common/root-key'
   import { loadFileSystem } from 'webnative/filesystem'
   import { provide } from 'webnative/session'
@@ -13,7 +13,7 @@
     loadAccount,
     prepareUsername
   } from '$lib/auth/account'
-  // import type { RecoveryView } from '$lib/views'
+  import type { RecoveryView } from '$lib/views'
   import Check from '$components/icons/CheckIcon.svelte'
   import RightArrow from '$components/icons/RightArrow.svelte'
   import Upload from '$components/icons/Upload.svelte'
@@ -111,12 +111,11 @@
     handleFileInput(files)
   }
 
-  // ToDo: Re-add when missing recovery kit flow is supported
-  // const dispatch = createEventDispatcher()
+  const dispatch = createEventDispatcher()
 
-  // const navigate = (view: RecoveryView) => {
-  //   dispatch('navigate', { view })
-  // }
+  const navigate = (view: RecoveryView) => {
+    dispatch('navigate', { view })
+  }
 
   $: buttonData = {
     [RECOVERY_STATES.Processing]: {
@@ -203,10 +202,9 @@
     {/if}
   </div>
 
-  <!-- ToDo: Re-add when missing recovery kit flow is supported -->
-  <!-- {#if state !== RECOVERY_STATES.Done}
+  {#if state !== RECOVERY_STATES.Done}
     <button on:click={() => navigate('no-recovery-kit')} class="underline">
       I don’t have a recovery kit
     </button>
-  {/if} -->
+  {/if}
 </div>
