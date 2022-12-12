@@ -1,26 +1,46 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte'
+  // import { createEventDispatcher } from 'svelte'
   import { store } from 'webnative/common/root-key'
   import { loadFileSystem } from 'webnative/filesystem'
-  import { assemble } from 'webnative'
-  import { SESSION_TYPE } from 'webnative/capabilities'
   import { provide } from 'webnative/session'
   import * as uint8arrays from 'uint8arrays'
   import { goto } from '$app/navigation'
 
   import { filesystemStore, sessionStore } from '$src/stores'
-  import { NAMESPACE, initialize } from '$lib/init'
-  import { USERNAME_STORAGE_KEY, loadAccount } from '$lib/auth/account'
-  import type { RecoveryView } from '$lib/views'
+  import { NAMESPACE } from '$lib/init'
+  import {
+    USERNAME_STORAGE_KEY,
+    loadAccount,
+    prepareUsername
+  } from '$lib/auth/account'
+  // import type { RecoveryView } from '$lib/views'
+  import Check from '$components/icons/CheckIcon.svelte'
+  import RightArrow from '$components/icons/RightArrow.svelte'
   import Upload from '$components/icons/Upload.svelte'
 
+  enum RECOVERY_STATES {
+    Ready,
+    Processing,
+    Error,
+    Done
+  }
+  let state = $sessionStore.session
+    ? RECOVERY_STATES.Done
+    : RECOVERY_STATES.Ready
+
+  /**
+   * Parse the user's `username` and `readKey` from the uploaded recovery kit and pass them into
+   * webnative to recover the user's account and populate the `session` and `filesystem` stores
+   * @param files
+   */
   export const handleFileInput: (
     files: FileList
   ) => Promise<void> = async files => {
-    console.log('files', files)
     const reader = new FileReader()
 
     reader.onload = async event => {
+      state = RECOVERY_STATES.Processing
+
       try {
         const {
           authStrategy,
@@ -31,71 +51,57 @@
 
         const parts = (event.target.result as string)
           .split('username: ')[1]
-          .split('systemUsername: ')
+          .split('key: ')
 
         const username = parts[0].replace(/(\r\n|\n|\r)/gm, '')
-        console.log('username', username)
-
-        const systemUsername = parts[1]
-          .split('key: ')[0]
-          .replace(/(\r\n|\n|\r)/gm, '')
-        console.log('systemUsername', systemUsername)
+        const hashedUsername = await prepareUsername(username)
 
         const readKey = uint8arrays.fromString(
-          parts[1].split('key: ')[1].replace(/(\r\n|\n|\r)/gm, ''),
+          parts[1].replace(/(\r\n|\n|\r)/gm, ''),
           'base64pad'
         )
-        console.log('readKey', readKey)
 
         storage.setItem(USERNAME_STORAGE_KEY, username)
 
-        const rootDID = await reference.didRoot.lookup(systemUsername)
-        console.log('rootDID', rootDID)
+        const rootDID = await reference.didRoot.lookup(hashedUsername)
 
-        const stored = await store({
+        // Store the accountDID and readKey in webnative so they can be used internally load the file system
+        await store({
           accountDID: rootDID,
           readKey,
           crypto: crypto
         })
-        console.log('stored', stored)
 
+        // Recover the user's file system then pass it to the filesystemStore
         const fs = await loadFileSystem({
-          username: systemUsername,
+          username: hashedUsername,
           rootKey: readKey,
           config: { namespace: NAMESPACE },
           dependencies: { crypto, depot, manners, reference, storage }
         })
-        console.log('fs', fs)
-
         filesystemStore.set(fs)
 
-        // const assembled = await assemble(
-        //   { namespace: NAMESPACE },
-        //   $sessionStore.program.components
-        // )
-        // console.log('assembled', assembled)
-
-        // const session = await assembled.auth.session()
-        // console.log('session', session)
-
+        // Save the current session to storage so it persists throughout hard refreshes
         await provide(storage, {
-          type: SESSION_TYPE,
-          username: systemUsername
+          type: authStrategy.implementation.type,
+          username: hashedUsername
         })
-        // console.log('provided', provided)
 
-        await loadAccount(systemUsername, username)
+        // Load account data into sessionStore
+        await loadAccount(hashedUsername, username)
 
-        // await initialize()
-
-        console.log('$sessionStore', $sessionStore)
-
-        goto('/')
+        state = RECOVERY_STATES.Done
       } catch (error) {
         console.error(error)
+        state = RECOVERY_STATES.Error
       }
     }
-    reader.onerror = error => console.error(error)
+
+    reader.onerror = error => {
+      console.error(error)
+      state = RECOVERY_STATES.Error
+    }
+
     reader.readAsText(files[0])
   }
 
@@ -105,10 +111,27 @@
     handleFileInput(files)
   }
 
-  const dispatch = createEventDispatcher()
+  // ToDo: Re-add when missing recovery kit flow is supported
+  // const dispatch = createEventDispatcher()
 
-  const navigate = (view: RecoveryView) => {
-    dispatch('navigate', { view })
+  // const navigate = (view: RecoveryView) => {
+  //   dispatch('navigate', { view })
+  // }
+
+  $: buttonData = {
+    [RECOVERY_STATES.Processing]: {
+      text: 'Processing recovery kit...',
+      props: {
+        disabled: state === RECOVERY_STATES.Processing,
+        $$on_click: () => {}
+      }
+    },
+    [RECOVERY_STATES.Done]: {
+      text: 'Continue to the app',
+      props: {
+        $$on_click: () => goto('/')
+      }
+    }
   }
 </script>
 
@@ -117,31 +140,73 @@
 >
   <h1 class="text-xl">Recover your account</h1>
 
-  <p>
-    If you’ve lost access to all of your connected devices, you can use your
-    recovery kit to restore access to your private data.
-  </p>
+  {#if state === RECOVERY_STATES.Done}
+    <h3 class="flex items-center gap-2 font-normal text-base text-green-600">
+      <Check /> Account recovered!
+    </h3>
+    <p>
+      Welcome back <strong>{$sessionStore.username.trimmed}.</strong>
+      We were able to successfully recover all of your private data.
+    </p>
+  {:else}
+    <p>
+      If you’ve lost access to all of your connected devices, you can use your
+      recovery kit to restore access to your private data.
+    </p>
+  {/if}
+
+  {#if state === RECOVERY_STATES.Error}
+    <p class="text-red-600">
+      We were unable to recover your account. Please double check that you
+      uploaded the correct file.
+    </p>
+  {/if}
 
   <div class="flex flex-col gap-2">
-    <label
-      for="upload-recovery-kit"
-      class="btn btn-primary !btn-lg !h-[56px] !min-h-0 w-fit gap-2"
-    >
-      <Upload /> Upload your recovery kit
-    </label>
-    <input
-      bind:files
-      id="upload-recovery-kit"
-      type="file"
-      accept=".txt"
-      class="hidden"
-    />
-    <p class="text-xxs">
-      {`It should be a file named Webnative-RecoveryKit-{yourUsername}.txt`}
-    </p>
+    {#if state === RECOVERY_STATES.Ready || state === RECOVERY_STATES.Error}
+      <label
+        for="upload-recovery-kit"
+        class="btn btn-primary !btn-lg !h-[56px] !min-h-0 w-fit gap-2"
+      >
+        <Upload /> Upload your recovery kit
+      </label>
+      <input
+        bind:files
+        id="upload-recovery-kit"
+        type="file"
+        accept=".txt"
+        class="hidden"
+      />
+    {:else}
+      {@const { $$on_click, ...props } = buttonData[state].props}
+      <button
+        class="btn btn-primary !btn-lg !h-[56px] !min-h-0 w-fit gap-2"
+        {...props}
+        on:click={$$on_click}
+      >
+        {#if state === RECOVERY_STATES.Processing}
+          <span
+            class="animate-spin ease-linear rounded-full border-2 border-t-2 border-t-orange-500 border-neutral-900 w-[16px] h-[16px] text-sm"
+          />
+        {/if}
+        {buttonData[state].text}
+        {#if state === RECOVERY_STATES.Done}
+          <RightArrow />
+        {/if}
+      </button>
+    {/if}
+
+    {#if state !== RECOVERY_STATES.Done}
+      <p class="text-xxs">
+        {`It should be a file named Webnative-RecoveryKit-{yourUsername}.txt`}
+      </p>
+    {/if}
   </div>
 
-  <button on:click={() => navigate('no-recovery-kit')} class="underline">
-    I don’t have a recovery kit
-  </button>
+  <!-- ToDo: Re-add when missing recovery kit flow is supported -->
+  <!-- {#if state !== RECOVERY_STATES.Done}
+    <button on:click={() => navigate('no-recovery-kit')} class="underline">
+      I don’t have a recovery kit
+    </button>
+  {/if} -->
 </div>

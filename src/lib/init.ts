@@ -16,7 +16,6 @@ export const initialize = async (): Promise<void> => {
       debug: dev
     })
 
-    console.log('program', program)
     if (program.session) {
       // Authed
       backupStatus = await getBackupStatus(program.session.fs)

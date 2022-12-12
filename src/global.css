@@ -84,6 +84,12 @@ body, input {
   @apply px-4;
 }
 
+.btn-primary:disabled {
+  @apply opacity-50;
+  @apply text-neutral-900;
+  @apply border-neutral-900;
+}
+
 .btn-primary:hover, .btn-warning:hover {
   @apply border-neutral-900;
 }

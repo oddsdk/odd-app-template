@@ -44,9 +44,14 @@
         </p>
       </div>
     {:else}
-      <a class="btn btn-primary !btn-lg !h-10 gap-2" href="/register">
-        <Connect /> Connect this device
-      </a>
+      <div class="flex flex-col items-start gap-4">
+        <a class="btn btn-primary !btn-lg !h-10 gap-2" href="/register">
+          <Connect /> Connect this device
+        </a>
+        <a class="btn btn-outline" href="/recover">
+          Recover an existing account
+        </a>
+      </div>
     {/if}
   </div>
 </div>
