@@ -187,16 +187,17 @@ export const uploadAvatarToWNFS = async (image: File): Promise<void> => {
 export const generateRecoveryKit = async (): Promise<string> => {
   const {
     program: {
-      components: { crypto, reference, storage }
+      components: { crypto, reference }
     },
     username: {
       full,
-      trimmed
+      hashed,
+      trimmed,
     }
   } = getStore(sessionStore)
 
   // Get the user's read-key and base64 encode it
-  const accountDID = await rootDID({ crypto, reference, storage })
+  const accountDID = await reference.didRoot.lookup(hashed)
   const readKey = await retrieve({ crypto, accountDID })
   const encodedReadKey = uint8arrays.toString(readKey, 'base64pad')
 

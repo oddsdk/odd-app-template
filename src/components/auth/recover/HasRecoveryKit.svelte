@@ -1,9 +1,8 @@
 <script lang="ts">
-  import { store } from 'webnative/common/root-key'
+  import * as RootKey from 'webnative/common/root-key'
   import { loadFileSystem } from 'webnative/filesystem'
   import { provide } from 'webnative/session'
   import * as uint8arrays from 'uint8arrays'
-  import { goto } from '$app/navigation'
 
   import { filesystemStore, sessionStore } from '$src/stores'
   import { NAMESPACE } from '$lib/init'
@@ -14,8 +13,6 @@
     prepareUsername
   } from '$lib/auth/account'
   import Check from '$components/icons/CheckIcon.svelte'
-  import RightArrow from '$components/icons/RightArrow.svelte'
-  import Upload from '$components/icons/Upload.svelte'
   import RecoveryKitButton from './RecoveryKitButton.svelte'
 
   let state = $sessionStore.session
@@ -60,7 +57,7 @@
         const rootDID = await reference.didRoot.lookup(hashedUsername)
 
         // Store the accountDID and readKey in webnative so they can be used internally load the file system
-        await store({
+        await RootKey.store({
           accountDID: rootDID,
           readKey,
           crypto: crypto
