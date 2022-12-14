@@ -1,7 +1,6 @@
 import { get as getStore } from 'svelte/store'
 import * as wn from 'webnative'
 import { retrieve } from 'webnative/common/root-key'
-import { rootDID } from 'webnative/components/auth/implementation/wnfs'
 import * as uint8arrays from 'uint8arrays'
 import type { CID } from 'multiformats/cid'
 import type { PuttableUnixTree, File as WNFile } from 'webnative/fs/types'

@@ -36,7 +36,7 @@
   }
 
   const setDefaultThemePreference = (): void => {
-    localStorage.setItem(DEFAULT_THEME_KEY, useDefault)
+    localStorage.setItem(DEFAULT_THEME_KEY, `${useDefault}`)
 
     if (useDefault) {
       setTheme({ selectedTheme: defaultTheme, useDefault })
