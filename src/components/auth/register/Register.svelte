@@ -98,7 +98,7 @@
         <input
           id="registration"
           type="text"
-          class="input input-bordered bg-neutral-50 !text-neutral-900 dark:border-neutral-900 rounded-lg focus:outline-none w-full px-3 bloc {usernameApproved
+          class="input input-bordered bg-neutral-50 !text-neutral-900 dark:border-neutral-900 rounded-lg focus:outline-none w-full px-3 block {usernameApproved
             ? '!border-green-300'
             : ''} {usernameError ? '!border-red-400' : ''}"
           class:input-error={username.length !== 0 &&
