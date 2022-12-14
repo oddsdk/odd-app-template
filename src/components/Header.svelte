@@ -21,7 +21,6 @@
     })
     storeTheme(newTheme)
   }
-
 </script>
 
 <header class="navbar flex bg-base-100 pt-4">
