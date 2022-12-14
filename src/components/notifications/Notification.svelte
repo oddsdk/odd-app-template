@@ -20,7 +20,7 @@
     error: {
       component: XThinIcon,
       props: {
-        color: $themeStore === 'light' ? '#ffd6d7' : '#fec3c3'
+        color: $themeStore.selectedTheme === 'light' ? '#ffd6d7' : '#fec3c3'
       }
     },
     success: {
