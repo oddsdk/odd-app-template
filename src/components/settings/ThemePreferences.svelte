@@ -15,7 +15,7 @@
 
   const defaultTheme = getSystemDefaultTheme()
   let selected = $themeStore.selectedTheme
-  let useDefault = JSON.parse(localStorage.getItem(DEFAULT_THEME_KEY)) ?? $themeStore.useDefault
+  let useDefault = $themeStore.useDefault
 
   themeStore.subscribe((updatedTheme) => {
     selected = updatedTheme.selectedTheme
