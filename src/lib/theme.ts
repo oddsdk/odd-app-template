@@ -1,20 +1,33 @@
 import { browser } from '$app/environment'
 
-export type Theme = 'light' | 'dark' | 'default'
+export type ThemeOptions = 'light' | 'dark'
 
-export const getSystemDefaultTheme = (): Theme =>
+export type Theme = {
+  selectedTheme: ThemeOptions
+  useDefault: boolean
+}
+
+export const DEFAULT_THEME_KEY = 'useDefaultTheme'
+export const THEME_KEY = 'theme'
+
+export const getSystemDefaultTheme = (): ThemeOptions =>
   window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 
-export const loadTheme = (): Theme => {
+export const loadTheme = (): ThemeOptions => {
   if (browser) {
-    const browserTheme = localStorage.getItem('theme') as Theme
+    const useDefaultTheme = JSON.parse(localStorage.getItem(DEFAULT_THEME_KEY))
+    const browserTheme = localStorage.getItem(THEME_KEY) as ThemeOptions
     const osTheme = getSystemDefaultTheme()
 
-    return browserTheme ?? (osTheme as Theme) ?? 'light'
+    if (useDefaultTheme) {
+      return getSystemDefaultTheme()
+    }
+
+    return browserTheme ?? (osTheme as ThemeOptions) ?? 'light'
   }
 }
 
-export const storeTheme = (theme: Theme): void => {
+export const storeTheme = (theme: ThemeOptions): void => {
   if (browser) {
     localStorage.setItem('theme', theme)
   }
