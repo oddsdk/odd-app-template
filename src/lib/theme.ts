@@ -13,17 +13,23 @@ export const THEME_KEY = 'theme'
 export const getSystemDefaultTheme = (): ThemeOptions =>
   window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 
-export const loadTheme = (): ThemeOptions => {
+export const loadTheme = (): Theme => {
   if (browser) {
-    const useDefaultTheme = JSON.parse(localStorage.getItem(DEFAULT_THEME_KEY))
+    const useDefault = localStorage.getItem(DEFAULT_THEME_KEY) !== 'undefined' && JSON.parse(localStorage.getItem(DEFAULT_THEME_KEY))
     const browserTheme = localStorage.getItem(THEME_KEY) as ThemeOptions
     const osTheme = getSystemDefaultTheme()
 
-    if (useDefaultTheme) {
-      return getSystemDefaultTheme()
+    if (useDefault) {
+      return {
+        selectedTheme: getSystemDefaultTheme(),
+        useDefault,
+      }
     }
 
-    return browserTheme ?? (osTheme as ThemeOptions) ?? 'light'
+    return {
+      selectedTheme: browserTheme ?? (osTheme as ThemeOptions) ?? 'light',
+      useDefault,
+    }
   }
 }
 
