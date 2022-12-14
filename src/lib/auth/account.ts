@@ -107,7 +107,6 @@ export const loadAccount = async (hashedUsername: string, fullUsername: string):
 
   sessionStore.update(state => ({
     ...state,
-    hashedUsername,
     username: {
       full: fullUsername,
       hashed: hashedUsername,
