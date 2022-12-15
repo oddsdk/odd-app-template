@@ -35,7 +35,7 @@
         const {
           authStrategy,
           program: {
-            components: { crypto, depot, manners, reference, storage }
+            components: { crypto, reference, storage }
           }
         } = $sessionStore
 
