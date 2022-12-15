@@ -95,8 +95,6 @@
           crypto: crypto
         })
 
-        const session = await authStrategy.session()
-
         // Load account data into sessionStore
         await loadAccount(hashedNewUsername, newUsername)
 
