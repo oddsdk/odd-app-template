@@ -1,11 +1,10 @@
 <script lang="ts">
   import * as RootKey from 'webnative/common/root-key'
-  import { loadFileSystem } from 'webnative/filesystem'
-  import { provide } from 'webnative/session'
+  import * as UCAN from 'webnative/ucan/index'
+  import * as DID from 'webnative/did/index'
   import * as uint8arrays from 'uint8arrays'
 
-  import { filesystemStore, sessionStore } from '$src/stores'
-  import { NAMESPACE } from '$lib/init'
+  import { sessionStore } from '$src/stores'
   import {
     RECOVERY_STATES,
     USERNAME_STORAGE_KEY,
@@ -44,42 +43,62 @@
           .split('username: ')[1]
           .split('key: ')
 
-        const username = parts[0].replace(/(\r\n|\n|\r)/gm, '')
-        const hashedUsername = await prepareUsername(username)
-
         const readKey = uint8arrays.fromString(
           parts[1].replace(/(\r\n|\n|\r)/gm, ''),
           'base64pad'
         )
 
-        storage.setItem(USERNAME_STORAGE_KEY, username)
+        const oldUsername = parts[0].replace(/(\r\n|\n|\r)/gm, '')
+        const hashedOldUsername = await prepareUsername(oldUsername)
+        const oldRootDID = await reference.didRoot.lookup(hashedOldUsername)
 
-        const rootDID = await reference.didRoot.lookup(hashedUsername)
+        // Construct a new username using the old `trimmed` name and `oldRootDID`
+        const newUsername = `${oldUsername.split('#')[0]}#${oldRootDID}`
+        const hashedNewUsername = await prepareUsername(newUsername)
+
+        storage.setItem(USERNAME_STORAGE_KEY, newUsername)
+
+        // Register the user with the `hashedNewUsername`
+        const { success } = await authStrategy.register({
+          username: hashedNewUsername
+        })
+        if (!success) {
+          throw new Error('Failed to register new user')
+        }
+
+        // Build an ephemeral UCAN to allow the
+        const issuer = await DID.write(crypto)
+        const proof: string | null = await storage.getItem(
+          storage.KEYS.ACCOUNT_UCAN
+        )
+        const ucan = await UCAN.build({
+          dependencies: $sessionStore.program.components,
+          potency: 'APPEND',
+          resource: '*',
+          proof: proof ? proof : undefined,
+          lifetimeInSeconds: 60 * 3, // Three minutes
+
+          audience: issuer,
+          issuer
+        })
+
+        const newRootDID = await reference.didRoot.lookup(hashedNewUsername)
+        const oldRootCID = await reference.dataRoot.lookup(hashedOldUsername)
+
+        // Update the dataRoot of the new user
+        await reference.dataRoot.update(oldRootCID, ucan)
 
         // Store the accountDID and readKey in webnative so they can be used internally load the file system
         await RootKey.store({
-          accountDID: rootDID,
+          accountDID: newRootDID,
           readKey,
           crypto: crypto
         })
 
-        // Recover the user's file system then pass it to the filesystemStore
-        const fs = await loadFileSystem({
-          username: hashedUsername,
-          rootKey: readKey,
-          config: { namespace: NAMESPACE },
-          dependencies: { crypto, depot, manners, reference, storage }
-        })
-        filesystemStore.set(fs)
-
-        // Save the current session to storage so it persists throughout hard refreshes
-        await provide(storage, {
-          type: authStrategy.implementation.type,
-          username: hashedUsername
-        })
+        const session = await authStrategy.session()
 
         // Load account data into sessionStore
-        await loadAccount(hashedUsername, username)
+        await loadAccount(hashedNewUsername, newUsername)
 
         state = RECOVERY_STATES.Done
       } catch (error) {
