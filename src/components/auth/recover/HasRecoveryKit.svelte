@@ -50,7 +50,6 @@
 
         const oldUsername = parts[0].replace(/(\r\n|\n|\r)/gm, '')
         const hashedOldUsername = await prepareUsername(oldUsername)
-        const oldRootDID = await reference.didRoot.lookup(hashedOldUsername)
         const newRootDID = await $sessionStore.program.agentDID()
 
         // Construct a new username using the old `trimmed` name and `newRootDID`
