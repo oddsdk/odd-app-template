@@ -44,10 +44,12 @@
           .split('key: ')
 
         const readKey = uint8arrays.fromString(
+          // Trim any whitespace from the parsed readKey
           parts[1].replace(/(\r\n|\n|\r)/gm, ''),
           'base64pad'
         )
 
+        // Trim any whitespace from the parsed username
         const oldUsername = parts[0].replace(/(\r\n|\n|\r)/gm, '')
         const hashedOldUsername = await prepareUsername(oldUsername)
         const newRootDID = await $sessionStore.program.agentDID()
@@ -66,7 +68,7 @@
           throw new Error('Failed to register new user')
         }
 
-        // Build an ephemeral UCAN to allow the
+        // Build an ephemeral UCAN to authorize the dataRoot.update call
         const proof: string | null = await storage.getItem(
           storage.KEYS.ACCOUNT_UCAN
         )
