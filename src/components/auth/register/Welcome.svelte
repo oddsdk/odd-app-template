@@ -9,7 +9,7 @@
   <div class="modal-box w-narrowModal relative text-center">
     <div>
       <h3 class="mb-14 text-base">
-        Welcome, {$sessionStore.username}!
+        Welcome, {$sessionStore.username.trimmed}!
       </h3>
       <div class="flex justify-center mb-11 text-base-content">
         <WelcomeCheckIcon />
@@ -20,7 +20,7 @@
         <div class="mb-8 text-left">
           <input type="checkbox" id="password-message" class="peer hidden" />
           <label
-            class="text-primary underline mb-8 hover:cursor-pointer peer-checked:hidden"
+            class="text-blue-500 underline mb-8 hover:cursor-pointer peer-checked:hidden"
             for="password-message"
           >
             Wait&mdash;what's my password?

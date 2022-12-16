@@ -8,9 +8,9 @@
 </script>
 
 <div
-  class="fixed z-0 lg:z-20 right-0 bottom-0 left-0 h-8 flex items-center motion-reduce:justify-center motion-safe:justify-end bg-base-content overflow-x-hidden"
+  class="fixed z-0 lg:z-20 right-0 bottom-0 left-0 h-8 flex items-center motion-reduce:justify-center motion-safe:justify-end bg-neutral-700 dark:bg-neutral-200 overflow-x-hidden"
 >
-  {#if $themeStore === 'light'}
+  {#if $themeStore.selectedTheme === 'light'}
     <p
       class="motion-safe:animate-marquee motion-safe:left-full whitespace-nowrap font-bold text-xxs {isFirefox
         ? 'text-orange-500'

@@ -1,6 +1,5 @@
 <script lang="ts">
   import '../global.css'
-  import { page } from '$app/stores'
   import { addNotification } from '$lib/notifications'
   import { appDescription, appImageURL, appName, appURL } from '$lib/app-info'
   import { sessionStore, themeStore } from '../stores'
@@ -54,7 +53,7 @@
   <link rel="manifest" href="/manifest.webmanifest" />
 </svelte:head>
 
-<div data-theme={$themeStore} class="min-h-screen">
+<div data-theme={$themeStore.selectedTheme} class="min-h-screen">
   <Notifications />
 
   {#if $sessionStore.loading}

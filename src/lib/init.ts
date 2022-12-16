@@ -3,13 +3,15 @@ import * as webnative from 'webnative'
 import { dev } from '$app/environment'
 import { filesystemStore, sessionStore } from '../stores'
 import { getBackupStatus, type BackupStatus } from '$lib/auth/backup'
+import { USERNAME_STORAGE_KEY } from '$lib/auth/account'
+import { webnativeNamespace } from '$lib/app-info'
 
 export const initialize = async (): Promise<void> => {
   try {
     let backupStatus: BackupStatus = null
 
     const program: webnative.Program = await webnative.program({
-      namespace: { creator: 'Fission', name: 'WAT' },
+      namespace: webnativeNamespace,
       debug: dev
     })
 
@@ -17,10 +19,17 @@ export const initialize = async (): Promise<void> => {
       // Authed
       backupStatus = await getBackupStatus(program.session.fs)
 
+      const fullUsername = await program.components.storage.getItem(USERNAME_STORAGE_KEY) as string
+
       sessionStore.set({
-        username: program.session.username,
+        username: {
+          full: fullUsername,
+          hashed: program.session.username,
+          trimmed: fullUsername.split('#')[0],
+        },
         session: program.session,
         authStrategy: program.auth,
+        program,
         loading: false,
         backupCreated: backupStatus.created
       })
@@ -30,9 +39,10 @@ export const initialize = async (): Promise<void> => {
     } else {
       // Not authed
       sessionStore.set({
-        username: '',
+        username: null,
         session: null,
         authStrategy: program.auth,
+        program,
         loading: false,
         backupCreated: null
       })

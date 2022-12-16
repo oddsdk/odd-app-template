@@ -1,5 +1,8 @@
 <script lang="ts">
+  import { sessionStore } from '$src/stores'
   import { appName } from '$lib/app-info'
+  import Alert from '$components/icons/Alert.svelte'
+  import Connect from '$components/icons/Connect.svelte'
 </script>
 
 <div
@@ -28,6 +31,27 @@
       </li>
     </ul>
 
-    <a class="btn btn-primary btn-sm !h-10" href="/connect">Connect</a>
+    {#if $sessionStore.error === 'Unsupported Browser'}
+      <div class="p-4 rounded-lg bg-base-content text-neutral-50">
+        <h3 class="flex items-center gap-2 text-base">
+          <span class="-translate-y-[2px]"><Alert /></span>
+          Unsupported device
+        </h3>
+        <p>
+          It appears this device isn’t supported. Webnative requires IndexedDB
+          in order to function. This browser doesn’t appear to implement this
+          API. Are you in a Firefox private window?
+        </p>
+      </div>
+    {:else}
+      <div class="flex flex-col items-start gap-4">
+        <a class="btn btn-primary !btn-lg !h-10 gap-2" href="/register">
+          <Connect /> Connect this device
+        </a>
+        <a class="btn btn-outline" href="/recover">
+          Recover an existing account
+        </a>
+      </div>
+    {/if}
   </div>
 </div>

@@ -19,6 +19,14 @@
 }
 
 @font-face {
+    font-family: 'UncutSans';
+    src: url('/fonts/uncut-sans-medium-webfont.woff2') format('woff2'),
+         url('/fonts/uncut-sans-medium-webfont.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
   font-family: 'UncutSans';
   src: url('/fonts/uncut-sans-bold-webfont.woff2') format('woff2'),
         url('/fonts/uncut-sans-bold-webfont.woff') format('woff');
@@ -60,7 +68,7 @@ body, input {
   @apply border-base-content;
   @apply bg-base-100;
   @apply shadow-orange;
-  @apply h-11;
+  @apply h-10;
   @apply px-4;
 }
 
@@ -72,12 +80,22 @@ body, input {
   @apply bg-gradient-to-r;
   @apply from-orange-300;
   @apply to-orange-600;
-  @apply h-11;
+  @apply h-10;
   @apply px-4;
+}
+
+.btn-primary:disabled {
+  @apply opacity-50;
+  @apply text-neutral-900;
+  @apply border-neutral-900;
 }
 
 .btn-primary:hover, .btn-warning:hover {
   @apply border-neutral-900;
+}
+
+.btn-link {
+  @apply text-blue-500;
 }
 
 /* Input default styles */

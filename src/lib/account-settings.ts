@@ -1,11 +1,12 @@
 import { get as getStore } from 'svelte/store'
 import * as wn from 'webnative'
+import { retrieve } from 'webnative/common/root-key'
 import * as uint8arrays from 'uint8arrays'
 import type { CID } from 'multiformats/cid'
 import type { PuttableUnixTree, File as WNFile } from 'webnative/fs/types'
 import type { Metadata } from 'webnative/fs/metadata'
 
-import { accountSettingsStore, filesystemStore } from '$src/stores'
+import { accountSettingsStore, filesystemStore, sessionStore } from '$src/stores'
 import { addNotification } from '$lib/notifications'
 import { fileToUint8Array } from './utils'
 
@@ -180,4 +181,72 @@ export const uploadAvatarToWNFS = async (image: File): Promise<void> => {
     addNotification(error.message, 'error')
     console.error(error)
   }
+}
+
+export const generateRecoveryKit = async (): Promise<string> => {
+  const {
+    program: {
+      components: { crypto, reference }
+    },
+    username: {
+      full,
+      hashed,
+      trimmed,
+    }
+  } = getStore(sessionStore)
+
+  // Get the user's read-key and base64 encode it
+  const accountDID = await reference.didRoot.lookup(hashed)
+  const readKey = await retrieve({ crypto, accountDID })
+  const encodedReadKey = uint8arrays.toString(readKey, 'base64pad')
+
+  // Get today's date to display in the kit
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  }
+  const date = new Date()
+
+  const content = `#     %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%
+#   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+# %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%
+# @@@@@%     %@@@@@@%         %@@@@@@@%     %@@@@@
+# @@@@@       @@@@@%            @@@@@@       @@@@@
+# @@@@@%      @@@@@             %@@@@@      %@@@@@
+# @@@@@@%     @@@@@     %@@%     @@@@@     %@@@@@@
+# @@@@@@@     @@@@@    %@@@@%    @@@@@     @@@@@@@
+# @@@@@@@     @@@@%    @@@@@@    @@@@@     @@@@@@@
+# @@@@@@@    %@@@@     @@@@@@    @@@@@%    @@@@@@@
+# @@@@@@@    @@@@@     @@@@@@    %@@@@@    @@@@@@@
+# @@@@@@@    @@@@@@@@@@@@@@@@     @@@@@    @@@@@@@
+# @@@@@@@    %@@@@@@@@@@@@@@@     @@@@%    @@@@@@@
+# @@@@@@@     %@@%     @@@@@@     %@@%     @@@@@@@
+# @@@@@@@              @@@@@@              @@@@@@@
+# @@@@@@@%            %@@@@@@%            %@@@@@@@
+# @@@@@@@@@%        %@@@@@@@@@@%        %@@@@@@@@@
+# %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%
+#   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#     %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%
+#
+# This is your recovery kit. (It’s a yaml text file)
+#
+# Created for ${trimmed} on ${date.toLocaleDateString('en-US', options)}
+#
+# Store this somewhere safe.
+#
+# Anyone with this file will have read access to your private files.
+# Losing it means you won’t be able to recover your account
+# in case you lose access to all your linked devices.
+#
+# Our team will never ask you to share this file.
+#
+# To use this file, go to ${window.location.origin}/recover/
+# Learn how to customize this kit for your users: https://guide.fission.codes/
+
+username: ${full}
+key: ${encodedReadKey}`
+
+  return content
 }
