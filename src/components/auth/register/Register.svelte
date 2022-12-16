@@ -2,7 +2,6 @@
   import { get as getStore } from 'svelte/store'
 
   import { sessionStore } from '$src/stores'
-  import { appName } from '$lib/app-info'
   import {
     createDID,
     isUsernameValid,
@@ -66,110 +65,164 @@
 
     if (!registrationSuccess) initializingFilesystem = false
   }
+
+  $: usernameApproved =
+    username.length > 0 &&
+    !checkingUsername &&
+    usernameValid &&
+    usernameAvailable
+  $: usernameError =
+    username.length > 0 &&
+    !checkingUsername &&
+    (!usernameValid || !usernameAvailable)
+
+  let existingAccount = false
+  const toggleExistingAccount = () => (existingAccount = !existingAccount)
 </script>
 
 {#if initializingFilesystem}
   <FilesystemActivity activity="Initializing" />
 {:else}
-  <input type="checkbox" id="register-modal" checked class="modal-toggle" />
-  <div class="modal">
-    <div class="modal-box w-narrowModal relative text-center">
-      <a href="/" class="btn btn-xs btn-circle absolute right-2 top-2">✕</a>
+  <div
+    class="flex flex-col items-center justify-center gap-8 min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-160px)] max-w-[352px] m-auto"
+  >
+    <h1 class="text-base">Connect this device</h1>
 
-      <form on:submit={registerUser}>
-        <h3 class="mb-7 text-base">Choose a username</h3>
-        <div class="relative">
-          <input
-            id="registration"
-            type="text"
-            placeholder="Type here"
-            class="input input-bordered focus:outline-none w-full px-3 block"
-            class:input-error={username.length !== 0 &&
-              (!usernameValid || !usernameAvailable)}
-            on:input={checkUsername}
+    <!-- Registration Form -->
+    <form
+      on:submit={registerUser}
+      class="w-full p-6 rounded bg-base-content text-base-100"
+    >
+      <h2 class="mb-2 text-sm font-semibold">Choose a username</h2>
+      <div class="relative">
+        <input
+          id="registration"
+          type="text"
+          class="input input-bordered bg-neutral-50 !text-neutral-900 dark:border-neutral-900 rounded-lg focus:outline-none w-full px-3 block {usernameApproved
+            ? '!border-green-300'
+            : ''} {usernameError ? '!border-red-400' : ''}"
+          class:input-error={username.length !== 0 &&
+            (!usernameValid || !usernameAvailable)}
+          on:input={checkUsername}
+        />
+        {#if checkingUsername}
+          <span
+            class="rounded-lg border-t-2 border-l-2 border-base-content w-4 h-4 block absolute top-4 right-4 animate-spin"
           />
-          {#if checkingUsername}
-            <span
-              class="rounded-lg border-t-2 border-l-2 border-base-content w-4 h-4 block absolute top-4 right-4 animate-spin"
-            />
-          {/if}
-          {#if !(username.length === 0) && usernameAvailable && usernameValid && !checkingUsername}
-            <span class="w-4 h-4 block absolute top-[17px] right-4">
-              <CheckIcon />
-            </span>
-          {/if}
-          {#if !(username.length === 0) && !checkingUsername && !(usernameAvailable && usernameValid)}
-            <span class="w-4 h-4 block absolute top-[17px] right-4">
-              <XIcon />
-            </span>
-          {/if}
-        </div>
-
-        {#if !(username.length === 0)}
-          <!-- Status of username: valid, available, etc -->
-          <label for="registration" class="label mt-1">
-            {#if usernameValid && usernameAvailable}
-              <span class="label-text-alt text-green-700 dark:text-green-500">
-                This username is available.
-              </span>
-            {:else if !usernameValid}
-              <span class="label-text-alt text-error">
-                This username is invalid.
-              </span>
-            {:else if !usernameAvailable}
-              <span class="label-text-alt text-error">
-                This username is unavailable.
-              </span>
-            {/if}
-          </label>
         {/if}
-        {#if !registrationSuccess}
-          <!-- Error when registration fails -->
-          <label for="registration" class="label mt-1">
-            <span class="label-text-alt text-error text-left">
-              There was an issue registering your account. Please try again.
-            </span>
-          </label>
+        {#if usernameApproved}
+          <span
+            class="w-4 h-4 block absolute top-[17px] right-4 text-green-300"
+          >
+            <CheckIcon />
+          </span>
         {/if}
+        {#if usernameError}
+          <span class="w-4 h-4 block absolute top-[17px] right-4 text-red-400">
+            <XIcon />
+          </span>
+        {/if}
+      </div>
 
-        <div class="text-left mt-3">
-          <input
-            type="checkbox"
-            id="shared-computer"
-            class="peer checkbox checkbox-primary border-2 border-base-content hover:border-orange-300 transition-colors duration-250 ease-in-out inline-grid align-bottom"
-          />
-          <!-- Warning when "This is a shared computer" is checked -->
-          <label
-            for="shared-computer"
-            class="cursor-pointer ml-1 text-sm grid-inline"
-          >
-            This is a shared computer
-          </label>
-          <label
-            for="registration"
-            class="label mt-1 hidden peer-checked:block"
-          >
-            <span class="label-text-alt text-error text-left">
-              For security reasons, {appName} doesn't support shared computers at
-              this time.
+      {#if !(username.length === 0)}
+        <!-- Status of username: valid, available, etc -->
+        <label for="registration">
+          {#if usernameApproved}
+            <span class="text-xxs !p-0 text-green-300 dark:text-green-500">
+              This username is available.
             </span>
-          </label>
-        </div>
+          {:else if !checkingUsername && !usernameValid}
+            <span class="text-xxs !p-0 text-error">
+              This username is not valid.
+            </span>
+          {:else if !checkingUsername && !usernameAvailable}
+            <span class="text-xxs !p-0 text-error">
+              This username is not available.
+            </span>
+          {/if}
+        </label>
+      {/if}
+      {#if !registrationSuccess}
+        <!-- Error when registration fails -->
+        <label for="registration" class="label">
+          <span class="text-xxs !p-0 text-error text-left">
+            There was an issue registering your account. Please try again.
+          </span>
+        </label>
+      {/if}
 
-        <div class="mt-5">
-          <a class="btn btn-outline" href="/connect">Back</a>
-          <button
-            class="ml-2 btn btn-primary disabled:opacity-50 disabled:border-neutral-900 disabled:text-neutral-900"
-            disabled={username.length === 0 ||
-              !usernameValid ||
-              !usernameAvailable ||
-              checkingUsername}
-            type="submit"
-          >
-            Register
-          </button>
+      <div class="text-left mt-4">
+        <input
+          type="checkbox"
+          id="shared-computer"
+          class="peer checkbox checkbox-primary hover:border-base-100 rounded-lg border-2 border-base-100 transition-colors duration-250 ease-in-out inline-grid align-bottom checked:bg-base-100"
+        />
+        <!-- Warning when "This is a shared computer" is checked -->
+        <label
+          for="shared-computer"
+          class="cursor-pointer ml-1 text-sm grid-inline"
+        >
+          This is a public or shared computer
+        </label>
+        <label
+          for="registration"
+          class="label mt-4 !p-0 hidden peer-checked:block"
+        >
+          <span class="text-red-400 text-left">
+            In order to ensure the security of your private data, Webnative does
+            not recommend creating an account from a public or shared computer.
+          </span>
+        </label>
+      </div>
+
+      <div class="flex items-center mt-4">
+        <a
+          class="!h-[52px] btn btn-outline !text-neutral-900 !border-neutral-900 !bg-neutral-50"
+          href="/connect"
+        >
+          Cancel
+        </a>
+        <button
+          class="ml-2 !h-[52px] flex-1 btn btn-primary disabled:opacity-50 disabled:border-neutral-900 disabled:text-neutral-900"
+          disabled={username.length === 0 ||
+            !usernameValid ||
+            !usernameAvailable ||
+            checkingUsername}
+          type="submit"
+        >
+          Create your account
+        </button>
+      </div>
+    </form>
+
+    <!-- Existing Account -->
+    <div class="flex flex-col gap-5 w-full">
+      <button
+        class="btn btn-outline !h-[52px] w-full {existingAccount
+          ? '!bg-base-content !text-base-100 !border-base-content'
+          : ''}"
+        on:click={toggleExistingAccount}
+      >
+        I have an existing account
+      </button>
+      {#if existingAccount}
+        <div
+          class="flex flex-col gap-4 p-6 rounded bg-neutral-200 text-neutral-900"
+        >
+          <h3 class="text-sm text-center">
+            Which device are you connected on?
+          </h3>
+          <p>To connect your existing account, you'll need to:</p>
+          <ol class="pl-6 list-decimal">
+            <li>Find a device the account is already connected on</li>
+            <li>Navigate to your Account Settings</li>
+            <li>Click "Connect a new device"</li>
+          </ol>
         </div>
-      </form>
+      {/if}
     </div>
+
+    <!-- Recovery Link -->
+    <a href="/recover" class="underline">Recover an account</a>
   </div>
 {/if}

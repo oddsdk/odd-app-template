@@ -4,13 +4,14 @@ import { dev } from '$app/environment'
 import { filesystemStore, sessionStore } from '../stores'
 import { getBackupStatus, type BackupStatus } from '$lib/auth/backup'
 import { USERNAME_STORAGE_KEY } from '$lib/auth/account'
+import { webnativeNamespace } from '$lib/app-info'
 
 export const initialize = async (): Promise<void> => {
   try {
     let backupStatus: BackupStatus = null
 
     const program: webnative.Program = await webnative.program({
-      namespace: { creator: 'Fission', name: 'WAT' },
+      namespace: webnativeNamespace,
       debug: dev
     })
 

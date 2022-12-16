@@ -68,7 +68,9 @@
       <slot />
     </div>
     <div
-      class="drawer-side {$page.url.pathname.match(/register|backup|delegate/)
+      class="drawer-side {$page.url.pathname.match(
+        /register|backup|delegate|recover/
+      )
         ? '!hidden'
         : ''}"
     >
