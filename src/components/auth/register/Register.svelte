@@ -178,7 +178,7 @@
       <div class="flex items-center mt-4">
         <a
           class="!h-[52px] btn btn-outline !text-neutral-900 !border-neutral-900 !bg-neutral-50"
-          href="/connect"
+          href="/"
         >
           Cancel
         </a>
