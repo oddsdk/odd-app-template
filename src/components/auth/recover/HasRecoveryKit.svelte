@@ -51,9 +51,10 @@
         const oldUsername = parts[0].replace(/(\r\n|\n|\r)/gm, '')
         const hashedOldUsername = await prepareUsername(oldUsername)
         const oldRootDID = await reference.didRoot.lookup(hashedOldUsername)
+        const newRootDID = await $sessionStore.program.agentDID()
 
-        // Construct a new username using the old `trimmed` name and `oldRootDID`
-        const newUsername = `${oldUsername.split('#')[0]}#${oldRootDID}`
+        // Construct a new username using the old `trimmed` name and `newRootDID`
+        const newUsername = `${oldUsername.split('#')[0]}#${newRootDID}`
         const hashedNewUsername = await prepareUsername(newUsername)
 
         storage.setItem(USERNAME_STORAGE_KEY, newUsername)
@@ -67,7 +68,6 @@
         }
 
         // Build an ephemeral UCAN to allow the
-        const issuer = await DID.write(crypto)
         const proof: string | null = await storage.getItem(
           storage.KEYS.ACCOUNT_UCAN
         )
@@ -77,11 +77,10 @@
           resource: '*',
           proof: proof ? proof : undefined,
           lifetimeInSeconds: 60 * 3, // Three minutes
-          audience: issuer,
-          issuer
+          audience: newRootDID,
+          issuer: newRootDID
         })
 
-        const newRootDID = await reference.didRoot.lookup(hashedNewUsername)
         const oldRootCID = await reference.dataRoot.lookup(hashedOldUsername)
 
         // Update the dataRoot of the new user
