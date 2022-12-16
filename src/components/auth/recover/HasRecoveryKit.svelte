@@ -87,7 +87,7 @@
         // Update the dataRoot of the new user
         await reference.dataRoot.update(oldRootCID, ucan)
 
-        // Store the accountDID and readKey in webnative so they can be used internally load the file system
+        // Store the accountDID, which is used to namespace the readKey
         await RootKey.store({
           accountDID: newRootDID,
           readKey,
