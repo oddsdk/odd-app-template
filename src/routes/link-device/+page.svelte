@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { account } from 'webnative'
+  import type * as webnative from 'webnative'
   import { goto } from '$app/navigation'
   import { page } from '$app/stores'
 
@@ -14,23 +14,26 @@
 
   let view: LinkDeviceView = 'link-device'
 
-  let accountLinkingConsumer: account.AccountLinkingConsumer
+  let accountLinkingConsumer: webnative.AccountLinkingConsumer
   let displayPin: string = ''
 
-  const username = extractSearchParam($page.url, 'username')
+  const hashedUsername = extractSearchParam($page.url, 'hashedUsername')
+  const fullUsername = decodeURIComponent(
+    extractSearchParam($page.url, 'username')
+  )
 
   const initAccountLinkingConsumer = async () => {
-    accountLinkingConsumer = await createAccountLinkingConsumer(username)
+    accountLinkingConsumer = await createAccountLinkingConsumer(hashedUsername)
 
     accountLinkingConsumer.on('challenge', ({ pin }) => {
       displayPin = pin.join('')
     })
 
-    accountLinkingConsumer.on('link', async ({ approved, username }) => {
+    accountLinkingConsumer.on('link', async ({ approved }) => {
       if (approved) {
         view = 'load-filesystem'
 
-        await loadAccount(username)
+        await loadAccount(hashedUsername, fullUsername)
 
         addNotification("You're now connected!", 'success')
         goto('/')

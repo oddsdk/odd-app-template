@@ -81,6 +81,7 @@ The app template is designed to be easy for you to _make it your own._ Here's ho
 
     - Change `appName` to the name of your app.
     - Change `appDescription` to a simple, 1-sentence description of your app.
+    - Update `webnativeNamespace` with your project details.
     - Once you [deploy](#deploy) your app, change `appURL` to the production URL.
 
     In `package.json`, change `name` to your application's name.

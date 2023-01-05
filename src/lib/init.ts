@@ -1,47 +1,59 @@
 import * as webnative from 'webnative'
-import { setup } from 'webnative'
 
+import { dev } from '$app/environment'
 import { filesystemStore, sessionStore } from '../stores'
 import { getBackupStatus, type BackupStatus } from '$lib/auth/backup'
-
-// TODO: Add a flag or script to turn debugging on/off
-setup.debug({ enabled: false })
+import { USERNAME_STORAGE_KEY } from '$lib/auth/account'
+import { webnativeNamespace } from '$lib/app-info'
 
 export const initialize = async (): Promise<void> => {
   try {
     let backupStatus: BackupStatus = null
 
-    const state: webnative.AppState = await webnative.app({ useWnfs: true })
+    const program: webnative.Program = await webnative.program({
+      namespace: webnativeNamespace,
+      debug: dev
+    })
 
-    switch (state.scenario) {
-      case webnative.AppScenario.NotAuthed:
-        sessionStore.set({
-          username: '',
-          authed: false,
-          loading: false,
-          backupCreated: null
-        })
-        break
+    if (program.session) {
+      // Authed
+      backupStatus = await getBackupStatus(program.session.fs)
 
-      case webnative.AppScenario.Authed:
-        backupStatus = await getBackupStatus(state.fs)
+      const fullUsername = await program.components.storage.getItem(USERNAME_STORAGE_KEY) as string
 
-        sessionStore.set({
-          username: state.username,
-          authed: state.authenticated,
-          loading: false,
-          backupCreated: backupStatus.created
-        })
+      sessionStore.set({
+        username: {
+          full: fullUsername,
+          hashed: program.session.username,
+          trimmed: fullUsername.split('#')[0],
+        },
+        session: program.session,
+        authStrategy: program.auth,
+        program,
+        loading: false,
+        backupCreated: backupStatus.created
+      })
 
-        filesystemStore.set(state.fs)
-        break
+      filesystemStore.set(program.session.fs)
 
-      default:
-        break
+    } else {
+      // Not authed
+      sessionStore.set({
+        username: null,
+        session: null,
+        authStrategy: program.auth,
+        program,
+        loading: false,
+        backupCreated: null
+      })
+
     }
+
   } catch (error) {
+    console.error(error)
+
     switch (error) {
-      case webnative.InitialisationError.InsecureContext:
+      case webnative.ProgramError.InsecureContext:
         sessionStore.update(session => ({
           ...session,
           loading: false,
@@ -49,7 +61,7 @@ export const initialize = async (): Promise<void> => {
         }))
         break
 
-      case webnative.InitialisationError.UnsupportedBrowser:
+      case webnative.ProgramError.UnsupportedBrowser:
         sessionStore.update(session => ({
           ...session,
           loading: false,
@@ -57,5 +69,6 @@ export const initialize = async (): Promise<void> => {
         }))
         break
     }
+
   }
 }

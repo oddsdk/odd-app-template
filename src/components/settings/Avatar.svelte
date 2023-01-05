@@ -21,7 +21,7 @@
       class="flex items-center justify-center object-cover rounded-full border-2 border-base-content {sizeClasses}"
     >
       <span
-        class="animate-spin ease-linear rounded-full border-2 border-t-2 border-t-orange-300 border-base-content {loaderSizeClasses}"
+        class="animate-spin ease-linear rounded-full border-2 border-t-2 border-t-orange-500 border-base-content {loaderSizeClasses}"
       />
     </div>
   {:else}
@@ -35,6 +35,6 @@
   <div
     class="flex items-center justify-center bg-base-content text-base-100 uppercase font-bold rounded-full {sizeClasses}"
   >
-    {$sessionStore.username[0]}
+    {$sessionStore.username.trimmed[0]}
   </div>
 {/if}

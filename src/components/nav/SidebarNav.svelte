@@ -6,11 +6,13 @@
   import AlphaTag from '$components/nav/AlphaTag.svelte'
   import BrandLogo from '$components/icons/BrandLogo.svelte'
   import BrandWordmark from '$components/icons/BrandWordmark.svelte'
+  import Disconnect from '$components/icons/Disconnect.svelte'
   import Home from '$components/icons/Home.svelte'
   import PhotoGallery from '$components/icons/PhotoGallery.svelte'
   import Settings from '$components/icons/Settings.svelte'
+  import NavItem from '$components/nav/NavItem.svelte'
 
-  const navItems = [
+  const navItemsUpper = [
     {
       label: 'Home',
       href: '/',
@@ -22,14 +24,28 @@
       icon: PhotoGallery
     },
     {
-      label: 'About This Template',
-      href: '/about/',
-      icon: About
-    },
-    {
       label: 'Account Settings',
       href: '/settings/',
       icon: Settings
+    }
+  ]
+
+  const navItemsLower = [
+    {
+      label: 'About This Template',
+      href: '/about/',
+      icon: About,
+      placement: 'bottom'
+    },
+    {
+      label: 'Disconnect',
+      callback: async () => {
+        await $sessionStore.session.destroy()
+        // Force a hard refresh to ensure everything is disconnected properly
+        window.location.href = window.location.origin
+      },
+      icon: Disconnect,
+      placement: 'bottom'
     }
   ]
 
@@ -40,7 +56,7 @@
 </script>
 
 <!-- Only render the nav if the user is authed and not in the connection flow -->
-{#if $sessionStore.authed && !$page.url.pathname.match(/register|backup|delegate/)}
+{#if $sessionStore.session}
   <div class="drawer drawer-mobile h-screen">
     <input
       id="sidebar-nav"
@@ -51,7 +67,13 @@
     <div class="drawer-content flex flex-col">
       <slot />
     </div>
-    <div class="drawer-side">
+    <div
+      class="drawer-side {$page.url.pathname.match(
+        /register|backup|delegate|recover/
+      )
+        ? '!hidden'
+        : ''}"
+    >
       <label
         for="sidebar-nav"
         class="drawer-overlay !bg-[#262626] !opacity-[.85]"
@@ -70,21 +92,17 @@
           <AlphaTag />
         </div>
 
-        <!-- Menu -->
+        <!-- Upper Menu -->
         <ul>
-          {#each navItems as item}
-            <li>
-              <a
-                class="flex items-center justify-start gap-2 font-bold text-sm text-base-content hover:text-base-100 bg-base-100 hover:bg-base-content ease-in-out duration-[250ms] {$page
-                  .url.pathname === item.href
-                  ? '!text-base-100 !bg-base-content'
-                  : ''}"
-                href={item.href}
-                on:click={handleCloseDrawer}
-              >
-                <svelte:component this={item.icon} />{item.label}
-              </a>
-            </li>
+          {#each navItemsUpper as item}
+            <NavItem {item} {handleCloseDrawer} />
+          {/each}
+        </ul>
+
+        <!-- Lower Menu -->
+        <ul class="mt-auto pb-8">
+          {#each navItemsLower as item}
+            <NavItem {item} {handleCloseDrawer} />
           {/each}
         </ul>
       </div>
