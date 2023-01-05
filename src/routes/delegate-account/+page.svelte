@@ -56,7 +56,8 @@
             $themeStore.selectedTheme === 'light' ? '#FAFAFA' : '#171717',
           padding: 0,
           width: 250,
-          height: 250
+          height: 250,
+          join: true
         }).svg()
 
         initAccountLinkingProducer(hashedUsername)
