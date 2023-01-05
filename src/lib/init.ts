@@ -27,6 +27,7 @@ export const initialize = async (): Promise<void> => {
         const did = await createDID(program.components.crypto)
         fullUsername = `${program.session.username}#${did}`
         await program.components.storage.setItem(USERNAME_STORAGE_KEY, fullUsername)
+        window.location.reload()
       }
 
       sessionStore.set({
