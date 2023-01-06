@@ -1,7 +1,6 @@
 module.exports = {
   mode: 'jit',
   content: ['./src/**/*.{html,js,svelte,ts}'],
-  safelist: ['alert-success', 'alert-error', 'alert-info', 'alert-warning'],
   plugins: [require('daisyui')],
   darkMode: ['class', '[data-theme="dark"]'],
   daisyui: {
@@ -122,6 +121,11 @@ module.exports = {
       zIndex: {
         max: '1000' // High enough to appear above the modal(999)
       }
+    }
+  },
+  purge: {
+    options: {
+      safelist: ['alert-success', 'alert-error', 'alert-info', 'alert-warning']
     }
   }
 }
