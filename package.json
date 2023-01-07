@@ -7,6 +7,7 @@
     "preview": "vite preview",
     "test": "ava src/**/*.test.ts",
     "test:e2e": "playwright test",
+    "report:e2e": "playwright show-report",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "eslint './src/**/*.{js,ts,svelte}'",
