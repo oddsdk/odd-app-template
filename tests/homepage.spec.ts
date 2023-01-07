@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test'
 
-import { appName } from '../src/lib/app-info'
-
 test('find and click register link', async ({ page }) => {
   await page.goto('/')
 
