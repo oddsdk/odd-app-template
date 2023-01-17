@@ -4,14 +4,10 @@
   import { sessionStore } from '$src/stores'
   import {
     createDID,
-    isUsernameValid,
-    isUsernameAvailable,
     prepareUsername,
     register,
     USERNAME_STORAGE_KEY
   } from '$lib/auth/account'
-  import CheckIcon from '$components/icons/CheckIcon.svelte'
-  import XIcon from '$components/icons/XIcon.svelte'
   import FilesystemActivity from '$components/common/FilesystemActivity.svelte'
 
   let username: string = ''
@@ -44,11 +40,6 @@
 
     encodedUsername = await prepareUsername(fullUsername)
 
-    usernameValid = await isUsernameValid(encodedUsername)
-
-    if (usernameValid) {
-      usernameAvailable = await isUsernameAvailable(encodedUsername)
-    }
     checkingUsername = false
   }
 
@@ -110,38 +101,8 @@
             class="rounded-lg border-t-2 border-l-2 border-base-content w-4 h-4 block absolute top-4 right-4 animate-spin"
           />
         {/if}
-        {#if usernameApproved}
-          <span
-            class="w-4 h-4 block absolute top-[17px] right-4 text-green-300"
-          >
-            <CheckIcon />
-          </span>
-        {/if}
-        {#if usernameError}
-          <span class="w-4 h-4 block absolute top-[17px] right-4 text-red-400">
-            <XIcon />
-          </span>
-        {/if}
       </div>
 
-      {#if !(username.length === 0)}
-        <!-- Status of username: valid, available, etc -->
-        <label for="registration">
-          {#if usernameApproved}
-            <span class="text-xxs !p-0 text-green-300 dark:text-green-500">
-              This username is available.
-            </span>
-          {:else if !checkingUsername && !usernameValid}
-            <span class="text-xxs !p-0 text-error">
-              This username is not valid.
-            </span>
-          {:else if !checkingUsername && !usernameAvailable}
-            <span class="text-xxs !p-0 text-error">
-              This username is not available.
-            </span>
-          {/if}
-        </label>
-      {/if}
       {#if !registrationSuccess}
         <!-- Error when registration fails -->
         <label for="registration" class="label">
