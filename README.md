@@ -113,6 +113,12 @@ The app template is designed to be easy for you to _make it your own._ Here's ho
 
 Check out the [Webnative Guide](https://guide.fission.codes/developers/webnative) for Webnative questions or [UCAN.xyz](https://ucan.xyz) for UCAN questions.
 
+## 📛 Usernames
+
+When you go through the registration flow in WAT, the username you type in the form field has a #{DID} appended to it in the background. We did this to enable discord style usernames where users can share the same usernames, but have unique identifiers attached to the end to distinguish them from one another. We then create a hash of the `fullUsername`(the one with the #{DID} appended to the end) that is passed to Webnative. So Webnative only has a notion of the `hashed` username currently. This should also allow users to create usernames using emojis or non-English characters. Also, this is the only username schema that currently supports our File System recovery flow.
+
+You don’t necessarily need to follow that same pattern though. If you were to register two of the same usernames in the app without hashing them, you would be able to call `session.authStrategy.isUsernameAvailable(username)` to ensure duplicate usernames aren't present in the app. We will be working on porting some of this functionality over to the Webnative library over the next while and we will be updating the docs to reflect that.
+
 ## 🧨 Deploy
 
 Any static hosting platform should be supported. The Webnative App Template is currently deployed on:
