@@ -58,7 +58,7 @@
         storage.setItem(USERNAME_STORAGE_KEY, newUsername)
 
         // Recover user's file system
-        const { success } = await $sessionStore.program.recoverFileSystem({
+        const { success } = await $sessionStore.program.fileSystem.recover({
           newUsername: hashedNewUsername,
           oldUsername: hashedOldUsername,
           readKey
