@@ -31,9 +31,9 @@ interface AvatarFile extends PuttableUnixTree, WNFile {
   }
 }
 
-export const ACCOUNT_SETTINGS_DIR = [ 'private', 'settings' ]
-const AVATAR_DIR = [ ...ACCOUNT_SETTINGS_DIR, 'avatars' ]
-const AVATAR_ARCHIVE_DIR = [ ...AVATAR_DIR, 'archive' ]
+export const ACCOUNT_SETTINGS_DIR = wn.path.directory('private', 'settings')
+const AVATAR_DIR = wn.path.combine(ACCOUNT_SETTINGS_DIR, wn.path.directory('avatars'))
+const AVATAR_ARCHIVE_DIR = wn.path.combine(AVATAR_DIR, wn.path.directory('archive'))
 const AVATAR_FILE_NAME = 'avatar'
 const FILE_SIZE_LIMIT = 20
 
@@ -44,14 +44,13 @@ const archiveOldAvatar = async (): Promise<void> => {
   const fs = getStore(filesystemStore)
 
   // Return if user has not uploaded an avatar yet
-  const avatarDirExists = await fs.exists(wn.path.file(...AVATAR_DIR))
+  const avatarDirExists = await fs.exists(AVATAR_DIR)
   if (!avatarDirExists) {
     return
   }
 
   // Find the filename of the old avatar
-  const path = wn.path.directory(...AVATAR_DIR)
-  const links = await fs.ls(path)
+  const links = await fs.ls(AVATAR_DIR)
   const oldAvatarFileName = Object.keys(links).find(key =>
     key.includes(AVATAR_FILE_NAME)
   )
@@ -60,8 +59,8 @@ const archiveOldAvatar = async (): Promise<void> => {
     }`
 
   // Move old avatar to archive dir
-  const fromPath = wn.path.file(...AVATAR_DIR, oldAvatarFileName)
-  const toPath = wn.path.file(...AVATAR_ARCHIVE_DIR, archiveFileName)
+  const fromPath = wn.path.combine(AVATAR_DIR, wn.path.file(oldAvatarFileName))
+  const toPath = wn.path.combine(AVATAR_ARCHIVE_DIR, wn.path.file(archiveFileName))
   await fs.mv(fromPath, toPath)
 
   // Announce the changes to the server
@@ -79,7 +78,7 @@ export const getAvatarFromWNFS = async (): Promise<void> => {
     const fs = getStore(filesystemStore)
 
     // If the avatar dir doesn't exist, silently fail and let the UI handle it
-    const avatarDirExists = await fs.exists(wn.path.file(...AVATAR_DIR))
+    const avatarDirExists = await fs.exists(AVATAR_DIR)
     if (!avatarDirExists) {
       accountSettingsStore.update(store => ({
         ...store,
@@ -89,8 +88,7 @@ export const getAvatarFromWNFS = async (): Promise<void> => {
     }
 
     // Find the file that matches the AVATAR_FILE_NAME
-    const path = wn.path.directory(...AVATAR_DIR)
-    const links = await fs.ls(path)
+    const links = await fs.ls(AVATAR_DIR)
     const avatarName = Object.keys(links).find(key =>
       key.includes(AVATAR_FILE_NAME)
     )
@@ -104,7 +102,7 @@ export const getAvatarFromWNFS = async (): Promise<void> => {
       return
     }
 
-    const file = await fs.get(wn.path.file(...AVATAR_DIR, `${avatarName}`))
+    const file = await fs.get(wn.path.combine(AVATAR_DIR, wn.path.file(`${avatarName}`)))
 
     // The CID for private files is currently located in `file.header.content`
     const cid = (file as AvatarFile).header.content.toString()
@@ -169,7 +167,7 @@ export const uploadAvatarToWNFS = async (image: File): Promise<void> => {
 
     // Create a sub directory and add the avatar
     await fs.write(
-      wn.path.file(...AVATAR_DIR, updatedImage.name),
+      wn.path.combine(AVATAR_DIR, wn.path.file(updatedImage.name)),
       await fileToUint8Array(updatedImage)
     )
 
