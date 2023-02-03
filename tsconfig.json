@@ -22,6 +22,7 @@
     "baseUrl": ".",
     "allowJs": true,
     "checkJs": true,
+    "noEmit": true,
     "paths": {
       "$components": ["src/components"],
       "$components/*": ["src/components/*"],
