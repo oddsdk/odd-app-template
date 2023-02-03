@@ -2,7 +2,7 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "module": "es2020",
-    "lib": ["es2020"],
+    "lib": ["dom", "es2020"],
     "target": "es2019",
     /**
     svelte-preprocess cannot figure out whether you have a value or a type, so tell TypeScript
@@ -22,6 +22,7 @@
     "baseUrl": ".",
     "allowJs": true,
     "checkJs": true,
+    "noEmit": true,
     "paths": {
       "$components": ["src/components"],
       "$components/*": ["src/components/*"],
