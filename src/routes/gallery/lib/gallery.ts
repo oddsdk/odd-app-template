@@ -29,7 +29,7 @@ type Link = {
   size: number
 }
 
-export const GALLERY_DIRS = {
+export const GALLERY_DIRS: Record<string, [ wn.path.Partition, string ]>  = {
   [ AREAS.PUBLIC ]: [ 'public', 'gallery' ],
   [ AREAS.PRIVATE ]: [ 'private', 'gallery' ]
 }
