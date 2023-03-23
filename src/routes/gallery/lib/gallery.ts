@@ -1,8 +1,6 @@
 import { get as getStore } from 'svelte/store'
 import * as wn from 'webnative'
-import type PublicFile from 'webnative/fs/v1/PublicFile'
-import type PrivateFile from 'webnative/fs/v1/PrivateFile'
-import { isFile } from 'webnative/fs/types/check'
+import { partition } from 'webnative/fs/index'
 
 import { filesystemStore } from '$src/stores'
 import { AREAS, galleryStore } from '$routes/gallery/stores'
@@ -51,36 +49,35 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
     const path = GALLERY_DIRS[ selectedArea ]
 
     // Get list of links for files in the gallery dir
-    const links = await fs.ls(path)
+    const items = await fs.exists(path)
+      ? await fs.ls(path, { withItemKind: true })
+      : []
 
     let images = await Promise.all(
-      Object.entries(links).map(async ([ name ]) => {
-        const file = await fs.get(
-          wn.path.combine(GALLERY_DIRS[ selectedArea ], wn.path.file(`${name}`))
-        )
+      items.map(async ({ metadata, name, path }) => {
+        if (!wn.path.isFile(path)) return null
 
-        if (!isFile(file)) return null
+        // TODO: `cid` var should be renamed or removed for the private side.
+        // let cid
 
-        // The CID for private files is currently located in `file.header.content`,
-        // whereas the CID for public files is located in `file.cid`
-        const cid = isPrivate
-          ? (file as PrivateFile).header.content.toString()
-          : (file as PublicFile).cid.toString()
+        // const part = partition(path)
+        // switch (part.name) {
+        //   case "private": cid = await fs.capsuleRef(part.path); break;
+        //   case "public": cid = await fs.contentCID(part.path); break;
+        // }
 
         // Create a blob to use as the image `src`
-        const blob = new Blob([ file.content ])
+        const blob = new Blob([ await fs.read(path, "bytes") ])
         const src = URL.createObjectURL(blob)
 
-        const ctime = isPrivate
-          ? (file as PrivateFile).header.metadata.unixMeta.ctime
-          : (file as PublicFile).header.metadata.unixMeta.ctime
+        const ctime = metadata.created
 
         return {
-          cid,
+          cid: null,
           ctime,
           name,
           private: isPrivate,
-          size: (links[ name ] as Link).size,
+          size: 0, // TODO: No size calculation in rs-wnfs/webnative yet
           src
         }
       })
@@ -138,13 +135,12 @@ export const uploadImageToWNFS: (
     }
 
     // Create a sub directory and add some content
+    await fs.mkdir(GALLERY_DIRS[ selectedArea ])
     await fs.write(
       wn.path.combine(GALLERY_DIRS[ selectedArea ], wn.path.file(image.name)),
+      "bytes",
       await fileToUint8Array(image)
     )
-
-    // Announce the changes to the server
-    await fs.publish()
 
     addNotification(`${image.name} image has been published`, 'success')
   } catch (error) {
