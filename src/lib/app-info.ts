@@ -1,6 +1,6 @@
-export const appName = 'Webnative SDK Demo'
-export const appDescription = 'This is another awesome Webnative app.'
-export const appURL = 'https://webnative.netlify.app'
+export const appName = 'ODD SDK Demo'
+export const appDescription = 'This is another awesome ODD app.'
+export const appURL = 'https://odd.netlify.app'
 export const appImageURL = `${appURL}/preview.png`
 export const ipfsGatewayUrl = 'runfission.com'
-export const webnativeNamespace = { creator: 'Fission', name: 'WAT' }
+export const oddNamespace = { creator: 'Fission', name: 'WAT' }

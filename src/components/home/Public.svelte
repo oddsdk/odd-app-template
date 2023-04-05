@@ -12,8 +12,8 @@
 
   <div class="max-w-[590px]">
     <p class="mb-5">
-      Webnative SDK is a true local-first edge computing stack. Effortlessly
-      give your users:
+      The ODD SDK is a true local-first edge computing stack. Effortlessly give
+      your users:
     </p>
 
     <ul class="mb-6 pl-6 list-disc">
@@ -38,9 +38,9 @@
           Unsupported device
         </h3>
         <p>
-          It appears this device isn’t supported. Webnative requires IndexedDB
-          in order to function. This browser doesn’t appear to implement this
-          API. Are you in a Firefox private window?
+          It appears this device isn’t supported. ODD requires IndexedDB in
+          order to function. This browser doesn’t appear to implement this API.
+          Are you in a Firefox private window?
         </p>
       </div>
     {:else}

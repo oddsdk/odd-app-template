@@ -26,7 +26,7 @@
   $: if (downloadLinkRef && fileURL) {
     downloadLinkRef.setAttribute(
       'download',
-      `Webnative-RecoveryKit-${$sessionStore.username.trimmed}.txt`
+      `ODD-RecoveryKit-${$sessionStore.username.trimmed}.txt`
     )
 
     downloadLinkRef.href = fileURL

@@ -17,7 +17,7 @@
 
   /**
    * Parse the user's `username` and `readKey` from the uploaded recovery kit and pass them into
-   * webnative to recover the user's account and populate the `session` and `filesystem` stores
+   * ODD to recover the user's account and populate the `session` and `filesystem` stores
    * @param files
    */
   export const handleFileInput: (
@@ -118,7 +118,7 @@
 
     {#if state !== RECOVERY_STATES.Done}
       <p class="text-xxs">
-        {`It should be a file named Webnative-RecoveryKit-{yourUsername}.txt`}
+        {`It should be a file named ODD-RecoveryKit-{yourUsername}.txt`}
       </p>
     {/if}
   </div>

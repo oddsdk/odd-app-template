@@ -160,7 +160,7 @@
             <p class="mb-2 text-neutral-700 dark:text-neutral-500">
               Interested in private file sharing as a feature? Follow the <a
                 class="underline"
-                href="https://github.com/webnative-examples/webnative-app-template/issues/4"
+                href="https://github.com/oddsdk/odd-app-template/issues/4"
                 target="_blank"
               >
                 github issue.

@@ -1,5 +1,5 @@
 {
-  "name": "webnative-app-template",
+  "name": "odd-app-template",
   "version": "0.1.0",
   "scripts": {
     "dev": "vite dev",
