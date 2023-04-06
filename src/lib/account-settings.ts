@@ -1,5 +1,5 @@
 import { get as getStore } from 'svelte/store'
-import * as wn from 'webnative'
+import * as odd from 'webnative'
 import { retrieve } from 'webnative/common/root-key'
 import * as uint8arrays from 'uint8arrays'
 import type { CID } from 'multiformats/cid'
@@ -31,9 +31,9 @@ interface AvatarFile extends PuttableUnixTree, WNFile {
   }
 }
 
-export const ACCOUNT_SETTINGS_DIR = wn.path.directory('private', 'settings')
-const AVATAR_DIR = wn.path.combine(ACCOUNT_SETTINGS_DIR, wn.path.directory('avatars'))
-const AVATAR_ARCHIVE_DIR = wn.path.combine(AVATAR_DIR, wn.path.directory('archive'))
+export const ACCOUNT_SETTINGS_DIR = odd.path.directory('private', 'settings')
+const AVATAR_DIR = odd.path.combine(ACCOUNT_SETTINGS_DIR, odd.path.directory('avatars'))
+const AVATAR_ARCHIVE_DIR = odd.path.combine(AVATAR_DIR, odd.path.directory('archive'))
 const AVATAR_FILE_NAME = 'avatar'
 const FILE_SIZE_LIMIT = 20
 
@@ -59,8 +59,8 @@ const archiveOldAvatar = async (): Promise<void> => {
     }`
 
   // Move old avatar to archive dir
-  const fromPath = wn.path.combine(AVATAR_DIR, wn.path.file(oldAvatarFileName))
-  const toPath = wn.path.combine(AVATAR_ARCHIVE_DIR, wn.path.file(archiveFileName))
+  const fromPath = odd.path.combine(AVATAR_DIR, odd.path.file(oldAvatarFileName))
+  const toPath = odd.path.combine(AVATAR_ARCHIVE_DIR, odd.path.file(archiveFileName))
   await fs.mv(fromPath, toPath)
 
   // Announce the changes to the server
@@ -102,7 +102,7 @@ export const getAvatarFromWNFS = async (): Promise<void> => {
       return
     }
 
-    const file = await fs.get(wn.path.combine(AVATAR_DIR, wn.path.file(`${avatarName}`)))
+    const file = await fs.get(odd.path.combine(AVATAR_DIR, odd.path.file(`${avatarName}`)))
 
     // The CID for private files is currently located in `file.header.content`
     const cid = (file as AvatarFile).header.content.toString()
@@ -167,7 +167,7 @@ export const uploadAvatarToWNFS = async (image: File): Promise<void> => {
 
     // Create a sub directory and add the avatar
     await fs.write(
-      wn.path.combine(AVATAR_DIR, wn.path.file(updatedImage.name)),
+      odd.path.combine(AVATAR_DIR, odd.path.file(updatedImage.name)),
       await fileToUint8Array(updatedImage)
     )
 

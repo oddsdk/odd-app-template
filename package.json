@@ -59,7 +59,7 @@
     "clipboard-copy": "^4.0.1",
     "qrcode-svg": "^1.1.0",
     "uint8arrays": "^4.0.2",
-    "webnative": "^0.36.3"
+    "webnative": "https://github.com/fission-codes/webnative.git#rename-webnative-to-odd"
   },
   "engines": {
     "node": ">=16.14"

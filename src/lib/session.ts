@@ -1,4 +1,4 @@
-import type * as webnative from 'webnative'
+import type * as odd from 'webnative'
 
 import { appName } from '$lib/app-info'
 
@@ -10,9 +10,9 @@ type Username = {
 
 export type Session = {
   username: Username
-  session: webnative.Session | null
-  authStrategy: webnative.AuthenticationStrategy | null
-  program: webnative.Program
+  session: odd.Session | null
+  authStrategy: odd.AuthenticationStrategy | null
+  program: odd.Program
   loading: boolean
   backupCreated: boolean
   error?: SessionError

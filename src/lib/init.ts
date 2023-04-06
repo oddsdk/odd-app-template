@@ -1,4 +1,4 @@
-import * as webnative from 'webnative'
+import * as odd from 'webnative'
 
 import { dev } from '$app/environment'
 import { filesystemStore, sessionStore } from '../stores'
@@ -10,7 +10,7 @@ export const initialize = async (): Promise<void> => {
   try {
     let backupStatus: BackupStatus = null
 
-    const program: webnative.Program = await webnative.program({
+    const program: odd.Program = await odd.program({
       namespace: oddNamespace,
       debug: dev
     })
@@ -62,7 +62,7 @@ export const initialize = async (): Promise<void> => {
     console.error(error)
 
     switch (error) {
-      case webnative.ProgramError.InsecureContext:
+      case odd.ProgramError.InsecureContext:
         sessionStore.update(session => ({
           ...session,
           loading: false,
@@ -70,7 +70,7 @@ export const initialize = async (): Promise<void> => {
         }))
         break
 
-      case webnative.ProgramError.UnsupportedBrowser:
+      case odd.ProgramError.UnsupportedBrowser:
         sessionStore.update(session => ({
           ...session,
           loading: false,
