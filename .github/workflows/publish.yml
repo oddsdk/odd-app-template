@@ -22,5 +22,5 @@ jobs:
         uses: fission-suite/publish-action@v1
         with:
           machine_key: ${{ secrets.FISSION_MACHINE_KEY }}
-          app_url: webnative-template.fission.app
+          app_url: odd-template.fission.app
           build_dir: ./build

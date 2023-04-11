@@ -7,10 +7,10 @@
     <p class="mb-5">
       <a
         class="link text-blue-600 whitespace-nowrap"
-        href="https://github.com/fission-codes/webnative"
+        href="https://github.com/oddsdk/ts-odd"
         target="_blank"
       >
-        Webnative SDK
+        ODD SDK
         <span class="-scale-x-100 scale-y-100 inline-block">⎋</span>
       </a>
       is a true local-first edge computing stack.
@@ -19,19 +19,19 @@
       You can fork this
       <a
         class="link text-blue-600 whitespace-nowrap"
-        href="https://github.com/webnative-examples/webnative-app-template"
+        href="https://github.com/oddsdk/odd-app-template"
         target="_blank"
       >
         template
         <span class="-scale-x-100 scale-y-100 inline-block">⎋</span>
       </a>
-      to start writing your own Webnative app. Learn more in the
+      to start writing your own ODD app. Learn more in the
       <a
         class="link text-blue-600 whitespace-nowrap"
         href="https://guide.fission.codes/"
         target="_blank"
       >
-        Webnative Guide
+        ODD SDK Guide
         <span class="-scale-x-100 scale-y-100 inline-block">⎋</span>
       </a>
       .

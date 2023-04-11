@@ -1,4 +1,4 @@
-import type * as webnative from 'webnative'
+import type * as odd from '@oddjs/odd'
 import { get as getStore } from 'svelte/store'
 
 import { sessionStore } from '$src/stores'
@@ -6,7 +6,7 @@ import { sessionStore } from '$src/stores'
 
 export const createAccountLinkingConsumer = async (
   username: string
-): Promise<webnative.AccountLinkingConsumer> => {
+): Promise<odd.AccountLinkingConsumer> => {
   const session = getStore(sessionStore)
   if (session.authStrategy) return session.authStrategy.accountConsumer(username)
 
@@ -22,7 +22,7 @@ export const createAccountLinkingConsumer = async (
 
 export const createAccountLinkingProducer = async (
   username: string
-): Promise<webnative.AccountLinkingProducer> => {
+): Promise<odd.AccountLinkingProducer> => {
   const session = getStore(sessionStore)
   return session.authStrategy.accountProducer(username)
 }

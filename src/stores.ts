@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store'
 import type { Writable } from 'svelte/store'
-import type FileSystem from 'webnative/fs/index'
+import type FileSystem from '@oddjs/odd/fs/index'
 
 import { loadTheme } from '$lib/theme'
 import type { AccountSettings } from '$lib/account-settings'

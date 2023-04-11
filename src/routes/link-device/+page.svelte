@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type * as webnative from 'webnative'
+  import type * as odd from '@oddjs/odd'
   import { goto } from '$app/navigation'
   import { page } from '$app/stores'
 
@@ -14,7 +14,7 @@
 
   let view: LinkDeviceView = 'link-device'
 
-  let accountLinkingConsumer: webnative.AccountLinkingConsumer
+  let accountLinkingConsumer: odd.AccountLinkingConsumer
   let displayPin: string = ''
 
   const hashedUsername = extractSearchParam($page.url, 'hashedUsername')

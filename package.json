@@ -1,5 +1,5 @@
 {
-  "name": "webnative-app-template",
+  "name": "odd-app-template",
   "version": "0.1.0",
   "scripts": {
     "dev": "vite dev",
@@ -59,7 +59,7 @@
     "clipboard-copy": "^4.0.1",
     "qrcode-svg": "^1.1.0",
     "uint8arrays": "^4.0.2",
-    "webnative": "^0.36.3"
+    "@oddjs/odd": "0.37.0"
   },
   "engines": {
     "node": ">=16.14"
