@@ -1,4 +1,4 @@
-import type * as odd from 'webnative'
+import type * as odd from '@oddjs/odd'
 import { get as getStore } from 'svelte/store'
 
 import { sessionStore } from '$src/stores'

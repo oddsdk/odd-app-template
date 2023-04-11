@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type * as odd from 'webnative'
+  import type * as odd from '@oddjs/odd'
   import { goto } from '$app/navigation'
   import { page } from '$app/stores'
 

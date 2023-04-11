@@ -1,8 +1,8 @@
 import { get as getStore } from 'svelte/store'
-import * as odd from 'webnative'
-import type PublicFile from 'webnative/fs/v1/PublicFile'
-import type PrivateFile from 'webnative/fs/v1/PrivateFile'
-import { isFile } from 'webnative/fs/types/check'
+import * as odd from '@oddjs/odd'
+import type PublicFile from '@oddjs/odd/fs/v1/PublicFile'
+import type PrivateFile from '@oddjs/odd/fs/v1/PrivateFile'
+import { isFile } from '@oddjs/odd/fs/types/check'
 
 import { filesystemStore } from '$src/stores'
 import { AREAS, galleryStore } from '$routes/gallery/stores'

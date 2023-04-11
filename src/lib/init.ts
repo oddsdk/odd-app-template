@@ -1,4 +1,4 @@
-import * as odd from 'webnative'
+import * as odd from '@oddjs/odd'
 
 import { dev } from '$app/environment'
 import { filesystemStore, sessionStore } from '../stores'

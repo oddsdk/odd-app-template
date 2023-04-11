@@ -1,5 +1,5 @@
-import * as odd from 'webnative'
-import type FileSystem from 'webnative/fs/index'
+import * as odd from '@oddjs/odd'
+import type FileSystem from '@oddjs/odd/fs/index'
 
 export type BackupStatus = { created: boolean } | null
 
