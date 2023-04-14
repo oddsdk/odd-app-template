@@ -7,6 +7,7 @@
   import Disconnect from '$components/icons/Disconnect.svelte'
   import Home from '$components/icons/Home.svelte'
   import PhotoGallery from '$components/icons/PhotoGallery.svelte'
+  import Sequence from '$components/icons/Sequence.svelte'
   import Settings from '$components/icons/Settings.svelte'
   import NavItem from '$components/nav/NavItem.svelte'
 
@@ -20,6 +21,11 @@
       label: 'Photo Gallery Demo',
       href: '/gallery/',
       icon: PhotoGallery
+    },
+    {
+      label: 'Sequences',
+      href: '/sequences/',
+      icon: Sequence
     },
     {
       label: 'Account Settings',
