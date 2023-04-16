@@ -3,8 +3,9 @@
 
   import { sessionStore } from '$src/stores'
   import { sequencesStore } from '$routes/sequences/stores'
+  import Collection from '$routes/sequences/components/Collection.svelte';
   import Container from '$routes/sequences/components/Container.svelte'
-  import Sequences from '$routes/sequences/components/Sequences.svelte';
+  import Search from '$routes/sequences/components/Search.svelte';
 
   function handleChangeTab(area: Area) {
     sequencesStore.update(store => ({
@@ -33,7 +34,11 @@
     </div>
 
     <Container>
-      <Sequences />
+      {#if $sequencesStore.selectedArea === 'Search'}
+        <Search />
+      {:else if $sequencesStore.selectedArea === 'Collection'}
+        <Collection />
+      {/if}
     </Container>
   {/if}
 </div>
