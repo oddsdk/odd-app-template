@@ -1,31 +1,128 @@
 <script lang="ts">
-  import { themeStore } from '$src/stores'
+  import { onDestroy } from 'svelte'
+  import * as odd from '@oddjs/odd'
+
+  import { filesystemStore, themeStore } from '$src/stores'
   import { getSequences, type Sequence } from '$routes/sequences/lib/sequences'
   import SequenceInput from '$routes/sequences/components/inputs/SequenceInput.svelte'
   import SearchResults from './search/SearchResults.svelte'
 
+  let fs: odd.FileSystem
   let sequences: Sequence[] = []
 
-  async function handleSequenceInput(
-    event: CustomEvent<{ sequence: number[] }>
-  ) {
-    const { sequence } = event.detail
+  const unsubscribeFileSystemStore = filesystemStore.subscribe(fileSystem => {
+    fs = fileSystem
+  })
 
-    console.log('sequence', sequence)
+  async function initialize() {
+    if (fs) {
+      /**
+       * Create a sequences directory.
+       *
+       * We will store sequence files in a sequences directory in WNFS. Our first
+       * step is to create the directory if it doesn't already exist. Fill in the
+       * steps below to complete this exercise.
+      */
 
-    if (sequence.length >= 3) {
-      sequences = await getSequences(sequence)
+      /**
+       * TODO Create a path object that represents the path of our directory.
+       *
+       * WNFS has public and private filesystem branches. You can think of this like
+       * a top-level folder with a public and private folder inside it. We want to
+       * store sequences in a "sequences" directory in the public branch.
+       *
+       * See the path documentation for path examples: https://docs.odd.dev/file-system-wnfs#paths
+       *
+       * We want a "public/sequences/" directory path. You won't need to create the "public" directory.
+      */
+      const path = null
+
+      /**
+        * TODO Check if the directory exists and create it if not.
+        *
+        * The filesystem interface has functions to check existence or make a directory.
+        *   - Exists: https://docs.odd.dev/file-system-wnfs#exists
+        *   - Make directory: https://docs.odd.dev/file-system-wnfs#mkdir
+        *
+        * Use the path we created above when calling these methods.
+      */
+      const exists = null
+
+      if (!exists) {
+        // TODO Create the sequences directory
+
+        /**
+         * Our directory has been created locally, but we also want to publish it to IPFS. The
+         * file system's publish function does this for us.
+        */
+        await fs.publish()
+      }
     }
   }
 
   async function saveSequence(event: CustomEvent<{ sequence: number[] }>) {
     const { sequence } = event.detail
 
-    // TODO Save a sequence to the file system
-    // -- Write instructions --
-    console.log('sequence to save', sequence)
+    // Press F12 and go to the Console tab to view the sequence
+    console.log('Sequence to save:', sequence)
 
+    if (fs) {
+      /**
+       * Save a sequence to the sequences directory.
+       *
+       * We save the sequence when a user clicks on the save button for a sequence in the
+       * search results. OEIS appears to use sequence.number as a unique identifier. We'll
+       * use that in our file name.
+      */
+
+      /**
+       * TODO Create a file path for the sequence. The file name should use the sequence.number
+       * from the sequence data and use the ".json" file extension. For example, if
+       * sequence.number is 45, then file name should be "45.json".
+       *
+       * JavaScript template literals may be helpful here for creating the file name:
+       * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+      */
+      const path = null
+
+      /**
+        * Write the file to the sequences directory.
+        *
+        * The filesystem interface has a write function for saving files:
+        * https://docs.odd.dev/file-system-wnfs#write
+        *
+        * Use the path we created above to write the encodedContent.
+      */
+      const encodedContent = new TextEncoder().encode(JSON.stringify(sequence))
+
+      // TODO Write the file
+
+      // Publish the change to IPFS
+      await fs.publish()
+    }
   }
+
+  async function search(
+    event: CustomEvent<{ sequence: number[] }>
+  ) {
+    const { sequence } = event.detail
+
+    if (sequence.length >= 3) {
+      /**
+       * OPTIONAL ADVANCED EXERCISE
+       * 
+       * Our search function displays all search results from OEIS, but ideally
+       * we only want to display results that have not been collected. After completing
+       * the Collection exercises, write a function to check collected sequences and
+       * remove them from the search results.
+      */
+      sequences = await getSequences(sequence)
+    }
+  }
+
+  onDestroy(unsubscribeFileSystemStore)
+
+  initialize()
 </script>
 
 <section
@@ -37,7 +134,7 @@
   <div
     class="grid grid-flow-row grid-rows-[6rem_auto] gap-6 w-full min-h-[calc(100vh-190px)] p-6 md:p-8 pb-6"
   >
-    <SequenceInput on:input={handleSequenceInput} />
+    <SequenceInput on:input={search} />
     {#if sequences === null}
       <div class="grid grid-flow-col items-center">
         <div class="text-lg">No matching sequences found.</div>
