@@ -1,10 +1,10 @@
 import { writable } from 'svelte/store'
 import type { Writable } from 'svelte/store'
 
-import type { Sequences } from '$routes/sequences/lib/sequences'
+import type { SequencesState } from '$routes/sequences/lib/sequences'
 
 
-export const sequencesStore: Writable<Sequences> = writable({
+export const sequencesStore: Writable<SequencesState> = writable({
   loading: true,
   selectedArea: 'Search',
 })
