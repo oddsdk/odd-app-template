@@ -1,12 +1,20 @@
 <script lang="ts">
-  import { themeStore } from '$src/stores'
+  import * as odd from '@oddjs/odd'
+  import { filesystemStore, themeStore } from '$src/stores'
+  import { onDestroy } from 'svelte'
   import clipboardCopy from 'clipboard-copy'
 
-  import { getSequences } from '../lib/sequences'
+  import { getContentCID, getSequences } from '../lib/sequences'
+  import { ipfsGatewayUrl } from '$lib/app-info'
   import CollectionList from './collection/CollectionList.svelte'
 
-  let sequences = []
   let cidQuery = ''
+  let fs: odd.FileSystem
+  let sequences = []
+
+  const unsubscribeFileSystemStore = filesystemStore.subscribe(fileSystem => {
+    fs = fileSystem
+  })
 
   async function loadSequences() {
     // TODO List the contents of the sequence directory
@@ -17,18 +25,23 @@
     sequences = await getSequences([1, 1, 2, 3, 5])
   }
 
-  function copyCID(event: CustomEvent<{ oeisNumber: number }>) {
+  async function copyCID(event: CustomEvent<{ oeisNumber: number }>) {
     const { oeisNumber } = event.detail
-    // TODO Write a getCID function that takes a path and returns a CID
-    // Wrap in try-catch and throw if path does not exist
 
-    console.log('copy CID', oeisNumber)
+    if (fs) {
+      const cid = await getContentCID(oeisNumber, fs)
+      await clipboardCopy(cid)
+    }
   }
 
-  function copyLink(event: CustomEvent<{ oeisNumber: number }>) {
+  async function copyLink(event: CustomEvent<{ oeisNumber: number }>) {
     const { oeisNumber } = event.detail
 
-    console.log('copy link', oeisNumber)
+    if (fs) {
+      const cid = await getContentCID(oeisNumber, fs)
+      const url = `https://ipfs.${ipfsGatewayUrl}/ipfs/${cid}/userland`
+      await clipboardCopy(url)
+    }
   }
 
   function addSequence() {
@@ -36,6 +49,8 @@
     // Validate sequence
     // Write the result into the sequences directory
   }
+
+  onDestroy(unsubscribeFileSystemStore)
 
   loadSequences()
 </script>

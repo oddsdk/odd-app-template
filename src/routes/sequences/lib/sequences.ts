@@ -1,3 +1,8 @@
+import * as odd from '@oddjs/odd'
+import { addNotification } from '$lib/notifications'
+import { isFile } from '@oddjs/odd/fs/types/check'
+import type PublicFile from '@oddjs/odd/fs/v1/PublicFile'
+
 // OEIS API
 
 /**
@@ -38,11 +43,26 @@ export async function getSequences(sequence: number[]): Promise<Sequence[]> {
   const response = await fetch(url)
   const result = await response.json()
 
-  console.log('result', result)
-
   return result.results
 }
 
+
+// CIDs
+
+export async function getContentCID(oeisNumber: number, fs: odd.FileSystem): Promise<string> {
+  const filePath = odd.path.file('public', 'sequences', `${oeisNumber}.json`)
+
+  const file = await fs.get(filePath)
+
+  if (!isFile(file)) {
+    addNotification(`Could not find public/sequences/${oeisNumber}.json.`, 'error')
+    return ''
+  }
+
+  const cid = (file as PublicFile).cid.toString()
+
+  return cid
+}
 
 
 // UI State and Controls
