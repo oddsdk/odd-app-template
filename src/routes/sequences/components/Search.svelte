@@ -5,7 +5,6 @@
   import SearchResults from './search/SearchResults.svelte'
 
   let sequences: Sequence[] = []
-  let sequenceError = false
 
   async function handleSequenceInput(
     event: CustomEvent<{ sequence: number[] }>
@@ -17,8 +16,6 @@
     if (sequence.length >= 3) {
       sequences = await getSequences(sequence)
     }
-
-    sequenceError = false
   }
 
   async function saveSequence(event: CustomEvent<{ sequence: number[] }>) {
@@ -28,10 +25,6 @@
     // -- Write instructions --
     console.log('sequence to save', sequence)
 
-  }
-
-  function handleSequenceError() {
-    sequenceError = true
   }
 </script>
 
@@ -44,23 +37,14 @@
   <div
     class="grid grid-flow-row grid-rows-[6rem_auto] gap-6 w-full min-h-[calc(100vh-190px)] p-6 md:p-8 pb-6"
   >
-    <SequenceInput
-      on:input={handleSequenceInput}
-      on:error={handleSequenceError}
-    />
+    <SequenceInput on:input={handleSequenceInput} />
     {#if sequences === null}
       <div class="grid grid-flow-col items-center">
         <div class="text-lg">No matching sequences found.</div>
       </div>
     {:else if sequences.length === 0}
       <div class="grid grid-flow-col items-center">
-        <div class="text-lg">Enter some integers in increasing order.</div>
-      </div>
-    {:else if sequenceError}
-      <div class="grid grid-flow-col items-center">
-        <div class="text-lg text-red-600 dark:text-red-400">
-          Integers must increase from left to right.
-        </div>
+        <div class="text-lg">Enter some integers.</div>
       </div>
     {:else}
       <SearchResults {sequences} on:save={saveSequence} />

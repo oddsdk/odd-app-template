@@ -3,7 +3,6 @@
   import { onMount } from 'svelte'
 
   export let autofocus = false
-  export let error = false
   export let index
   export let integer = null
 
@@ -32,9 +31,7 @@
 
 <input
   type="text"
-  class="p-2 bg-base-100 rounded-sm outline-none text-xl text-center {error
-    ? 'border border-red-600 dark:border-red-400'
-    : 'border border-neutral-200 dark:border-neutral-700 focus:border-neutral-500 dark:focus:border-neutral-500'}"
+  class="p-2 bg-base-100 rounded-sm outline-none text-xl text-center border border-neutral-200 dark:border-neutral-700 focus:border-neutral-500 dark:focus:border-neutral-500"
   style:width={`${getInputWidth(integer)}rem`}
   bind:value={integer}
   bind:this={inputRef}
