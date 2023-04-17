@@ -2,14 +2,18 @@
   import { createEventDispatcher } from 'svelte'
 
   import type { Sequence } from '$routes/sequences/lib/sequences'
-  import SaveIcon from '$components/icons/Save.svelte'
+  import ClipboardIcon from '$components/icons/ClipboardIcon.svelte'
 
   export let sequence: Sequence
 
   let dispatch = createEventDispatcher()
 
-  function saveSequence() {
-    dispatch('save', { sequence })
+  function copyCID() {
+    dispatch('copycid', { oeisNumber: sequence.number })
+  }
+
+  function copyLink() {
+    dispatch('copylink', { oeisNumber: sequence.number })
   }
 </script>
 
@@ -22,13 +26,23 @@
     <div class="flex flex-row px-3 justify-start items-center font-semibold">
       {sequence.id ?? 'No ID Number'}
     </div>
-    <div
-      class="flex flex-row px-3 gap-2 justify-end items-center cursor-pointer"
-      on:click|preventDefault={saveSequence}
-      on:keypress|preventDefault={saveSequence}
-    >
-      Save
-      <SaveIcon />
+    <div class="flex flex-row px-3 gap-5 justify-end">
+      <div
+        class="flex flex-row gap-2 justify-end items-center cursor-pointer"
+        on:click|preventDefault={copyLink}
+        on:keypress|preventDefault={copyLink}
+      >
+        Copy Link
+        <ClipboardIcon />
+      </div>
+      <div
+        class="flex flex-row gap-2 justify-end items-center cursor-pointer"
+        on:click|preventDefault={copyCID}
+        on:keypress|preventDefault={copyCID}
+      >
+        Copy CID
+        <ClipboardIcon />
+      </div>
     </div>
   </div>
   <div class="grid grid-flow-col grid-cols-2">
@@ -42,3 +56,10 @@
     </div>
   </div>
 </div>
+
+<style>
+  .val {
+    word-wrap: break-word;
+    display: inline-block;
+  }
+</style>
