@@ -1,6 +1,7 @@
 import * as odd from '@oddjs/odd'
 import { addNotification } from '$lib/notifications'
 import { isFile } from '@oddjs/odd/fs/types/check'
+import type { Link } from '@oddjs/odd/fs/types'
 import type PublicFile from '@oddjs/odd/fs/v1/PublicFile'
 
 // OEIS API
@@ -44,6 +45,11 @@ export async function getSequences(sequence: number[]): Promise<Sequence[]> {
   const result = await response.json()
 
   return result.results
+}
+
+export async function getSequencesFromListing(listing: { [name: string]: Link }, fs: odd.FileSystem): Promise<Sequence[]> {
+
+  return []
 }
 
 

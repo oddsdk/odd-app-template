@@ -4,9 +4,12 @@
   import { onDestroy } from 'svelte'
   import clipboardCopy from 'clipboard-copy'
 
-  import { getContentCID, getSequences } from '../lib/sequences'
+  import {
+    getContentCID,
+    getSequencesFromListing
+  } from '$routes/sequences/lib/sequences'
   import { ipfsGatewayUrl } from '$lib/app-info'
-  import CollectionList from './collection/CollectionList.svelte'
+  import CollectionList from '$routes/sequences/components/collection/CollectionList.svelte'
 
   let cidQuery = ''
   let fs: odd.FileSystem
@@ -17,12 +20,40 @@
   })
 
   async function loadSequences() {
-    // TODO List the contents of the sequence directory
+    if (fs) {
+      /**
+       * Load stored sequences from the file system.
+       *
+       * When we view the collection, we want to load and display
+       * collected sequences. In this exercise, you'll get a listing
+       * of the contents of the sequences directory. Code for parsing
+       * the listing into an array of sequences is provided.
+       */
 
-    // TODO Parse sequence files to list of sequences
+      /**
+       * TODO Create a path object for the sequences directory. See
+       * the instructions in Search.svelte and make sure to complete the
+       * exercises there before starting this one.
+       */
+      const path = null
 
-    // TODO Remove this placeholder
-    sequences = await getSequences([1, 1, 2, 3, 5])
+      /**
+       * TODO List the contents of the sequences directory.
+       *
+       * The filesystem interface has a function to list directory contents:
+       * https://docs.odd.dev/file-system-wnfs#ls
+       *
+       * To be safe, check that the directory exists before listing its contents.
+       */
+      const exists = null
+
+      if (exists) {
+        // TODO List the contents of the sequences directory
+        const listing = null
+
+        sequences = await getSequencesFromListing(listing, fs)
+      }
+    }
   }
 
   async function copyCID(event: CustomEvent<{ oeisNumber: number }>) {
@@ -45,9 +76,18 @@
   }
 
   function addSequence() {
-    // TODO Lookup a sequence by CID from the gateway
-    // Validate sequence
-    // Write the result into the sequences directory
+    /**
+     * OPTIONAL ADVANCED EXERCISE
+     *
+     * Add a sequence loaded by CID from the HTTP Gateway.
+     *
+     * The copyLink function above shows how we can view sequence data on
+     * IPFS once it has been saved to WNFS and published. We can also load
+     * a sequence from the gateway and add it to our collection.
+     *
+     * TODO Fetch a sequence using the cidQuery variable and write it to the
+     * sequences directory.
+     */
   }
 
   onDestroy(unsubscribeFileSystemStore)
