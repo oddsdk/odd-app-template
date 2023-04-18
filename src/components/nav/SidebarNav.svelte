@@ -3,9 +3,7 @@
   import { page } from '$app/stores'
   import { sessionStore } from '$src/stores'
   import About from '$components/icons/About.svelte'
-  import AlphaTag from '$components/nav/AlphaTag.svelte'
   import BrandLogo from '$components/icons/BrandLogo.svelte'
-  import BrandWordmark from '$components/icons/BrandWordmark.svelte'
   import Disconnect from '$components/icons/Disconnect.svelte'
   import Home from '$components/icons/Home.svelte'
   import PhotoGallery from '$components/icons/PhotoGallery.svelte'
@@ -88,8 +86,6 @@
           }}
         >
           <BrandLogo />
-          <BrandWordmark />
-          <AlphaTag />
         </div>
 
         <!-- Upper Menu -->

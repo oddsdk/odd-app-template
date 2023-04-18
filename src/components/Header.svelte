@@ -3,10 +3,8 @@
   import { page } from '$app/stores'
   import { sessionStore, themeStore } from '../stores'
   import { DEFAULT_THEME_KEY, storeTheme, type ThemeOptions } from '$lib/theme'
-  import AlphaTag from '$components/nav/AlphaTag.svelte'
   import Avatar from '$components/settings/Avatar.svelte'
   import BrandLogo from '$components/icons/BrandLogo.svelte'
-  import BrandWordmark from '$components/icons/BrandWordmark.svelte'
   import DarkMode from '$components/icons/DarkMode.svelte'
   import Hamburger from '$components/icons/Hamburger.svelte'
   import LightMode from '$components/icons/LightMode.svelte'
@@ -38,7 +36,6 @@
         on:click={() => goto('/')}
       >
         <BrandLogo />
-        <AlphaTag />
       </div>
     {/if}
   </div>
@@ -50,12 +47,6 @@
       on:click={() => goto('/')}
     >
       <BrandLogo />
-      <div class="hidden lg:inline-block">
-        <BrandWordmark />
-      </div>
-      <div class="hidden sm:inline-block">
-        <AlphaTag />
-      </div>
     </div>
   {/if}
 
