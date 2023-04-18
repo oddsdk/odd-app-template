@@ -30,7 +30,7 @@
   class="grid grid-rows-[2.5rem_auto] border border-neutral-500 dark:border-neutral-500 rounded-md"
 >
   <div
-    class="grid grid-flow-col grid-cols-2 bg-neutral-900 dark:bg-neutral-200 text-base-100 dark:text-base-100 rounded-t-md transition-colors ease-in"
+    class="grid grid-flow-col grid-cols-2 bg-neutral-900 dark:bg-neutral-50 text-base-100 dark:text-base-100 rounded-t-md transition-colors ease-in"
   >
     <div class="flex flex-row px-3 justify-start items-center font-semibold">
       {sequence.id ?? 'No ID Number'}
