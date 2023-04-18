@@ -24,23 +24,23 @@
       /**
        * Load stored sequences from the file system.
        *
-       * When we view the collection, we want to load and display
-       * collected sequences. In this exercise, you'll get a listing
-       * of the contents of the sequences directory. Code for parsing
-       * the listing into an array of sequences is provided.
+       * We want to load and display collected sequences when we view
+       * the collection. In this exercise, you'll get a listing
+       * of the contents of the sequences directory. We've provided code
+       * for parsing the listing into an array of sequences.
        */
 
       /**
        * TODO Create a path object for the sequences directory. See
-       * the instructions in Search.svelte and make sure to complete the
-       * exercises there before starting this one.
+       * the instructions in Search.svelte and complete the Search
+       * exercises before starting this one.
        */
       const path = null
 
       /**
        * TODO List the contents of the sequences directory.
        *
-       * The filesystem interface has a function to list directory contents:
+       * The file system interface has a function to list directory contents:
        * https://docs.odd.dev/file-system-wnfs#ls
        *
        * To be safe, check that the directory exists before listing its contents.
@@ -81,9 +81,9 @@
      *
      * Add a sequence loaded by CID from the HTTP Gateway.
      *
-     * The copyLink function above shows how we can view sequence data on
-     * IPFS once it has been saved to WNFS and published. We can also load
-     * a sequence from the gateway and add it to our collection.
+     * The copyLink function above shows how to view sequence data on IPFS
+     * once saved to the file system and published. We can also load a
+     * sequence from the gateway and add it to our collection.
      *
      * TODO Fetch a sequence using the cidQuery variable and write it to the
      * sequences directory.
