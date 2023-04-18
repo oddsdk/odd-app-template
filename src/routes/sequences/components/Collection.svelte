@@ -75,7 +75,7 @@
     }
   }
 
-  function addSequence() {
+  async function addSequence() {
     /**
      * OPTIONAL ADVANCED EXERCISE
      *
