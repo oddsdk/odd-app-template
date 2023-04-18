@@ -106,7 +106,7 @@
   ) {
     const { sequence } = event.detail
 
-    if (sequence.length >= 3) {
+    if (sequence.length >= 2) {
       /**
        * OPTIONAL ADVANCED EXERCISE
        * 
