@@ -2,18 +2,27 @@
   import { createEventDispatcher } from 'svelte'
 
   import type { Sequence } from '$routes/sequences/lib/sequences'
-  import ClipboardIcon from '$components/icons/ClipboardIcon.svelte'
+  import CheckIcon from '$routes/sequences/components/icons/Check.svelte'
+  import CopyIcon from '$routes/sequences/components/icons/Copy.svelte'
+  import LinkIcon from '$routes/sequences/components/icons/Link.svelte'
 
   export let sequence: Sequence
 
+  let copyIconState: 'copy' | 'check' = 'copy'
   let dispatch = createEventDispatcher()
 
   function copyCID() {
     dispatch('copycid', { oeisNumber: sequence.number })
+
+    copyIconState = 'check'
+
+    setTimeout(() => {
+      copyIconState = 'copy'
+    }, 2000)
   }
 
-  function copyLink() {
-    dispatch('copylink', { oeisNumber: sequence.number })
+  function openLink() {
+    dispatch('openlink', { oeisNumber: sequence.number })
   }
 </script>
 
@@ -29,11 +38,11 @@
     <div class="flex flex-row px-3 gap-5 justify-end">
       <div
         class="flex flex-row gap-2 justify-end items-center cursor-pointer"
-        on:click|preventDefault={copyLink}
-        on:keypress|preventDefault={copyLink}
+        on:click|preventDefault={openLink}
+        on:keypress|preventDefault={openLink}
       >
-        Copy Link
-        <ClipboardIcon />
+        Open Link
+        <LinkIcon />
       </div>
       <div
         class="flex flex-row gap-2 justify-end items-center cursor-pointer"
@@ -41,7 +50,11 @@
         on:keypress|preventDefault={copyCID}
       >
         Copy CID
-        <ClipboardIcon />
+        {#if copyIconState === 'copy'}
+          <CopyIcon />
+        {:else}
+          <CheckIcon />
+        {/if}
       </div>
     </div>
   </div>

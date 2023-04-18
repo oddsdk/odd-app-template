@@ -65,13 +65,13 @@
     }
   }
 
-  async function copyLink(event: CustomEvent<{ oeisNumber: number }>) {
+  async function openLink(event: CustomEvent<{ oeisNumber: number }>) {
     const { oeisNumber } = event.detail
 
     if (fs) {
       const cid = await getContentCID(oeisNumber, fs)
       const url = `https://ipfs.${ipfsGatewayUrl}/ipfs/${cid}/userland`
-      await clipboardCopy(url)
+      window.open(url, '_newtab')
     }
   }
 
@@ -119,6 +119,6 @@
         Add
       </button>
     </div>
-    <CollectionList {sequences} on:copycid={copyCID} on:copylink={copyLink} />
+    <CollectionList {sequences} on:copycid={copyCID} on:openlink={openLink} />
   </div>
 </section>

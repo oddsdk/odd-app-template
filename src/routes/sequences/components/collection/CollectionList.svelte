@@ -7,6 +7,6 @@
 
 <div class="grid grid-flow-row grid-rows-min gap-3">
   {#each sequences as sequence}
-    <CollectionCard {sequence} on:copycid on:copylink />
+    <CollectionCard {sequence} on:copycid on:openlink />
   {/each}
 </div>

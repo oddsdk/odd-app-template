@@ -2,14 +2,22 @@
   import { createEventDispatcher } from 'svelte'
 
   import type { Sequence } from '$routes/sequences/lib/sequences'
-  import SaveIcon from '$components/icons/Save.svelte'
+  import CheckIcon from '$routes/sequences/components/icons/Check.svelte'
+  import SaveIcon from '$routes/sequences/components/icons/Save.svelte'
 
   export let sequence: Sequence
 
+  let saveIconState: 'save' | 'check' = 'save'
   let dispatch = createEventDispatcher()
 
   function saveSequence() {
     dispatch('save', { sequence })
+
+    saveIconState = 'check'
+
+    setTimeout(() => {
+      saveIconState = 'save'
+    }, 2000)
   }
 </script>
 
@@ -28,7 +36,11 @@
       on:keypress|preventDefault={saveSequence}
     >
       Save
-      <SaveIcon />
+      {#if saveIconState === 'save'}
+        <SaveIcon />
+      {:else}
+        <CheckIcon />
+      {/if}
     </div>
   </div>
   <div class="grid grid-flow-col grid-cols-2">
