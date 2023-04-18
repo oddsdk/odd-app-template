@@ -48,8 +48,12 @@ export async function getSequences(sequence: number[]): Promise<Sequence[]> {
 }
 
 export async function getSequencesFromListing(listing: { [name: string]: Link }, fs: odd.FileSystem): Promise<Sequence[]> {
+  return await Promise.all(Object.keys(listing).map(async key => {
+    const filePath = odd.path.file('public', 'sequences', key)
+    const encodedContent = await fs.read(filePath)
 
-  return []
+    return JSON.parse(new TextDecoder().decode(encodedContent))
+  }))
 }
 
 
