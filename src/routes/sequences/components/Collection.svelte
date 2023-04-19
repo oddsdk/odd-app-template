@@ -60,6 +60,11 @@
     const { oeisNumber } = event.detail
 
     if (fs) {
+      /**
+       * Content identifiers (CIDs) are labels that point to content on
+       * IPFS using content addressing. Read the IPFS docs for more information
+       * about CIDs: https://docs.ipfs.tech/concepts/content-addressing/
+       */
       const cid = await getContentCID(oeisNumber, fs)
       await clipboardCopy(cid)
     }
