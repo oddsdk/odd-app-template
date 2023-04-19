@@ -102,7 +102,13 @@
      * sequence from the gateway and add it to our collection.
      *
      * TODO Fetch a sequence using the cidQuery variable and write it to the
-     * sequences directory.
+     * sequences directory. Ask one of your neighbors for sequence data CID to
+     * test your implementation.
+     *
+     * BONUS ROUND Validate the sequence data with OEIS. Use the getSequences
+     * function (already imported in this module) or see this stackoverflow
+     * answer for tips on querying OEIS: https://stackoverflow.com/a/38421600.
+     *
      */
   }
 
