@@ -78,7 +78,6 @@ export async function getContentCID(oeisNumber: number, fs: odd.FileSystem): Pro
 // UI State and Controls
 
 export type SequencesState = {
-  loading: boolean
   selectedArea: Area
 }
 

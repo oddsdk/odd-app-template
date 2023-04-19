@@ -5,6 +5,5 @@ import type { SequencesState } from '$routes/sequences/lib/sequences'
 
 
 export const sequencesStore: Writable<SequencesState> = writable({
-  loading: true,
   selectedArea: 'Search',
 })
