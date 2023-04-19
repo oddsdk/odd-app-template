@@ -70,7 +70,18 @@
 
     if (fs) {
       const cid = await getContentCID(oeisNumber, fs)
-      const url = `https://ipfs.${ipfsGatewayUrl}/ipfs/${cid}/userland`
+
+      /**
+       * We can view data on IPFS using an HTTP gateway. Content on IPFS
+       * is distributed across IPFS nodes, which means we can view data on
+       * any IPFS node that exposes an HTTP gateway.
+       *
+       * TODO The URL below links to a sequence on the Fission HTTP gateway.
+       * Replace "ipfs.runfission.com" with "ipfs.io" to view the sequence on
+       * the Protocol Labs HTTP gateway.
+       */
+      const url = `https://ipfs.runfission.com/ipfs/${cid}/userland`
+
       window.open(url, '_newtab')
     }
   }
