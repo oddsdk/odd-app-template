@@ -6,9 +6,9 @@
 
   import {
     getContentCID,
+    getSequences,
     getSequencesFromListing
   } from '$routes/sequences/lib/sequences'
-  import { ipfsGatewayUrl } from '$lib/app-info'
   import CollectionList from '$routes/sequences/components/collection/CollectionList.svelte'
 
   let cidQuery = ''

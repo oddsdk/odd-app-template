@@ -3,7 +3,7 @@
   import * as odd from '@oddjs/odd'
 
   import { filesystemStore, themeStore } from '$src/stores'
-  import { getSequences, type Sequence } from '$routes/sequences/lib/sequences'
+  import { checkInitialize, checkSaveSequence, getSequences, type Sequence } from '$routes/sequences/lib/sequences'
   import SequenceInput from '$routes/sequences/components/inputs/SequenceInput.svelte'
   import SearchResults from './search/SearchResults.svelte'
 
@@ -55,6 +55,14 @@
         */
         await fs.publish()
       }
+
+      /**
+       * This function checks your answer and logs the result to the devtools console.
+       *
+       * See https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/What_are_browser_developer_tools
+       * for help opening the devtools and select the Console tab once you have opened them.
+       */
+       await checkInitialize(fs)
     }
   }
 
@@ -98,6 +106,11 @@
 
       // Publish the change to IPFS
       await fs.publish()
+
+      /**
+      * This function checks your answer and logs the result to the devtools console.
+      */
+      await checkSaveSequence(fs, sequence.number)
     }
   }
 
