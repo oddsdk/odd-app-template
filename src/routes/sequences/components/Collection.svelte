@@ -97,7 +97,7 @@
      *
      * Add a sequence loaded by CID from the HTTP Gateway.
      *
-     * The copyLink function above shows how to view sequence data on IPFS
+     * The openLink function above shows how to view sequence data on IPFS
      * once saved to the file system and published. We can also load a
      * sequence from the gateway and add it to our collection.
      *
