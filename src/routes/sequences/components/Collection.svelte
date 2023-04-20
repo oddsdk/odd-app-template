@@ -95,15 +95,16 @@
     /**
      * OPTIONAL ADVANCED EXERCISE
      *
-     * Add a sequence loaded by CID from the HTTP Gateway.
+     * Add a sequence loaded by CID from an HTTP gateway.
      *
      * The openLink function above shows how to view sequence data on IPFS
      * once saved to the file system and published. We can also load a
      * sequence from the gateway and add it to our collection.
      *
-     * TODO Fetch a sequence using the cidQuery variable and write it to the
-     * sequences directory. Ask one of your neighbors for sequence data CID to
-     * test your implementation.
+     * Fetch a sequence using the cidQuery variable and write it to the
+     * sequences directory. You won't be able to add a sequence that is already
+     * in your collection, so ask one of your neighbors for a CID to test
+     * your implementation.
      *
      * BONUS ROUND Validate the sequence data with OEIS. Use the getSequences
      * function (already imported in this module) or see this stackoverflow

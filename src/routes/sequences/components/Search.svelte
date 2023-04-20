@@ -69,7 +69,6 @@
   async function saveSequence(event: CustomEvent<{ sequence: Sequence }>) {
     const { sequence } = event.detail
 
-    // Press F12 and go to the Console tab to view the sequence
     console.log('Sequence to save:', sequence)
 
     if (fs) {
