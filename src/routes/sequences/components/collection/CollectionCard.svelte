@@ -69,10 +69,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  .val {
-    word-wrap: break-word;
-    display: inline-block;
-  }
-</style>

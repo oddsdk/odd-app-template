@@ -1,3 +1,5 @@
+<svelte:options accessors={true} />
+
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { onMount } from 'svelte'
@@ -5,6 +7,9 @@
   export let autofocus = false
   export let index
   export let integer = null
+  export const focus = () => {
+    inputRef.focus()
+  }
 
   let dispatch = createEventDispatcher()
   let inputRef
@@ -20,8 +25,14 @@
   }
 
   function handleInput(value) {
+    // Remove non-numeric characters
     const filtered = value.replace(/\D/g, '')
     integer = filtered.length > 0 ? +filtered : null
+
+    // Focus next input on comma
+    if (value.includes(',')) {
+      dispatch('focusnext', { index })
+    }
   }
 
   function getInputWidth(value: number | null): number {
