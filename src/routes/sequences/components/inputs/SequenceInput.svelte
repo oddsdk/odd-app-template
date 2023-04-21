@@ -17,6 +17,16 @@
     }
   }
 
+  function handleFocusPrevious(event: CustomEvent<{ index: number }>) {
+    const { index } = event.detail
+
+    const previousIndex = index - 1
+
+    if (previousIndex >= 0) {
+      inputs[previousIndex].focus()
+    }
+  }
+
   function handleInput(event: CustomEvent<{ value: number; index: number }>) {
     const { value, index } = event.detail
 
@@ -35,6 +45,7 @@
       autofocus={index === 0}
       on:change={handleInput}
       on:focusnext={handleFocusNext}
+      on:focusprevious={handleFocusPrevious}
     />
     {#if index !== integers.length - 1}
       <span class="inline-block h-6 px-1 py-2 text-xl">,</span>

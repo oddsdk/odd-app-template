@@ -35,6 +35,20 @@
     }
   }
 
+  function handleKeydown(event: {
+    currentTarget: { value: string }
+    key: string
+  }) {
+    const {
+      currentTarget: { value },
+      key
+    } = event
+
+    if (value.length === 0 && key === 'Backspace') {
+      dispatch('focusprevious', { index })
+    }
+  }
+
   function getInputWidth(value: number | null): number {
     return !value ? 2.5 : value.toString().length * 1.5 + 1.5
   }
@@ -48,4 +62,5 @@
   bind:this={inputRef}
   on:change={handleChange}
   on:input={event => handleInput(event.currentTarget.value)}
+  on:keydown={handleKeydown}
 />
