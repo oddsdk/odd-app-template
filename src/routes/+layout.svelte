@@ -52,5 +52,4 @@
       </div>
     </SidebarNav>
   {/if}
-  <Footer />
 </div>
