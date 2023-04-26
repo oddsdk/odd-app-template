@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { goto } from '$app/navigation'
+
   import { sessionStore } from '../../stores'
 </script>
 
@@ -24,8 +26,8 @@
       devices as they’d like. For recoverability, we recommend they always
       connect at least two.
     </p>
-    <a class="btn btn-primary" href="/delegate-account">
+    <button class="btn btn-primary" on:click={() => goto('/delegate-account')}>
       Connect an additional device
-    </a>
+    </button>
   </div>
 </div>
