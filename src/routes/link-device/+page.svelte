@@ -6,8 +6,6 @@
   import { addNotification } from '$lib/notifications'
   import { createAccountLinkingConsumer } from '$lib/auth/linking'
   import { loadAccount } from '$lib/auth/account'
-  import { sessionStore } from '../../stores'
-  import { waitForDataRoot } from '$lib/auth/account'
   import type { LinkDeviceView } from '$lib/views'
   import FilesystemActivity from '$components/common/FilesystemActivity.svelte'
   import LinkDevice from '$components/auth/link-device/LinkDevice.svelte'
@@ -35,8 +33,6 @@
       if (approved) {
         view = 'load-filesystem'
 
-        // See https://github.com/oddsdk/ts-odd/issues/529
-        await waitForDataRoot(hashedUsername)
         await loadAccount(hashedUsername, fullUsername)
 
         addNotification("You're now connected!", 'success')
@@ -55,9 +51,7 @@
     goto('/')
   }
 
-  if (!$sessionStore.session) {
-    initAccountLinkingConsumer()
-  }
+  initAccountLinkingConsumer()
 </script>
 
 <input type="checkbox" id="my-modal-5" checked class="modal-toggle" />
