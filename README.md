@@ -75,7 +75,7 @@ Prerequiste: ensure you are running Node 16.14 or greater, but _not_ Node 17 (18
     npm run dev
     ```
 
-4. Navigate to `http://localhost:5173` in your web browser.
+5. Navigate to `http://localhost:5173` in your web browser.
 
 ## 🛠 Customize your app
 
