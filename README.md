@@ -57,13 +57,19 @@ Prerequiste: ensure you are running Node 16.14 or greater, but _not_ Node 17 (18
     git clone git@github.com:oddsdk/odd-app-template.git
     ```
 
-2. Install the dependencies.
+2. Navigate to the downloaded template directory:
+
+    ```shell
+    cd odd-app-template
+    ```
+
+3. Install the dependencies:
 
     ```shell
     npm install
     ```
-
-3. Start the local development server.
+    
+4. Start the local development server:
 
     ```shell
     npm run dev
@@ -82,7 +88,7 @@ The app template is designed to be easy for you to _make it your own._ Here's ho
     - Change `appName` to the name of your app.
     - Change `appDescription` to a simple, 1-sentence description of your app.
     - Update `oddNamespace` with your project details.
-    - Once you [deploy](#deploy) your app, change `appURL` to the production URL.
+    - Once you [deploy](#-deploy) your app, change `appURL` to the production URL.
 
     In `package.json`, change `name` to your application's name.
 
